@@ -1381,11 +1381,21 @@ class MusicPlayer {
 
     previous() {
         if (this.previousTracks.length > 0) {
+            // Clear track timer to prevent watchdog interference
+            if (this.trackTimer) {
+                clearTimeout(this.trackTimer);
+                this.trackTimer = null;
+            }
+
             if (this.currentTrack) {
                 this.queue.unshift(this.currentTrack);
             }
             this.currentTrack = this.previousTracks.pop();
-            this.audioPlayer.stop(); // This will trigger play
+
+            // Tag the stop so handleTrackEnd knows to short-circuit
+            this.pendingEndReason = 'previous';
+            this.skipRequested = true;
+            this.audioPlayer.stop(true);
             this.scheduleStatePersist('previous', 0);
             return true;
         }
@@ -1506,7 +1516,31 @@ class MusicPlayer {
             const totalPlaybackMs = this.currentTrackStartOffsetMs + playbackMs;
             this.lastPlaybackPosition = totalPlaybackMs;
             const durationMs = finishedTrack && Number(finishedTrack.duration) > 0 ? Number(finishedTrack.duration) * 1000 : 0;
-            const manualSkip = reason === 'skip' || reason === 'stop';
+            const manualSkip = reason === 'skip' || reason === 'stop' || reason === 'previous';
+
+            // For 'previous', the track swap was already done in previous() —
+            // just reset playback state and start the already-assigned currentTrack
+            if (reason === 'previous') {
+                this.resource = null;
+                this.expectedTrackEndTs = null;
+                this.startTime = null;
+                this.pausedTime = 0;
+                this.lastPlaybackPosition = 0;
+                this.currentTrackStartOffsetMs = 0;
+                this.currentTrackCache = null;
+                this.currentTrackRetries = 0;
+
+                if (this.currentTrack) {
+                    await this.play(null, 0);
+
+                    const MusicEmbedManager = require('./MusicEmbedManager');
+                    if (global.clients && global.clients.musicEmbedManager) {
+                        await global.clients.musicEmbedManager.updateNowPlayingEmbed(this);
+                    }
+                }
+                return;
+            }
+
             const endedUnexpectedly = Boolean(finishedTrack) && !manualSkip && durationMs > 0 && totalPlaybackMs + 1500 < durationMs;
 
             if (endedUnexpectedly) {

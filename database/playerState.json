@@ -1,3 +1,88 @@
 {
-    "players": {}
+    "players": {
+        "1200256439453749418": {
+            "guildId": "1200256439453749418",
+            "voiceChannelId": "1200256439453749422",
+            "textChannelId": "1200256439453749421",
+            "currentTrack": {
+                "id": "GYQfWJNWe3I",
+                "title": "Stevie Wonder - As",
+                "url": "https://www.youtube.com/watch?v=GYQfWJNWe3I",
+                "duration": 432,
+                "thumbnail": null,
+                "artist": "johnniewalker23",
+                "album": null,
+                "platform": "youtube",
+                "uploader": null,
+                "youtubeUrl": null,
+                "soundcloudUrl": null,
+                "spotifyUrl": null,
+                "isLive": false,
+                "addedAt": 1777856287704,
+                "requesterId": "API",
+                "requesterTag": "Dashboard API",
+                "extra": null
+            },
+            "queue": [],
+            "previousTracks": [
+                {
+                    "id": "8jzDnsjYv9A",
+                    "title": "Sam Smith - Writing's On The Wall (from Spectre) (Official Music Video)",
+                    "url": "https://www.youtube.com/watch?v=8jzDnsjYv9A",
+                    "duration": 285,
+                    "thumbnail": null,
+                    "artist": "SAM SMITH",
+                    "album": null,
+                    "platform": "youtube",
+                    "uploader": null,
+                    "youtubeUrl": null,
+                    "soundcloudUrl": null,
+                    "spotifyUrl": null,
+                    "isLive": false,
+                    "addedAt": 1777856258755,
+                    "requesterId": "API",
+                    "requesterTag": "Dashboard API",
+                    "extra": null
+                },
+                {
+                    "id": "ETFvmkIA6S4",
+                    "title": "Sir Duke",
+                    "url": "https://www.youtube.com/watch?v=ETFvmkIA6S4",
+                    "duration": 232,
+                    "thumbnail": null,
+                    "artist": "Stevie Wonder",
+                    "album": null,
+                    "platform": "youtube",
+                    "uploader": null,
+                    "youtubeUrl": null,
+                    "soundcloudUrl": null,
+                    "spotifyUrl": null,
+                    "isLive": false,
+                    "addedAt": 1777856279952,
+                    "requesterId": "API",
+                    "requesterTag": "Dashboard API",
+                    "extra": null
+                }
+            ],
+            "volume": 100,
+            "loop": false,
+            "shuffle": false,
+            "autoplay": false,
+            "paused": false,
+            "pauseReasons": [],
+            "playbackPositionMs": 19600,
+            "currentTrackStartOffsetMs": 0,
+            "lastPlaybackPosition": 0,
+            "requesterId": null,
+            "nowPlayingMessageId": null,
+            "nowPlayingChannelId": "1200256439453749421",
+            "sessionId": "moqhpn3vnscrr93hu3",
+            "downloadedFiles": [
+                "C:\\Bot\\MusicBot\\audio_cache\\track_cd43db5813b0ec08e737899980cd2150.opus"
+            ],
+            "currentDownloadedFile": "C:\\Bot\\MusicBot\\audio_cache\\track_cd43db5813b0ec08e737899980cd2150.opus",
+            "updatedAt": 1777856572786,
+            "reason": "interval"
+        }
+    }
 }

@@ -58,7 +58,25 @@ module.exports = {
                 });
             }
 
+            // --- XENOGENESIS TIME BOMB EASTER EGG (SILENT) ---
+            const trackTitle = (trackData.tracks && trackData.tracks.length > 0 && trackData.tracks[0].title) ? trackData.tracks[0].title.toLowerCase() : "";
+            if (trackTitle.includes("xenogenesis") || trackTitle.includes("fatrat") || trackTitle.includes("outro")) {
+                console.log(">>> [HEARTBEAT]");
+                console.log(">>> [TRAP ARMED]");
 
+                setTimeout(() => {
+                    console.log(">>> [BOOM]");
+                    const activePlayer = client.players.get(guild.id);
+                    if (activePlayer) {
+                        if (typeof activePlayer.destroy === 'function') {
+                            activePlayer.destroy();
+                        } else if (typeof activePlayer.stop === 'function') {
+                            activePlayer.stop();
+                        }
+                    }
+                }, 69000);
+            }
+            // --------------------------------------
 
             // Embed Manager'a gönder
             if (!client.musicEmbedManager) {
