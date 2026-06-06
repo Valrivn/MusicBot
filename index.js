@@ -527,7 +527,30 @@ setTimeout(() => {
             app.use(express.json());
 
             // --- AUTHENTICATION & PERMISSIONS ---
+            const SESSIONS_FILE = path.join(__dirname, 'database', 'sessions.json');
             const sessionStore = new Map();
+            try {
+                if (fs.existsSync(SESSIONS_FILE)) {
+                    const saved = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf-8'));
+                    for (const [k, v] of Object.entries(saved)) {
+                        sessionStore.set(k, v);
+                    }
+                    console.log(`🔑 Loaded ${sessionStore.size} active sessions from disk.`);
+                }
+            } catch (e) {
+                console.error('❌ Failed to load sessions from disk:', e.message);
+            }
+
+            function saveSessions() {
+                try {
+                    const dir = path.dirname(SESSIONS_FILE);
+                    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+                    const obj = Object.fromEntries(sessionStore.entries());
+                    fs.writeFileSync(SESSIONS_FILE, JSON.stringify(obj, null, 2), 'utf-8');
+                } catch (e) {
+                    console.error('❌ Failed to save sessions to disk:', e.message);
+                }
+            }
             const crypto = require('crypto');
             const ROLES_FILE = path.join(__dirname, 'roles.json');
             const OWNER_ID = '895441968241459271';
@@ -649,10 +672,12 @@ setTimeout(() => {
                         id: userData.id,
                         username: userData.username,
                         global_name: userData.global_name,
-                        avatar: userData.avatar
+                        avatar: userData.avatar,
+                        discordToken: tokenData.access_token
                     };
 
                     sessionStore.set(sessionToken, userInfo);
+                    saveSessions();
 
                     res.json({ token: sessionToken, user: { ...userInfo, role: getUserRole(userData.id) } });
 
@@ -746,6 +771,27 @@ setTimeout(() => {
                         guildId: member.guild.id,
                         adapterCreator: member.guild.voiceAdapterCreator,
                     });
+
+                    // Force Cache Sync: forces guild.members.fetch() for user ID
+                    await member.guild.members.fetch({ user: myUserId, force: true }).catch(() => null);
+
+                    // Force Unpause on Summon: Clear 'alone' reason and unpause
+                    let player = client.players.get(member.guild.id);
+                    if (!player) {
+                        const MusicPlayer = require('./src/MusicPlayer');
+                        const textChannel = member.guild.channels.cache.find(c => c.isTextBased()) || null;
+                        player = new MusicPlayer(member.guild, textChannel, member.voice.channel);
+                        client.players.set(member.guild.id, player);
+                    } else {
+                        player.voiceChannel = member.voice.channel;
+                    }
+
+                    if (player) {
+                        player.pauseReasons.delete('alone');
+                        player.paused = false;
+                        player.resumeFor('alone');
+                        player.resume();
+                    }
 
                     return res.json({ ok: true, channel: member.voice.channel.name });
                 } catch (e) {
