@@ -496,6 +496,7 @@ setTimeout(() => {
             const express = require('express');
             const cors = require('cors');
             const app = express();
+            const AuditLog = require('./src/AuditLog');
 
             const corsOptions = {
                 origin: [
@@ -651,6 +652,24 @@ setTimeout(() => {
                     console.error('OAuth2 Error:', error);
                     res.status(500).json({ error: 'Internal server error during authentication' });
                 }
+            });
+
+            app.get('/auth/session', (req, res) => {
+                const authHeader = req.headers.authorization;
+                if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                    return res.status(401).json({ error: 'Missing token' });
+                }
+                const token = authHeader.split(' ')[1];
+                const user = sessionStore.get(token);
+                if (!user) {
+                    return res.status(401).json({ error: 'Invalid or expired session' });
+                }
+                res.json({ user: { ...user, role: getUserRole(user.id) } });
+            });
+
+            app.get('/api/audit', async (req, res) => {
+                const logs = await AuditLog.read();
+                res.json(logs);
             });
 
             app.get('/bot/status', (req, res) => {
@@ -863,27 +882,53 @@ setTimeout(() => {
                 res.json({ sessionRestoreEnabled: global.sessionRestoreEnabled !== false });
             });
 
-            app.post('/music/search', checkPermission(0), async (req, res) => {
-                const { query } = req.body;
+            const requestHandler = async (req, res) => {
+                const { query, guildId } = req.body;
                 if (!query) return res.status(400).json({ error: 'Query is required' });
 
-                let player = client.players.first();
+                const targetGuildId = guildId || req.headers['x-guild-id'];
+                let player = null;
+                
+                if (targetGuildId) {
+                    player = client.players.get(targetGuildId);
+                }
+                
                 if (!player) {
-                    const targetUserId = req.user.id;
+                    const targetUserId = req.user?.id || req.headers['x-user-id'];
                     let voiceChannel = null;
                     let guild = null;
 
-                    for (const g of client.guilds.cache.values()) {
-                        const member = g.members.cache.get(targetUserId);
-                        if (member && member.voice.channel) {
-                            voiceChannel = member.voice.channel;
-                            guild = g;
-                            break;
+                    if (targetGuildId) {
+                        guild = client.guilds.cache.get(targetGuildId);
+                        if (guild && targetUserId) {
+                            const member = guild.members.cache.get(targetUserId);
+                            if (member && member.voice.channel) {
+                                voiceChannel = member.voice.channel;
+                            }
+                        }
+                    }
+
+                    if (!voiceChannel && targetUserId) {
+                        for (const g of client.guilds.cache.values()) {
+                            const member = g.members.cache.get(targetUserId);
+                            if (member && member.voice.channel) {
+                                voiceChannel = member.voice.channel;
+                                guild = g;
+                                break;
+                            }
                         }
                     }
 
                     if (!voiceChannel) {
-                        return res.status(400).json({ error: 'User not in a voice channel.' });
+                        const firstGuild = client.guilds.cache.first();
+                        if (firstGuild) {
+                            guild = firstGuild;
+                            voiceChannel = guild.channels.cache.find(c => c.type === 2 || c.type === 'GUILD_VOICE');
+                        }
+                    }
+
+                    if (!voiceChannel) {
+                        return res.status(400).json({ error: 'User not in a voice channel, and no voice channels available.' });
                     }
 
                     const textChannel = guild.channels.cache.find(c => c.isTextBased()) || null;
@@ -893,12 +938,17 @@ setTimeout(() => {
                 }
 
                 try {
-                    await player.addTrack(query, { tag: req.user.username || 'Dashboard User', id: req.user.id });
-                    res.json({ success: true });
+                    const requesterTag = req.user?.username || req.headers['x-user-username'] || 'Dashboard User';
+                    const requesterId = req.user?.id || req.headers['x-user-id'] || '1';
+                    await player.addTrack(query, { tag: requesterTag, id: requesterId });
+                    res.json({ success: true, ok: true });
                 } catch (error) {
                     res.status(500).json({ error: error.message });
                 }
-            });
+            };
+
+            app.post('/music/search', checkPermission(0), requestHandler);
+            app.post('/music/request', checkPermission(0), requestHandler);
 
             app.get('/system/audio-cache', async (req, res) => {
                 const cacheDir = path.join(__dirname, 'audio_cache');
