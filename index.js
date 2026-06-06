@@ -497,15 +497,18 @@ setTimeout(() => {
             const cors = require('cors');
             const app = express();
 
-            app.use((req, res, next) => {
-                res.header('Access-Control-Allow-Origin', '*');
-                res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-                res.header('Access-Control-Allow-Headers', '*'); // Allow ALL headers
-                if (req.method === 'OPTIONS') {
-                    return res.sendStatus(200); // FORCE a 200 OK for all preflight checks
-                }
-                next();
-            });
+            const corsOptions = {
+                origin: [
+                    'https://voxaria.lovable.app', 
+                    'http://localhost:3000', 
+                    'http://localhost:5173' 
+                ],
+                credentials: true,
+                methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+                allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'x-guild-id', 'X-Guild-Id']
+            };
+
+            app.use(cors(corsOptions));
             app.use(express.json());
 
             // --- AUTHENTICATION & PERMISSIONS ---
