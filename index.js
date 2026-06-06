@@ -505,7 +505,7 @@ setTimeout(() => {
                 ],
                 credentials: true,
                 methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-                allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'x-guild-id', 'X-Guild-Id']
+                allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'x-guild-id', 'X-Guild-Id', 'x-user-id', 'X-User-Id', 'Accept', 'Origin']
             };
 
             app.use(cors(corsOptions));
