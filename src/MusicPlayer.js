@@ -27,6 +27,7 @@ const fs = require('fs').promises;
 const fsSync = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const AuditLog = require('./AuditLog');
 
 // Cache directory for downloaded audio files
 const CACHE_DIR = path.join(__dirname, '..', 'audio_cache');
@@ -524,6 +525,22 @@ class MusicPlayer {
                 isPlaylist: tracks.length > 1,
                 position: this.queue.length
             };
+
+            // Append to audit log
+            for (const track of addedTracks) {
+                const requesterId = track.requestedBy?.id || '1';
+                const requesterTag = track.requestedBy?.tag || track.requestedBy?.username || 'Dashboard User';
+                const avatar = track.requestedBy?.avatar ? `https://cdn.discordapp.com/avatars/${requesterId}/${track.requestedBy.avatar}.png` : '';
+                
+                AuditLog.append({
+                    title: track.title,
+                    url: track.url,
+                    requesterId: requesterId,
+                    requesterTag: requesterTag,
+                    requesterAvatar: avatar,
+                    timestamp: new Date().toISOString()
+                }).catch(err => console.error('Failed to append audit log:', err));
+            }
 
             await this.persistState('queue-update');
             return result;

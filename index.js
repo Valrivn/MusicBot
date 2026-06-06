@@ -719,7 +719,9 @@ setTimeout(() => {
                     isPaused: player.paused,
                     playing: !player.paused,
                     art: track?.thumbnail || null,
-                    volume: player.volume || 100
+                    volume: player.volume || 100,
+                    requesterName: track?.requestedBy?.tag || track?.requestedBy?.username || track?.requesterTag || null,
+                    requesterAvatar: track?.requestedBy?.avatar ? `https://cdn.discordapp.com/avatars/${track.requestedBy.id}/${track.requestedBy.avatar}.png` : null
                 });
             });
 
