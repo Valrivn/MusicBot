@@ -527,30 +527,7 @@ setTimeout(() => {
             app.use(express.json());
 
             // --- AUTHENTICATION & PERMISSIONS ---
-            const SESSIONS_FILE = path.join(__dirname, 'database', 'sessions.json');
             const sessionStore = new Map();
-            try {
-                if (fs.existsSync(SESSIONS_FILE)) {
-                    const saved = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf-8'));
-                    for (const [k, v] of Object.entries(saved)) {
-                        sessionStore.set(k, v);
-                    }
-                    console.log(`🔑 Loaded ${sessionStore.size} active sessions from disk.`);
-                }
-            } catch (e) {
-                console.error('❌ Failed to load sessions from disk:', e.message);
-            }
-
-            function saveSessions() {
-                try {
-                    const dir = path.dirname(SESSIONS_FILE);
-                    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-                    const obj = Object.fromEntries(sessionStore.entries());
-                    fs.writeFileSync(SESSIONS_FILE, JSON.stringify(obj, null, 2), 'utf-8');
-                } catch (e) {
-                    console.error('❌ Failed to save sessions to disk:', e.message);
-                }
-            }
             const crypto = require('crypto');
             const ROLES_FILE = path.join(__dirname, 'roles.json');
             const OWNER_ID = '895441968241459271';
@@ -572,32 +549,37 @@ setTimeout(() => {
             function checkPermission(requiredLevel) {
                 return (req, res, next) => {
                     const authHeader = req.headers.authorization;
-                    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                        if (requiredLevel === 0) {
-                            req.user = { id: 'guest', username: 'Guest User', role: 0 };
-                            return next();
+                    if (requiredLevel > 0) {
+                        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                            return res.status(401).json({ error: 'Missing or invalid Authorization header' });
                         }
-                        return res.status(401).json({ error: 'Missing or invalid Authorization header' });
-                    }
+                        const token = authHeader.split(' ')[1];
+                        const user = sessionStore.get(token);
 
-                    const token = authHeader.split(' ')[1];
-                    const user = sessionStore.get(token);
-
-                    if (!user) {
-                        if (requiredLevel === 0) {
-                            req.user = { id: 'guest', username: 'Guest User', role: 0 };
-                            return next();
+                        if (!user) {
+                            return res.status(401).json({ error: 'Invalid or expired session' });
                         }
-                        return res.status(401).json({ error: 'Invalid or expired session' });
+
+                        const userRoleLevel = getUserRole(user.id);
+
+                        if (userRoleLevel < requiredLevel) {
+                            return res.status(403).json({ error: `Forbidden: Requires permission level ${requiredLevel}` });
+                        }
+
+                        req.user = { ...user, role: userRoleLevel };
+                    } else {
+                        // For Guest (0), if token is provided, resolve the user. Otherwise, set fallback guest values.
+                        if (authHeader && authHeader.startsWith('Bearer ')) {
+                            const token = authHeader.split(' ')[1];
+                            const user = sessionStore.get(token);
+                            if (user) {
+                                req.user = { ...user, role: getUserRole(user.id) };
+                            }
+                        }
+                        if (!req.user) {
+                            req.user = { id: req.headers['x-user-id'] || 'guest', username: req.headers['x-user-username'] || 'Guest', role: 0 };
+                        }
                     }
-
-                    const userRoleLevel = getUserRole(user.id);
-
-                    if (userRoleLevel < requiredLevel) {
-                        return res.status(403).json({ error: `Forbidden: Requires permission level ${requiredLevel}` });
-                    }
-
-                    req.user = { ...user, role: userRoleLevel };
                     next();
                 };
             }
@@ -672,12 +654,10 @@ setTimeout(() => {
                         id: userData.id,
                         username: userData.username,
                         global_name: userData.global_name,
-                        avatar: userData.avatar,
-                        discordToken: tokenData.access_token
+                        avatar: userData.avatar
                     };
 
                     sessionStore.set(sessionToken, userInfo);
-                    saveSessions();
 
                     res.json({ token: sessionToken, user: { ...userInfo, role: getUserRole(userData.id) } });
 
@@ -771,27 +751,6 @@ setTimeout(() => {
                         guildId: member.guild.id,
                         adapterCreator: member.guild.voiceAdapterCreator,
                     });
-
-                    // Force Cache Sync: forces guild.members.fetch() for user ID
-                    await member.guild.members.fetch({ user: myUserId, force: true }).catch(() => null);
-
-                    // Force Unpause on Summon: Clear 'alone' reason and unpause
-                    let player = client.players.get(member.guild.id);
-                    if (!player) {
-                        const MusicPlayer = require('./src/MusicPlayer');
-                        const textChannel = member.guild.channels.cache.find(c => c.isTextBased()) || null;
-                        player = new MusicPlayer(member.guild, textChannel, member.voice.channel);
-                        client.players.set(member.guild.id, player);
-                    } else {
-                        player.voiceChannel = member.voice.channel;
-                    }
-
-                    if (player) {
-                        player.pauseReasons.delete('alone');
-                        player.paused = false;
-                        player.resumeFor('alone');
-                        player.resume();
-                    }
 
                     return res.json({ ok: true, channel: member.voice.channel.name });
                 } catch (e) {
