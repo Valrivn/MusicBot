@@ -452,7 +452,17 @@ class MusicPlayer {
 
             switch (platform) {
                 case 'youtube':
-                    tracks = await YouTube.search(query, 1, this.guild.id);
+                    if (typeof YouTube.isPlaylist === 'function' && YouTube.isPlaylist(query)) {
+                        const playlistData = await YouTube.getPlaylist(query, this.guild.id);
+                        tracks = playlistData ? playlistData.tracks : [];
+                    } else {
+                        tracks = await YouTube.search(query, 3, this.guild.id);
+                        // Select candidate with the highest view count out of top 3
+                        if (tracks && tracks.length > 0) {
+                            tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
+                            tracks = [tracks[0]];
+                        }
+                    }
                     break;
                 case 'spotify':
                     // Check if it's a Spotify URL for consistency
@@ -469,8 +479,24 @@ class MusicPlayer {
                     tracks = await DirectLink.getInfo(query);
                     break;
                 default:
-                    // Default to YouTube search
-                    tracks = await YouTube.search(query, 1, this.guild.id);
+                    // Priority Search Fallback: Spotify -> YT Music -> YouTube
+                    // Try Spotify search first to get clean metadata for syncing lyrics/karaoke
+                    try {
+                        tracks = await Spotify.search(query, 1, 'track', this.guild.id);
+                    } catch (_) {}
+                    
+                    // Fall back to YouTube search with top 3 view-count sorting if Spotify returned no matches
+                    if (!tracks || tracks.length === 0) {
+                        tracks = await YouTube.search(query, 3, this.guild.id);
+                        if (tracks && tracks.length > 0) {
+                            tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
+                            tracks = [tracks[0]];
+                        }
+                    }
+            }
+
+            if (tracks && tracks.length > 0) {
+                console.log(chalk.green(`🎸 [MusicPlayer] Song selected from platform: "${tracks[0].platform.toUpperCase()}" | Title: "${tracks[0].title}" | Artist: "${tracks[0].artist}"`));
             }
 
             if (!tracks || tracks.length === 0) {
@@ -531,8 +557,10 @@ class MusicPlayer {
                 const requesterId = track.requestedBy?.id || '1';
                 const requesterTag = track.requestedBy?.tag || track.requestedBy?.username || 'Dashboard User';
                 const avatar = track.requestedBy?.avatar ? `https://cdn.discordapp.com/avatars/${requesterId}/${track.requestedBy.avatar}.png` : '';
+                const logId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2);
                 
                 AuditLog.append({
+                    id: logId,
                     title: track.title,
                     url: track.url,
                     requesterId: requesterId,

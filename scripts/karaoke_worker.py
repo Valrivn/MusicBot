@@ -162,7 +162,7 @@ def generate_pitch_map(vocals_path, output_dir, window_ms=100):
     with open(out_path, "w") as f:
         json.dump(pitch_map, f)
 
-    print(f"[karaoke_worker] Pitch map generated: {len(pitch_map)} data points → {out_path}", flush=True)
+    print(f"[karaoke_worker] Pitch map generated: {len(pitch_map)} data points -> {out_path}", flush=True)
 
 
 def main():
@@ -176,6 +176,9 @@ def main():
     if not os.path.exists(input_path):
         print(f"[karaoke_worker] ERROR: Input file not found: {input_path}", file=sys.stderr)
         sys.exit(1)
+
+    # Ensure output directory exists for done/error markers
+    os.makedirs(output_dir, exist_ok=True)
 
     try:
         # Step 1: Stem separation
@@ -192,7 +195,7 @@ def main():
         with open(os.path.join(output_dir, ".done"), "w") as f:
             f.write("ok")
 
-        print("[karaoke_worker] ✅ Karaoke preparation complete.", flush=True)
+        print("[karaoke_worker] SUCCESS: Karaoke preparation complete.", flush=True)
         sys.exit(0)
 
     except Exception as e:
@@ -201,6 +204,7 @@ def main():
         with open(os.path.join(output_dir, ".error"), "w") as f:
             f.write(str(e))
         sys.exit(1)
+
 
 
 if __name__ == "__main__":

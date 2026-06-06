@@ -21,27 +21,43 @@ class LyricsManager {
         return `${title}-${artist}` || title || 'unknown';
     }
 
-    storeInCache(cacheKey, data, ttlMs = null) {
-        if (!cacheKey) return;
+    extractYtVideoId(url) {
+        if (!url) return 'unknown';
+        const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        return match ? match[1] : 'unknown';
+    }
 
-        this.cache.set(cacheKey, data);
+    storeInCache(trackId, data) {
+        if (!trackId || !data) return;
 
-        if (this.cacheTimers.has(cacheKey)) {
-            clearTimeout(this.cacheTimers.get(cacheKey));
+        this.cache.set(trackId, data);
+
+        const fs = require('fs');
+        const path = require('path');
+        const cacheFilePath = path.join(__dirname, '..', 'audio_cache', `lyrics_${trackId}.json`);
+
+        let shouldWrite = true;
+        if (fs.existsSync(cacheFilePath)) {
+            try {
+                const existing = JSON.parse(fs.readFileSync(cacheFilePath, 'utf8'));
+                const existingSynced = existing && (existing.hasSynced || existing.synced);
+                const newSynced = data.hasSynced || data.synced;
+                if (existingSynced && !newSynced) {
+                    shouldWrite = false;
+                    console.log(`[LyricsManager] Sync safety lockout: Synced lyrics already exist. Rejecting plain lyrics overwrite for ${trackId}.`);
+                }
+            } catch (e) {
+                console.error("Failed to parse existing cached lyrics file for overwrite check:", e);
+            }
         }
 
-        const effectiveTtl = typeof ttlMs === 'number' ? ttlMs : (data ? 3600000 : 300000);
-
-        const timer = setTimeout(() => {
-            this.cache.delete(cacheKey);
-            this.cacheTimers.delete(cacheKey);
-        }, effectiveTtl);
-
-        if (typeof timer.unref === 'function') {
-            timer.unref();
+        if (shouldWrite) {
+            try {
+                fs.writeFileSync(cacheFilePath, JSON.stringify(data, null, 2), 'utf8');
+            } catch (e) {
+                console.error("Failed to write lyrics to file cache:", e);
+            }
         }
-
-        this.cacheTimers.set(cacheKey, timer);
     }
 
     cleanTrackTitle(title = '') {
@@ -75,31 +91,46 @@ class LyricsManager {
      * @param {Object} track - Track object with title and artist
      * @returns {Promise<Object|null>} Lyrics object or null
      */
-    async fetchLyrics(track) {
+    async fetchLyrics(track, forceResync = false) {
         if (!track || !track.title) return null;
 
-        const cacheKey = this.getCacheKey(track);
+        const videoId = track.url ? this.extractYtVideoId(track.url) : 'unknown';
+        const cleanTitle = this.cleanTrackTitle(track.title);
+        const cleanArtist = (track.artist || track.uploader || '').trim();
+        const crypto = require('crypto');
+        const trackId = videoId !== 'unknown' ? videoId : crypto.createHash('md5').update(`${cleanTitle}-${cleanArtist}`).digest('hex');
 
-        if (this.cache.has(cacheKey)) {
-            return this.cache.get(cacheKey);
+        const fs = require('fs');
+        const path = require('path');
+        const cacheFilePath = path.join(__dirname, '..', 'audio_cache', `lyrics_${trackId}.json`);
+
+        // Lock Down Active API Bypassing
+        if (forceResync !== true && fs.existsSync(cacheFilePath)) {
+            try {
+                const cachedData = JSON.parse(fs.readFileSync(cacheFilePath, 'utf8'));
+                console.log(`[LyricsManager] Cache hit (file): Returning cached lyrics for ${trackId}`);
+                return cachedData;
+            } catch (e) {
+                console.error("Failed to read cached lyrics file:", e);
+            }
         }
 
         // Try Genius first
         const geniusResult = await this.fetchFromGenius(track);
         if (geniusResult && geniusResult.plain) {
-            this.storeInCache(cacheKey, geniusResult);
+            this.storeInCache(trackId, geniusResult);
             return geniusResult;
         }
 
         // Fallback to LRCLIB
         const lrclibResult = await this.fetchFromLrclib(track);
         if (lrclibResult && lrclibResult.plain) {
-            this.storeInCache(cacheKey, lrclibResult);
+            this.storeInCache(trackId, lrclibResult);
             return lrclibResult;
         }
 
         // Cache null result to avoid repeated lookups
-        this.storeInCache(cacheKey, null);
+        this.cache.set(trackId, null);
         return null;
     }
 

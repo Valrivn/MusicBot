@@ -72,7 +72,9 @@ class YouTube {
                         artist: item.uploader || item.channel || unknownArtist,
                         url: item.webpage_url || item.url || (item.id ? `https://www.youtube.com/watch?v=${item.id}` : null),
                         duration: item.duration || 0,
-                        thumbnail: item.thumbnail,
+                        thumbnail: item.thumbnail ||
+                            (item.thumbnails?.length ? item.thumbnails[item.thumbnails.length - 1].url : null) ||
+                            (item.id ? `https://img.youtube.com/vi/${item.id}/hqdefault.jpg` : null),
                         platform: 'youtube',
                         type: 'track',
                         id: item.id,

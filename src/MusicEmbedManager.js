@@ -335,7 +335,7 @@ class MusicEmbedManager {
      * Tüm müzikler bittiğinde çağrılır
      */
     async handlePlaybackEnd(player) {
-        // Butonları devre dışı bırak
+        // Disable buttons on the now-playing embed
         if (player.nowPlayingMessage) {
             try {
                 const disabledButtons = await this.createControlButtons(player, true);
@@ -347,43 +347,7 @@ class MusicEmbedManager {
             }
         }
 
-        let endEmbed = null;
-        const guildId = player.guild?.id;
-
-        try {
-            const title = guildId
-                ? await LanguageManager.getTranslation(guildId, 'musicmanager.playback_ended')
-                : 'Playback Ended';
-            const description = guildId
-                ? await LanguageManager.getTranslation(guildId, 'musicmanager.queue_empty')
-                : 'Queue is now empty.';
-
-            endEmbed = new EmbedBuilder()
-                .setTitle(`🎵 ${title}`)
-                .setDescription(description)
-                .setColor('#FF6B6B')
-                .setTimestamp();
-        } catch (error) {
-            console.error('Error preparing playback end embed:', error);
-        }
-
-        if (!endEmbed) {
-            endEmbed = new EmbedBuilder()
-                .setDescription('🎵 Playback ended')
-                .setColor('#FF6B6B')
-                .setTimestamp();
-        }
-
-        const textChannel = player.textChannel;
-        if (textChannel && typeof textChannel.send === 'function') {
-            try {
-                await textChannel.send({ embeds: [endEmbed] });
-            } catch (error) {
-                // Suppress errors when channel is unavailable or permissions are missing
-            }
-        }
-
-        // Player'ı temizle
+        // Clean up player state
         player.currentTrack = null;
         player.nowPlayingMessage = null;
     }
