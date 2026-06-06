@@ -550,6 +550,10 @@ setTimeout(() => {
                 return (req, res, next) => {
                     const authHeader = req.headers.authorization;
                     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                        if (requiredLevel === 0) {
+                            req.user = { id: 'guest', username: 'Guest User', role: 0 };
+                            return next();
+                        }
                         return res.status(401).json({ error: 'Missing or invalid Authorization header' });
                     }
 
@@ -557,6 +561,10 @@ setTimeout(() => {
                     const user = sessionStore.get(token);
 
                     if (!user) {
+                        if (requiredLevel === 0) {
+                            req.user = { id: 'guest', username: 'Guest User', role: 0 };
+                            return next();
+                        }
                         return res.status(401).json({ error: 'Invalid or expired session' });
                     }
 
