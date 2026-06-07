@@ -446,10 +446,10 @@ class MusicPlayer {
     }
 
     async addTrack(query, requestedBy, platform = 'auto') {
-        // 🛑 DUPILCATION BLOCKER: If the matrix is already analyzing a track, drop the ghost retry
+        // Drop overlapping network retries instantly
         if (this.isProcessingRequest) {
-            console.log(`⚠️ [QUEUE GUARD] Dropped duplicated concurrent incoming network request.`);
-            return { success: false, status: "ignored", reason: "processing_lock" };
+            console.log(`❌ [GUARD] Dropped concurrent ghost payload retry.`);
+            return { success: false, status: "ignored", reason: "processing_concurrency_lock" };
         }
 
         this.isProcessingRequest = true;

@@ -107,7 +107,7 @@ class YouTube {
         }).filter(Boolean);
         const refDurationMs = Number(spotifyDurationMs);
 
-        // Keep the ingestion pool tightly bound to top 5 results for fast processing
+        // Strict top-5 pool query string to completely bypass playlist spam
         const searchCommand = `ytsearch5:${cleanTitle} ${primaryArtist}`.trim();
         let candidates = [];
 
@@ -138,23 +138,26 @@ class YouTube {
 
         if (!candidates || candidates.length === 0) return null;
 
-        // THE ULTIMATUM EVALUATION LOOP
+        // THE ULTIMATUM MATRIX: TIME PROXIMITY IS DOMINANT
         const validMatches = candidates.map((candidate) => {
             const cTitle = (candidate.title || '').toLowerCase();
             const cChannel = (candidate.channelName || candidate.uploader || '').toLowerCase();
             const cDurationMs = candidate.durationMs || (candidate.duration * 1000) || 0;
             const deltaSeconds = Math.abs(cDurationMs - refDurationMs) / 1000;
 
-            // HARD CUTOFF: If video padding drifts past your 6-second ceiling, obliterate it
+            // CRITICAL TIME CEILING: Clear out long playlists and short snippets instantly
             if (deltaSeconds > 6) return null; 
 
-            let score = 0;
-            score += deltaSeconds * 5000; // Time proximity remains the absolute highest weight
+            let score = 0; // Golf rules: Lowest score wins
 
+            // DURATION CRITERIA: Heavily weighted penalty multiplier per second of drift
+            score += deltaSeconds * 25000; 
+
+            // SECONDARY TEXT VERIFICATION: Must match artist somewhere in the data blocks
             const hasArtist = cleanArtists.some(art => cChannel.includes(art) || cTitle.includes(art));
-            score += hasArtist ? -10000 : 5000;
+            score += hasArtist ? -50000 : 25000; // Massive drop reward vs heavy mismatch penalty
 
-            if (cTitle.includes(cleanTitle)) score -= 2000;
+            if (cTitle.includes(cleanTitle)) score -= 10000;
 
             return {
                 title: candidate.title || candidate.fulltitle || 'Unknown Title',
@@ -168,12 +171,14 @@ class YouTube {
                 platform: 'youtube',
                 type: 'track',
                 id: candidate.id,
-                matrixScore: score
+                matrixScore: score,
+                calculatedDrift: deltaSeconds
             };
         }).filter(Boolean);
 
-        // Absolute fallback protection if an entire pool misses the fence
+        // Ultimate fallback shield: if every video fails the 6s fence, use native index 0
         if (validMatches.length === 0) {
+            console.log(`⚠️ [ENGINE ALERT] 0 candidates passed the strict 6-second fence. Falling back to primary index.`);
             const fallback = candidates[0];
             return {
                 title: fallback.title || fallback.fulltitle || 'Unknown Title',
@@ -190,7 +195,10 @@ class YouTube {
             };
         }
 
+        // Sort ascending: The absolute closest timeline track wins
         validMatches.sort((a, b) => a.matrixScore - b.matrixScore);
+        
+        console.log(`🏆 MATRIX LOCK: "${validMatches[0].title}" | Drift: ${validMatches[0].calculatedDrift}s | Score: ${validMatches[0].matrixScore}`);
         return validMatches[0];
     }
 
