@@ -1,6 +1,11 @@
 const youtubedl = require('youtube-dl-exec');
 const config = require('../config');
 const LanguageManager = require('./LanguageManager');
+const YTDlpWrap = require('yt-dlp-wrap').default;
+const path = require('path');
+
+const binaryPath = path.join(__dirname, '..', 'bin', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
+const ytDlpWrap = new YTDlpWrap(binaryPath);
 
 class YouTube {
     // yt-dlp için ortak parametreleri döndüren yardımcı fonksiyon
@@ -27,81 +32,230 @@ class YouTube {
         } else if (config.ytdl.cookiesFile) {
             baseOptions.cookies = config.ytdl.cookiesFile;
         } else {
-            // Auth yapılandırılmamışsa iOS client kullan.
-            // Bu, VPS/sunucu IP'lerinde YouTube'un bot tespitini cookie veya token gerektirmeden atlar.
-            baseOptions.extractorArgs = 'youtube:player_client=ios';
+            // Forces stable web client routing to drop problematic network wrappers
+            baseOptions.extractorArgs = 'youtube:player_client=web';
         }
 
         return baseOptions;
     }
 
-    static async search(query, limit = 1, guildId = null) {
+    static async executeYtdlpSearch(searchQuery, limit, guildId) {
+        const results = await youtubedl(searchQuery, this.getYtDlpOptions({
+            dumpSingleJson: true,
+            flatPlaylist: true,
+            playlistEnd: limit,
+        }));
+
+        if (!results || !results.entries) {
+            return [];
+        }
+
+        const tracks = [];
+        for (const item of results.entries.slice(0, limit)) {
+            try {
+                const unknownTitle = guildId ? await LanguageManager.getTranslation(guildId, 'youtube.unknown_title') : 'Unknown Title';
+                const unknownArtist = guildId ? await LanguageManager.getTranslation(guildId, 'youtube.unknown_artist') : 'Unknown Artist';
+
+                const track = {
+                    title: item.title || item.fulltitle || unknownTitle,
+                    artist: item.uploader || item.channel || unknownArtist,
+                    url: item.webpage_url || item.url || (item.id ? `https://www.youtube.com/watch?v=${item.id}` : null),
+                    duration: item.duration || 0,
+                    thumbnail: item.thumbnail ||
+                        (item.thumbnails?.length ? item.thumbnails[item.thumbnails.length - 1].url : null) ||
+                        (item.id ? `https://img.youtube.com/vi/${item.id}/hqdefault.jpg` : null),
+                    platform: 'youtube',
+                    type: item._type || item.type || 'track',
+                    id: item.id,
+                    views: item.view_count,
+                    uploadDate: item.upload_date,
+                    description: item.description,
+                };
+
+                // Filter out non-playable URLs (like channel browse pages, playlists or albums)
+                const isPlayable = track.url && (track.url.includes('watch?v=') || track.url.includes('youtu.be/') || track.url.includes('embed/'));
+                if (!isPlayable || track.type === 'playlist' || track.type === 'album') {
+                    continue;
+                }
+
+                if (!track.duration || track.duration === 0) {
+                    const detailedInfo = await this.getInfo(track.url, guildId);
+                    if (detailedInfo) {
+                        if (detailedInfo.duration) track.duration = detailedInfo.duration;
+                        if (detailedInfo.artist && detailedInfo.artist !== unknownArtist) {
+                            track.artist = detailedInfo.artist;
+                        }
+                        if (detailedInfo.views) track.views = detailedInfo.views;
+                        if (detailedInfo.description) track.description = detailedInfo.description;
+                    }
+                }
+
+                tracks.push(track);
+            } catch (error) {
+                continue;
+            }
+        }
+        return tracks;
+    }
+
+    static async resolveSpotifyTrack(spotifyTitle, spotifyArtists = [], spotifyDurationMs, album = '', guildId = null) {
+        const cleanTitle = spotifyTitle.replace(/[\[\]()]/g, '').toLowerCase().trim();
+        const primaryArtist = spotifyArtists[0] ? (typeof spotifyArtists[0] === 'string' ? spotifyArtists[0].toLowerCase() : (spotifyArtists[0].name || '').toLowerCase()) : '';
+        const cleanArtists = (Array.isArray(spotifyArtists) ? spotifyArtists : [spotifyArtists]).map(a => {
+            const name = typeof a === 'string' ? a : (a.name || '');
+            return name.toLowerCase();
+        }).filter(Boolean);
+        const refDurationMs = Number(spotifyDurationMs);
+
+        // Keep the ingestion pool tightly bound to top 5 results for fast processing
+        const searchCommand = `ytsearch5:${cleanTitle} ${primaryArtist}`.trim();
+        let candidates = [];
+
         try {
+            const ytDlpEventEmitter = ytDlpWrap.exec([
+                searchCommand,
+                '--extractor-args', 'youtube:player_client=web',
+                '--flat-playlist', '--skip-download', '--dump-json'
+            ]);
 
+            let stdoutBuffer = '';
+            ytDlpEventEmitter.ytDlpProcess.stdout.on('data', (data) => { stdoutBuffer += data; });
+            
+            candidates = await new Promise((resolve, reject) => {
+                ytDlpEventEmitter.on('close', () => {
+                    const lines = stdoutBuffer.split('\n').filter(l => l.trim() !== '');
+                    try {
+                        resolve(lines.map(l => JSON.parse(l)));
+                    } catch (err) {
+                        reject(err);
+                    }
+                });
+                ytDlpEventEmitter.on('error', (err) => reject(err));
+            });
+        } catch (err) {
+            return null;
+        }
 
-            // If it's already a YouTube URL, get info directly
+        if (!candidates || candidates.length === 0) return null;
+
+        // THE ULTIMATUM EVALUATION LOOP
+        const validMatches = candidates.map((candidate) => {
+            const cTitle = (candidate.title || '').toLowerCase();
+            const cChannel = (candidate.channelName || candidate.uploader || '').toLowerCase();
+            const cDurationMs = candidate.durationMs || (candidate.duration * 1000) || 0;
+            const deltaSeconds = Math.abs(cDurationMs - refDurationMs) / 1000;
+
+            // HARD CUTOFF: If video padding drifts past your 6-second ceiling, obliterate it
+            if (deltaSeconds > 6) return null; 
+
+            let score = 0;
+            score += deltaSeconds * 5000; // Time proximity remains the absolute highest weight
+
+            const hasArtist = cleanArtists.some(art => cChannel.includes(art) || cTitle.includes(art));
+            score += hasArtist ? -10000 : 5000;
+
+            if (cTitle.includes(cleanTitle)) score -= 2000;
+
+            return {
+                title: candidate.title || candidate.fulltitle || 'Unknown Title',
+                artist: candidate.channel || candidate.uploader || 'Unknown Artist',
+                channelName: candidate.channel || candidate.uploader || 'Unknown Artist',
+                uploader: candidate.uploader || candidate.channel || 'Unknown Artist',
+                url: candidate.webpage_url || candidate.url || (candidate.id ? `https://www.youtube.com/watch?v=${candidate.id}` : null),
+                duration: candidate.duration || 0,
+                durationMs: cDurationMs,
+                thumbnail: candidate.thumbnail || (candidate.thumbnails?.length ? candidate.thumbnails[candidate.thumbnails.length - 1].url : null),
+                platform: 'youtube',
+                type: 'track',
+                id: candidate.id,
+                matrixScore: score
+            };
+        }).filter(Boolean);
+
+        // Absolute fallback protection if an entire pool misses the fence
+        if (validMatches.length === 0) {
+            const fallback = candidates[0];
+            return {
+                title: fallback.title || fallback.fulltitle || 'Unknown Title',
+                artist: fallback.channel || fallback.uploader || 'Unknown Artist',
+                channelName: fallback.channel || fallback.uploader || 'Unknown Artist',
+                uploader: fallback.uploader || fallback.channel || 'Unknown Artist',
+                url: fallback.webpage_url || fallback.url || (fallback.id ? `https://www.youtube.com/watch?v=${fallback.id}` : null),
+                duration: fallback.duration || 0,
+                durationMs: fallback.durationMs || (fallback.duration * 1000) || 0,
+                thumbnail: fallback.thumbnail || (fallback.thumbnails?.length ? fallback.thumbnails[fallback.thumbnails.length - 1].url : null),
+                platform: 'youtube',
+                type: 'track',
+                id: fallback.id
+            };
+        }
+
+        validMatches.sort((a, b) => a.matrixScore - b.matrixScore);
+        return validMatches[0];
+    }
+
+    static async searchMusic(query, limit = 20, guildId = null) {
+        // Route directly through ytDlpWrap.exec() to avoid youtube-dl-exec's Python layer
+        // rejecting ytmsearch/ytsearch URL schemes as "Unsupported url scheme"
+        const parseYtDlpOutput = (stdoutBuffer) => {
+            const lines = stdoutBuffer.split('\n').filter(l => l.trim() !== '');
+            const tracks = [];
+            for (const line of lines) {
+                try {
+                    const raw = JSON.parse(line);
+                    const url = raw.webpage_url || raw.url || (raw.id ? `https://www.youtube.com/watch?v=${raw.id}` : null);
+                    if (!url || !url.includes('watch?v=')) continue;
+                    tracks.push({
+                        title: raw.title || raw.fulltitle || 'Unknown Title',
+                        artist: raw.channel || raw.uploader || 'Unknown Artist',
+                        channelName: raw.channel || raw.uploader || 'Unknown Artist',
+                        uploader: raw.uploader || raw.channel || 'Unknown Artist',
+                        url,
+                        duration: raw.duration || 0,
+                        durationMs: raw.duration ? (raw.duration * 1000) : 0,
+                        thumbnail: raw.thumbnail || (raw.thumbnails?.length ? raw.thumbnails[raw.thumbnails.length - 1].url : null),
+                        platform: 'youtube',
+                        type: 'track',
+                        id: raw.id,
+                        views: raw.view_count,
+                        uploadDate: raw.upload_date,
+                    });
+                } catch (_) { continue; }
+            }
+            return tracks;
+        };
+
+        // Primary: Standard YouTube index via ytDlpWrap.exec()
+        try {
+            console.log(`📡 [SEARCH] Querying YouTube (ytsearch) for: "${query}"`);
+            const emitter = ytDlpWrap.exec([
+                `ytsearch${limit}:${query}`,
+                '--extractor-args', 'youtube:player_client=web',
+                '--flat-playlist',
+                '--skip-download',
+                '--dump-json'
+            ]);
+            let buf = '';
+            emitter.ytDlpProcess.stdout.on('data', d => { buf += d; });
+            const tracks = await new Promise((resolve, reject) => {
+                emitter.on('close', () => resolve(parseYtDlpOutput(buf)));
+                emitter.on('error', reject);
+            });
+            if (tracks && tracks.length > 0) return tracks;
+        } catch (err) {
+            console.error(`[SEARCH] ytsearch failed: ${err.message}`);
+        }
+
+        return [];
+    }
+
+    static async search(query, limit = 20, guildId = null) {
+        try {
             if (this.isYouTubeURL(query)) {
                 const info = await this.getInfo(query, guildId);
                 return info ? [info] : [];
             }
-
-            // Use yt-dlp for YouTube search
-            const searchQuery = `ytsearch${limit}:${query}`;
-
-            const results = await youtubedl(searchQuery, this.getYtDlpOptions({
-                dumpSingleJson: true,
-                flatPlaylist: true,
-            }));
-
-            if (!results || !results.entries) {
-
-                return [];
-            }
-
-            const tracks = [];
-            for (const item of results.entries.slice(0, limit)) {
-                try {
-                    // Debug: log item structure
-
-
-                    const unknownTitle = guildId ? await LanguageManager.getTranslation(guildId, 'youtube.unknown_title') : 'Unknown Title';
-                    const unknownArtist = guildId ? await LanguageManager.getTranslation(guildId, 'youtube.unknown_artist') : 'Unknown Artist';
-
-                    const track = {
-                        title: item.title || item.fulltitle || unknownTitle,
-                        artist: item.uploader || item.channel || unknownArtist,
-                        url: item.webpage_url || item.url || (item.id ? `https://www.youtube.com/watch?v=${item.id}` : null),
-                        duration: item.duration || 0,
-                        thumbnail: item.thumbnail ||
-                            (item.thumbnails?.length ? item.thumbnails[item.thumbnails.length - 1].url : null) ||
-                            (item.id ? `https://img.youtube.com/vi/${item.id}/hqdefault.jpg` : null),
-                        platform: 'youtube',
-                        type: 'track',
-                        id: item.id,
-                        views: item.view_count,
-                        uploadDate: item.upload_date,
-                        description: item.description,
-                    };
-
-                    // If duration is missing from search, try to get it from getInfo
-                    if (!track.duration || track.duration === 0) {
-
-                        const detailedInfo = await this.getInfo(track.url, guildId);
-                        if (detailedInfo && detailedInfo.duration) {
-                            track.duration = detailedInfo.duration;
-
-                        }
-                    }
-
-                    tracks.push(track);
-                } catch (error) {
-                    continue;
-                }
-            }
-
-
-            return tracks;
-
+            return await this.searchMusic(query, limit, guildId);
         } catch (error) {
             console.error('[YouTube] search() failed:', error.message || error);
             return [];

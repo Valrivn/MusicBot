@@ -71,6 +71,8 @@ class MusicPlayer {
         this.shuffle = false;
         this.autoplay = false; // false or genre string: 'pop', 'rock', 'hiphop', etc.
         this.paused = false;
+        this.isPlaying = false;
+        this.isProcessingRequest = false;
 
         // Timestamps
         this.startTime = null;
@@ -136,19 +138,20 @@ class MusicPlayer {
 
     setupEvents() {
         // Audio player events
-        this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
-            // When resuming, adjust startTime to account for elapsed offset
-            if (this.paused && this.pausedTime > 0) {
-                // Resuming from pause - keep the accumulated pausedTime
+        this.audioPlayer.on('stateChange', (oldState, newState) => {
+            if (newState.status === AudioPlayerStatus.Playing) {
+                this.isPlaying = true;
                 this.startTime = Date.now();
-            } else if (!this.startTime) {
-                // First time playing - set start time accounting for any offset
-                this.startTime = Date.now();
+                if (oldState.status !== AudioPlayerStatus.Paused) {
+                    this.currentTrackStartOffsetMs = this.currentTrackStartOffsetMs || 0;
+                }
+                this.paused = false;
+                console.log("🎵 [@discordjs/voice] Stream is actively Playing. Karaoke sync timeline anchored!");
             }
-            this.paused = false;
         });
 
         this.audioPlayer.on(AudioPlayerStatus.Paused, () => {
+            this.isPlaying = false;
             if (this.startTime) {
                 this.pausedTime += Date.now() - this.startTime;
             }
@@ -156,6 +159,7 @@ class MusicPlayer {
         });
 
         this.audioPlayer.on(AudioPlayerStatus.Idle, () => {
+            this.isPlaying = false;
             this.onPlayerIdle('idle');
         });
 
@@ -442,6 +446,14 @@ class MusicPlayer {
     }
 
     async addTrack(query, requestedBy, platform = 'auto') {
+        // 🛑 DUPILCATION BLOCKER: If the matrix is already analyzing a track, drop the ghost retry
+        if (this.isProcessingRequest) {
+            console.log(`⚠️ [QUEUE GUARD] Dropped duplicated concurrent incoming network request.`);
+            return { success: false, status: "ignored", reason: "processing_lock" };
+        }
+
+        this.isProcessingRequest = true;
+
         try {
             let tracks = [];
 
@@ -456,11 +468,29 @@ class MusicPlayer {
                         const playlistData = await YouTube.getPlaylist(query, this.guild.id);
                         tracks = playlistData ? playlistData.tracks : [];
                     } else {
-                        tracks = await YouTube.search(query, 3, this.guild.id);
-                        // Select candidate with the highest view count out of top 3
+                        tracks = await YouTube.search(query, 5, this.guild.id);
+                        // Route through the pure-weight matrix in resolveSpotifyTrack
                         if (tracks && tracks.length > 0) {
-                            tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
-                            tracks = [tracks[0]];
+                            let spotifyMetadata = null;
+                            try {
+                                const spotifyTracks = await Spotify.search(query, 1, 'track', this.guild.id);
+                                if (spotifyTracks && spotifyTracks.length > 0) {
+                                    spotifyMetadata = spotifyTracks[0];
+                                }
+                            } catch (_) {}
+
+                            if (spotifyMetadata) {
+                                const matchedTrack = await YouTube.resolveSpotifyTrack(
+                                    spotifyMetadata.title,
+                                    spotifyMetadata.artist,
+                                    spotifyMetadata.duration * 1000,
+                                    spotifyMetadata.album || '',
+                                    this.guild.id
+                                );
+                                if (matchedTrack) {
+                                    tracks = [{ ...matchedTrack, title: spotifyMetadata.title, artist: spotifyMetadata.artist, spotifyUrl: spotifyMetadata.spotifyUrl, duration: spotifyMetadata.duration }];
+                                }
+                            }
                         }
                     }
                     break;
@@ -479,18 +509,62 @@ class MusicPlayer {
                     tracks = await DirectLink.getInfo(query);
                     break;
                 default:
-                    // Priority Search Fallback: Spotify -> YT Music -> YouTube
-                    // Try Spotify search first to get clean metadata for syncing lyrics/karaoke
                     try {
-                        tracks = await Spotify.search(query, 1, 'track', this.guild.id);
-                    } catch (_) {}
-                    
-                    // Fall back to YouTube search with top 3 view-count sorting if Spotify returned no matches
+                        console.log(`[SpotifyToYoutube] Player metadata lookup for: "${query}"`);
+                        const spotifyTracks = await Spotify.search(query, 1, 'track', this.guild.id);
+                        if (spotifyTracks && spotifyTracks.length > 0) {
+                            const refTrack = spotifyTracks[0];
+                            const refTitle = refTrack.title;
+                            const refArtist = refTrack.artist;
+                            const refDurationMs = refTrack.duration * 1000;
+                            const refAlbum = refTrack.album || '';
+
+                            const matchedTrack = await YouTube.resolveSpotifyTrack(refTitle, refArtist, refDurationMs, refAlbum, this.guild.id);
+
+                            if (matchedTrack) {
+                                tracks = [{
+                                    ...matchedTrack,
+                                    title: refTitle,
+                                    artist: refTrack.artist,
+                                    spotifyUrl: refTrack.spotifyUrl,
+                                    duration: refTrack.duration
+                                }];
+                            }
+                        }
+                    } catch (e) {
+                        console.warn(`[SpotifyToYoutube] Spotify guided match failed in addTrack: ${e.message}`, e);
+                    }
+
                     if (!tracks || tracks.length === 0) {
-                        tracks = await YouTube.search(query, 3, this.guild.id);
-                        if (tracks && tracks.length > 0) {
-                            tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
-                            tracks = [tracks[0]];
+                        let spotifyMetadata = null;
+                        try {
+                            const spotifyTracks = await Spotify.search(query, 1, 'track', this.guild.id);
+                            if (spotifyTracks && spotifyTracks.length > 0) {
+                                spotifyMetadata = spotifyTracks[0];
+                            }
+                        } catch (_) {}
+
+                        if (spotifyMetadata) {
+                            const matchedTrack = await YouTube.resolveSpotifyTrack(
+                                spotifyMetadata.title,
+                                spotifyMetadata.artist,
+                                spotifyMetadata.duration * 1000,
+                                spotifyMetadata.album || '',
+                                this.guild.id
+                            );
+                            if (matchedTrack) {
+                                tracks = [{
+                                    ...matchedTrack,
+                                    title: spotifyMetadata.title,
+                                    artist: spotifyMetadata.artist,
+                                    spotifyUrl: spotifyMetadata.spotifyUrl,
+                                    duration: spotifyMetadata.duration
+                                }];
+                            }
+                        }
+
+                        if (!tracks || tracks.length === 0) {
+                            tracks = await YouTube.search(query, 1, this.guild.id);
                         }
                     }
             }
@@ -512,12 +586,25 @@ class MusicPlayer {
                 track.requestedBy = requestedBy;
                 track.addedAt = Date.now();
 
-                if (this.currentTrack) {
-                    this.queue.push(track);
+                // ENFORCE THE HYBRID DESIGN: Explicitly lock in the Spotify Album Cover for the UI
+                const richTrack = {
+                    ...track,
+                    title: track.title,
+                    artist: track.artist || 'Unknown Artist',
+                    albumCover: track.thumbnail || track.albumCover, // <-- Frontend UI pulls this crisp Spotify cover natively
+                    durationMs: track.durationMs || (track.duration * 1000) || 0,
+                    youtubeId: track.id || track.youtubeId // <-- Raw background audio link only
+                };
+
+                // FIX: Secure your array timeline. If a song is actively playing, push to array queue!
+                if (this.isPlaying || this.currentTrack) {
+                    this.queue.push(richTrack);
+                    console.log(`📦 [QUEUE ENGINE] Safely appended "${richTrack.title}" to position ${this.queue.length}`);
+                    this.broadcastStateUpdate(); // Force websocket/dashboard channel state emit
                 } else {
-                    this.currentTrack = track;
+                    this.currentTrack = richTrack;
                 }
-                addedTracks.push(track);
+                addedTracks.push(richTrack);
             }
 
             // Immediately preload ALL newly added tracks (before playing)
@@ -576,6 +663,8 @@ class MusicPlayer {
         } catch (error) {
             const errorMsg = await LanguageManager.getTranslation(this.guild.id, 'musicplayer.error_adding_track');
             return { success: false, message: errorMsg };
+        } finally {
+            this.isProcessingRequest = false;
         }
     }
 
@@ -755,6 +844,11 @@ class MusicPlayer {
         }
     }
 
+    async playStream(trackPayload) {
+        this.currentTrack = trackPayload;
+        return await this.play(null, 0);
+    }
+
     async play(trackIndex = null, seekMs = 0) {
         try {
             // If no current track, get from queue
@@ -821,37 +915,27 @@ class MusicPlayer {
                         break;
 
                     case 'spotify':
-                        // Enhanced YouTube search for Spotify tracks
+                        // Enhanced YouTube search for Spotify tracks via Guided Resolver
+                        try {
+                            const refTitle = this.currentTrack.title;
+                            const refArtist = this.currentTrack.artist;
+                            const refDurationMs = (this.currentTrack.duration || 0) * 1000;
+                            const refAlbum = this.currentTrack.album || '';
+                            console.log(`[SpotifyPlayMatch] Spotify url play resolution: "${refTitle}" - "${refArtist}" (${refDurationMs}ms).`);
 
-                        // Enhanced search query with multiple attempts
-                        const searchQueries = [
-                            `"${this.currentTrack.title}" "${this.currentTrack.artist}"`, // Exact match
-                            `${this.currentTrack.title} ${this.currentTrack.artist}`,     // Normal search
-                            `${this.currentTrack.title}`                                  // Title only
-                        ];
+                            const matchedTrack = await YouTube.resolveSpotifyTrack(refTitle, refArtist, refDurationMs, refAlbum, this.guild.id);
 
-                        let ytTrack = null;
-                        for (const query of searchQueries) {
-                            try {
-                                const results = await YouTube.search(query, 3, this.guild.id); // Get 3 results
-                                if (results && results.length > 0) {
-                                    // Prefer official videos or original versions
-                                    ytTrack = results.find(r =>
-                                        r.title.toLowerCase().includes('official') ||
-                                        r.title.toLowerCase().includes(this.currentTrack.title.toLowerCase())
-                                    ) || results[0];
-                                    if (ytTrack) break;
-                                }
-                            } catch (e) {
+                            if (matchedTrack && matchedTrack.url) {
+                                streamUrl = matchedTrack.url;
+                                this.currentTrack.youtubeUrl = streamUrl;
+                                this.currentTrack.youtubeTitle = matchedTrack.title;
+                                streamInfo = await YouTube.getStream(streamUrl, this.guild.id, resumeFromSeconds);
+                            } else {
+                                const errorMsg = await LanguageManager.getTranslation(this.guild.id, 'musicplayer.youtube_not_found_spotify').replace('{title}', this.currentTrack.title);
+                                throw new Error(errorMsg);
                             }
-                        }
-
-                        if (ytTrack && ytTrack.url) {
-                            streamUrl = ytTrack.url;
-                            this.currentTrack.youtubeUrl = streamUrl;
-                            this.currentTrack.youtubeTitle = ytTrack.title; // Store YouTube title
-                            streamInfo = await YouTube.getStream(streamUrl, this.guild.id, resumeFromSeconds);
-                        } else {
+                        } catch (err) {
+                            console.error(`[SpotifyPlayMatch] Failed to resolve Spotify track:`, err);
                             const errorMsg = await LanguageManager.getTranslation(this.guild.id, 'musicplayer.youtube_not_found_spotify').replace('{title}', this.currentTrack.title);
                             throw new Error(errorMsg);
                         }
@@ -1495,6 +1579,21 @@ class MusicPlayer {
             return removed;
         }
         return null;
+    }
+
+    removeQueueItem(index) {
+        if (index >= 0 && index < this.queue.length) {
+            const removed = this.queue.splice(index, 1);
+            console.log(`🗑️ [QUEUE MUTATION] Cleared index ${index}: ${removed[0].title}`);
+            this.broadcastStateUpdate(); // Real-time UI refresh anchor
+            return this.queue;
+        }
+        return this.queue;
+    }
+
+    broadcastStateUpdate() {
+        console.log(`📢 [STATE BROADCAST] Emitting real-time state sync.`);
+        this.persistState('api-sync', true).catch(() => {});
     }
 
     moveInQueue(from, to) {
@@ -2438,3 +2537,7 @@ class MusicPlayer {
 }
 
 module.exports = MusicPlayer;
+
+
+
+

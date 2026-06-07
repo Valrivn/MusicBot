@@ -790,6 +790,7 @@ setTimeout(() => {
 
             // 2. Multi-Provider Lyrics route with console auditing
             app.post('/music/lyrics', async (req, res) => {
+                const LyricsManager = require('./src/LyricsManager');
                 let { title, artist, trackUrl, forceResync } = req.body;
                 
                 // Helper: extract YouTube video ID from any YT URL
@@ -828,164 +829,28 @@ setTimeout(() => {
                 const cleanTitle = cleanMetadata(title);
                 const cleanArtist = cleanMetadata(artist);
 
-                const trackId = videoId !== 'unknown' ? videoId : crypto.createHash('md5').update(`${cleanTitle}-${cleanArtist}`).digest('hex');
-                const cacheFilePath = path.join(__dirname, 'audio_cache', `lyrics_${trackId}.json`);
+                const targetTrack = {
+                    title,
+                    artist,
+                    url: trackUrl,
+                    duration: req.body.duration || 0,
+                    durationMs: req.body.durationMs || 0
+                };
 
-                if (forceResync !== true && fs.existsSync(cacheFilePath)) {
-                    try {
-                        const cachedData = JSON.parse(fs.readFileSync(cacheFilePath, 'utf8'));
-                        console.log(chalk.green(`💾 [LyricsManager] Cache hit (file): Returning cached lyrics for ${trackId}`));
-                        return res.json(cachedData);
-                    } catch (e) {
-                        console.error("Failed to read cached lyrics file:", e);
+                // Try to find the actual playing track from active players to get accurate duration
+                const players = Array.from(playerManager.players.values());
+                for (const p of players) {
+                    if (p.currentTrack && (p.currentTrack.title === title || p.currentTrack.url === trackUrl)) {
+                        targetTrack.duration = p.currentTrack.duration;
+                        targetTrack.durationMs = p.currentTrack.durationMs || (p.currentTrack.duration * 1000);
+                        break;
                     }
                 }
 
                 console.log(chalk.cyan(`🔍 [LyricsManager] Starting fetchLyrics for title: "${title}", artist: "${artist}", platform: "youtube", id: "${videoId}"`));
+                const payload = await LyricsManager.fetchLyrics(targetTrack, forceResync);
 
-                console.log(chalk.blue(`[LyricsManager] Attempting Genius search with query: "${cleanArtist} ${cleanTitle}"...`));
-                console.log(chalk.blue(`[LyricsManager] Attempting parallel LRCLIB lookup for clean title: "${cleanTitle}", artist: "${cleanArtist}"...`));
-                console.log(chalk.gray(`[LyricsManager] Launching LRCLIB query 1/5: {"q":"${cleanTitle}"}`));
-                console.log(chalk.gray(`[LyricsManager] Launching LRCLIB query 2/5: {"q":"${cleanTitle} by ${cleanArtist}"}`));
-                console.log(chalk.gray(`[LyricsManager] Launching LRCLIB query 3/5: {"q":"${cleanArtist} ${cleanTitle}"}`));
-                console.log(chalk.gray(`[LyricsManager] Launching LRCLIB query 4/5: {"track_name":"${cleanTitle}","artist_name":"${cleanArtist}"}`));
-                console.log(chalk.gray(`[LyricsManager] Launching LRCLIB query 5/5: {"q":"${cleanTitle}"}`));
-                console.log(chalk.cyan(`📡 [LyricsManager] Dispatching concurrent requests to Genius, LRCLIB, and YouTube Music...`));
-
-                let lrclibLyrics = null;
-                let lrclibSynced = false;
-                let geniusLyrics = null;
-                let ytmusicLyrics = null;
-                let ytmusicSynced = false;
-
-                // Create parallel fetch promises
-                const lrclibPromise = (async () => {
-                    try {
-                        const url = `https://lrclib.net/api/search?track_name=${encodeURIComponent(cleanTitle)}&artist_name=${encodeURIComponent(cleanArtist)}`;
-                        const response = await fetch(url);
-                        const data = await response.json();
-                        if (data && data.length > 0) {
-                            const match = data[0];
-                            lrclibLyrics = match.syncedLyrics || match.plainLyrics || null;
-                            lrclibSynced = !!match.syncedLyrics;
-                            if (lrclibLyrics) {
-                                console.log(chalk.green(`[LyricsManager] LRCLIB successfully retrieved lyrics (length: ${lrclibLyrics.length}, synced: ${lrclibSynced}).`));
-                            }
-                        }
-                    } catch (e) {
-                        console.log(chalk.yellow(`[LyricsManager] LRCLIB query failed: ${e.message}`));
-                    }
-                })();
-
-                const geniusPromise = (async () => {
-                    try {
-                        const Genius = require('genius-lyrics');
-                        const geniusClient = new Genius.Client();
-                        const query = `${cleanArtist} ${cleanTitle}`.trim();
-                        const searches = await geniusClient.songs.search(query);
-                        if (searches && searches.length > 0) {
-                            geniusLyrics = await searches[0].lyrics();
-                            if (geniusLyrics) {
-                                console.log(chalk.green(`[LyricsManager] Genius lyrics retrieved successfully (length: ${geniusLyrics.length}).`));
-                            }
-                        }
-                    } catch (e) {
-                        console.log(chalk.yellow(`[LyricsManager] Genius search failed/no results: ${e.message}`));
-                    }
-                })();
-
-                const ytmusicPromise = (async () => {
-                    try {
-                        const { execFile } = require('child_process');
-                        const pythonScript = path.join(__dirname, 'scripts', 'ytmusic_lyrics.py');
-                        
-                        await new Promise((resolve) => {
-                            execFile('python', [pythonScript, videoId, cleanTitle, cleanArtist], { timeout: 10000 }, (error, stdout) => {
-                                try {
-                                    if (!error && stdout) {
-                                        const resData = JSON.parse(stdout);
-                                        if (resData.success && resData.lyrics) {
-                                            ytmusicLyrics = resData.lyrics;
-                                            ytmusicSynced = resData.synced;
-                                            console.log(chalk.green(`[LyricsManager] YouTube Music successfully retrieved lyrics (length: ${ytmusicLyrics.length}, synced: ${ytmusicSynced}).`));
-                                        }
-                                    }
-                                } catch (_) {}
-                                resolve();
-                            });
-                        });
-                    } catch (e) {
-                        console.log(chalk.yellow(`[LyricsManager] YouTube Music query failed: ${e.message}`));
-                    }
-                })();
-
-                // Wait for all concurrent queries (10s max timeout total)
-                await Promise.all([lrclibPromise, geniusPromise, ytmusicPromise]);
-
-                // Sort/Resolve priorities:
-                // 1. LRCLIB Synced
-                // 2. YouTube Music Synced
-                // 3. Genius (Plain) / YouTube Music Plain / LRCLIB Plain
-                let selectedLyrics = null;
-                let selectedSource = "None";
-
-                if (lrclibLyrics && lrclibSynced) {
-                    selectedLyrics = lrclibLyrics;
-                    selectedSource = "LRCLIB (Synced)";
-                    console.log(chalk.green(`🏆 [LyricsManager] Priority 1: Selected official LRCLIB Synced lyrics.`));
-                } else if (ytmusicLyrics && ytmusicSynced) {
-                    selectedLyrics = ytmusicLyrics;
-                    selectedSource = "YouTube Music (Synced)";
-                    console.log(chalk.green(`🏆 [LyricsManager] Priority 2: Selected YouTube Music Synced lyrics.`));
-                } else if (geniusLyrics) {
-                    selectedLyrics = geniusLyrics;
-                    selectedSource = "Genius (Plain)";
-                    console.log(chalk.green(`🏆 [LyricsManager] Priority 3: Selected Genius Plain lyrics.`));
-                } else if (ytmusicLyrics) {
-                    selectedLyrics = ytmusicLyrics;
-                    selectedSource = "YouTube Music (Plain)";
-                    console.log(chalk.green(`🏆 [LyricsManager] Priority 3: Selected YouTube Music Plain lyrics.`));
-                } else if (lrclibLyrics) {
-                    selectedLyrics = lrclibLyrics;
-                    selectedSource = "LRCLIB (Plain)";
-                    console.log(chalk.green(`🏆 [LyricsManager] Priority 3: Selected LRCLIB Plain lyrics.`));
-                }
-
-                if (selectedLyrics) {
-                    console.log(chalk.green(`💾 [LyricsManager] Lyrics resolved from: ${selectedSource}. Storing in cache.`));
-                    const isSynced = selectedSource.includes("(Synced)");
-                    const payload = {
-                        title: cleanTitle,
-                        artist: cleanArtist,
-                        source: selectedSource,
-                        synced: isSynced ? selectedLyrics : "",
-                        plain: !isSynced ? selectedLyrics : "",
-                        hasSynced: isSynced,
-                        lines: selectedLyrics.split('\n')
-                    };
-
-                    let shouldWrite = true;
-                    if (fs.existsSync(cacheFilePath)) {
-                        try {
-                            const existing = JSON.parse(fs.readFileSync(cacheFilePath, 'utf8'));
-                            const existingSynced = existing && (existing.hasSynced || existing.synced);
-                            if (existingSynced && !isSynced) {
-                                shouldWrite = false;
-                                console.log(chalk.yellow(`[LyricsManager] Overwrite check: Synced lyrics already exist. Rejecting plain lyrics overwrite for ${trackId}.`));
-                            }
-                        } catch (e) {
-                            console.error("Failed to parse existing cached lyrics file for overwrite check:", e);
-                        }
-                    }
-
-                    if (shouldWrite) {
-                        try {
-                            fs.writeFileSync(cacheFilePath, JSON.stringify(payload, null, 2), 'utf8');
-                        } catch (e) {
-                            console.error("Failed to write lyrics to file cache:", e);
-                        }
-                    }
-
+                if (payload) {
                     return res.json(payload);
                 }
 
@@ -1007,7 +872,7 @@ setTimeout(() => {
 
                 res.json(player.queue.map(track => {
                     const ytId = extractYtVideoId(track.url);
-                    const art = track.thumbnail ||
+                    const art = track.albumCover || track.thumbnail ||
                         (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
                     return {
                         id: track.id || track.url || Math.random().toString(36).substr(2, 9),
@@ -1085,7 +950,7 @@ setTimeout(() => {
 
                 res.json(player.previousTracks.map(track => {
                     const ytId = extractYtVideoId(track.url);
-                    const art = track.thumbnail ||
+                    const art = track.albumCover || track.thumbnail ||
                         (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
                     return {
                         id: track.id || track.url || Math.random().toString(36).substr(2, 9),
@@ -1183,10 +1048,27 @@ setTimeout(() => {
                                 const playlistData = await YouTube.getPlaylist(query, player.guild.id);
                                 tracks = playlistData ? playlistData.tracks : [];
                             } else {
-                                tracks = await YouTube.search(query, 3, player.guild.id);
+                                tracks = await YouTube.search(query, 5, player.guild.id);
                                 if (tracks && tracks.length > 0) {
-                                    tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
-                                    tracks = [tracks[0]];
+                                    let spotifyMetadata = null;
+                                    try {
+                                        const spotifyTracks = await Spotify.search(query, 1, 'track', player.guild.id);
+                                        if (spotifyTracks && spotifyTracks.length > 0) {
+                                            spotifyMetadata = spotifyTracks[0];
+                                        }
+                                    } catch (_) {}
+                                    if (spotifyMetadata) {
+                                        const matchedTrack = await YouTube.resolveSpotifyTrack(
+                                            spotifyMetadata.title,
+                                            spotifyMetadata.artist,
+                                            spotifyMetadata.duration * 1000,
+                                            spotifyMetadata.album || '',
+                                            player.guild.id
+                                        );
+                                        if (matchedTrack) {
+                                            tracks = [matchedTrack];
+                                        }
+                                    }
                                 }
                             }
                         } else if (platform === 'spotify') {
@@ -1202,13 +1084,29 @@ setTimeout(() => {
                         } else {
                             try {
                                 tracks = await Spotify.search(query, 1, 'track', player.guild.id);
-                            } catch (_) {}
-                            if (!tracks || tracks.length === 0) {
-                                tracks = await YouTube.search(query, 3, player.guild.id);
                                 if (tracks && tracks.length > 0) {
-                                    tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
-                                    tracks = [tracks[0]];
+                                    const refTrack = tracks[0];
+                                    const matchedTrack = await YouTube.resolveSpotifyTrack(
+                                        refTrack.title,
+                                        refTrack.artist,
+                                        refTrack.duration * 1000,
+                                        refTrack.album || '',
+                                        player.guild.id
+                                    );
+                                    if (matchedTrack) {
+                                        tracks = [{
+                                            ...matchedTrack,
+                                            title: refTrack.title,
+                                            artist: refTrack.artist,
+                                            spotifyUrl: refTrack.spotifyUrl,
+                                            duration: refTrack.duration
+                                        }];
+                                    }
                                 }
+                            } catch (_) {}
+
+                            if (!tracks || tracks.length === 0) {
+                                tracks = await YouTube.search(query, 1, player.guild.id);
                             }
                         }
 
@@ -1310,13 +1208,66 @@ setTimeout(() => {
                     return res.status(403).json({ error: 'Forbidden: You can only remove songs you added.' });
                 }
 
-                const removed = player.removeFromQueue(index);
-                if (removed) {
-                    console.log(chalk.cyan(`🗑️ Removed from queue: ${removed.title} by ${req.user.username}`));
-                    res.json({ success: true, removed: { title: removed.title, artist: removed.artist } });
+                const updatedQueue = player.removeQueueItem(index);
+                if (updatedQueue) {
+                    console.log(chalk.cyan(`🗑️ Removed from queue at index ${index} by ${req.user.username}`));
+                    return res.status(200).json({ 
+                        message: "Item removed safely", 
+                        queue: updatedQueue.map(t => {
+                            const ytId = extractYtVideoId(t.url);
+                            const art = t.thumbnail || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
+                            return {
+                                id: t.id || t.url || Math.random().toString(36).substr(2, 9),
+                                title: t.title || 'Unknown',
+                                artist: t.artist || 'Unknown',
+                                url: t.url || null,
+                                trackUrl: t.url || null,
+                                thumbnail: art,
+                                art: art,
+                                artworkUrl: art,
+                                duration: t.duration || 0,
+                                length: t.duration || 0,
+                                requestedBy: t.requestedBy?.tag || t.requestedBy?.username || t.requesterTag || 'Unknown',
+                                requesterName: t.requestedBy?.tag || t.requestedBy?.username || t.requesterTag || 'Unknown',
+                                requesterAvatar: t.requestedBy?.avatar ? `https://cdn.discordapp.com/avatars/${t.requestedBy.id}/${t.requestedBy.avatar}.png` : null
+                            };
+                        })
+                    });
                 } else {
                     res.status(400).json({ error: 'Failed to remove track' });
                 }
+            });
+
+            app.delete('/api/queue/:index', (req, res) => {
+                const targetIndex = parseInt(req.params.index, 10);
+                const player = client.players.first();
+                
+                if (!player) return res.status(404).json({ error: "Player instance offline" });
+                
+                const updatedQueue = player.removeQueueItem(targetIndex);
+                
+                return res.status(200).json({ 
+                    message: "Item removed safely", 
+                    queue: updatedQueue.map(t => {
+                        const ytId = extractYtVideoId(t.url);
+                        const art = t.thumbnail || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
+                        return {
+                            id: t.id || t.url || Math.random().toString(36).substr(2, 9),
+                            title: t.title || 'Unknown',
+                            artist: t.artist || 'Unknown',
+                            url: t.url || null,
+                            trackUrl: t.url || null,
+                            thumbnail: art,
+                            art: art,
+                            artworkUrl: art,
+                            duration: t.duration || 0,
+                            length: t.duration || 0,
+                            requestedBy: t.requestedBy?.tag || t.requestedBy?.username || t.requesterTag || 'Unknown',
+                            requesterName: t.requestedBy?.tag || t.requestedBy?.username || t.requesterTag || 'Unknown',
+                            requesterAvatar: t.requestedBy?.avatar ? `https://cdn.discordapp.com/avatars/${t.requestedBy.id}/${t.requestedBy.avatar}.png` : null
+                        };
+                    })
+                });
             });
 
             // ── Playback History (Back Button) ─────────────────────────────
@@ -1476,10 +1427,27 @@ setTimeout(() => {
                         let tracks = [];
 
                         if (platform === 'youtube') {
-                            tracks = await YouTube.search(query, 3, player.guild.id);
+                            tracks = await YouTube.search(query, 5, player.guild.id);
                             if (tracks && tracks.length > 0) {
-                                tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
-                                tracks = [tracks[0]];
+                                let spotifyMetadata = null;
+                                try {
+                                    const spotifyTracks = await Spotify.search(query, 1, 'track', player.guild.id);
+                                    if (spotifyTracks && spotifyTracks.length > 0) {
+                                        spotifyMetadata = spotifyTracks[0];
+                                    }
+                                } catch (_) {}
+                                if (spotifyMetadata) {
+                                    const matchedTrack = await YouTube.resolveSpotifyTrack(
+                                        spotifyMetadata.title,
+                                        spotifyMetadata.artist,
+                                        spotifyMetadata.duration * 1000,
+                                        spotifyMetadata.album || '',
+                                        player.guild.id
+                                    );
+                                    if (matchedTrack) {
+                                        tracks = [{ ...matchedTrack, title: spotifyMetadata.title, artist: spotifyMetadata.artist, spotifyUrl: spotifyMetadata.spotifyUrl, duration: spotifyMetadata.duration }];
+                                    }
+                                }
                             }
                         } else if (platform === 'spotify') {
                             if (Spotify.isSpotifyURL(query)) {
@@ -1496,10 +1464,27 @@ setTimeout(() => {
                                 tracks = await Spotify.search(query, 1, 'track', player.guild.id);
                             } catch (_) {}
                             if (!tracks || tracks.length === 0) {
-                                tracks = await YouTube.search(query, 3, player.guild.id);
+                                tracks = await YouTube.search(query, 5, player.guild.id);
                                 if (tracks && tracks.length > 0) {
-                                    tracks.sort((a, b) => (b.views || 0) - (a.views || 0));
-                                    tracks = [tracks[0]];
+                                    let spotifyMetadata = null;
+                                    try {
+                                        const spotifyTracks = await Spotify.search(query, 1, 'track', player.guild.id);
+                                        if (spotifyTracks && spotifyTracks.length > 0) {
+                                            spotifyMetadata = spotifyTracks[0];
+                                        }
+                                    } catch (_) {}
+                                    if (spotifyMetadata) {
+                                        const matchedTrack = await YouTube.resolveSpotifyTrack(
+                                            spotifyMetadata.title,
+                                            spotifyMetadata.artist,
+                                            spotifyMetadata.duration * 1000,
+                                            spotifyMetadata.album || '',
+                                            player.guild.id
+                                        );
+                                        if (matchedTrack) {
+                                            tracks = [{ ...matchedTrack, title: spotifyMetadata.title, artist: spotifyMetadata.artist, spotifyUrl: spotifyMetadata.spotifyUrl, duration: spotifyMetadata.duration }];
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1946,3 +1931,6 @@ process.on('unhandledRejection', (reason, promise) => {
 process.on('uncaughtException', (err) => {
     console.error('⚠️ Uncaught Exception thrown:', err);
 });
+
+
+
