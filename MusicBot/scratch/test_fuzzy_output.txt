@@ -1,0 +1,446 @@
+﻿ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ           BEATRA MUSIC BOT - MASTER PIPELINE TEST                       Γòæ
+Γòæ           Testing 5 songs across mainstream/niche/indie/classic          Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+Timestamp: 2026-07-18T13:03:09.481Z
+Songs to test: 5
+
+Loading modules...
+Γ£à Loaded 22 language files
+Γ£à All modules loaded
+
+Clearing all caches...
+Γ£à Cleared 5 cached files
+
+  Γä╣∩╕Å  All caches verified empty
+
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Blinding Lights" by The Weeknd
+Category: Mainstream Pop
+Notes: Major label, should have MusicBrainz + LRCLIB + YouTube transcript
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Blinding Lights" by "The Weeknd"...
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+  Γä╣∩╕Å  No studio baseline (528ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Blinding Lights" by "The Weeknd"...
+  Γ£à PASS: LRCLIB search - synced lyrics (462ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for 4NRXx6U8ABQ...
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: auto)
+[YouTube.getTranscript] No subtitles found for 4NRXx6U8ABQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9839ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Blinding Lights" by "The Weeknd"...
+[LyricsMatcher] Starting handshake for "Blinding Lights" - "The Weeknd"
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+[LrclibClient] Found 20 synced lyric candidates for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '1227659f-a933-4549-8fc4-d839b4cd3d45'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '9ce40394-cfc8-43fe-aa14-a36f61680cd3'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: 'e60bbc5c-1a95-4738-98a8-afb67e251256'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '4a7e3973-48fa-4d6b-8c54-7dd87c177243'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '2537b91a-1fae-4d74-9322-d0c6b97a5d38'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Blinding Lights" - "The Weeknd". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Blinding Lights" - 200s (120 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Blinding Lights (202000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 202000ms via mb-consensus, 17 candidates (1416ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Blinding Lights" by "The Weeknd"...
+[LyricsMatcher] Starting handshake for "Blinding Lights" - "The Weeknd"
+[LrclibClient] Found 20 synced lyric candidates for "Blinding Lights" - "The Weeknd"
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Γ£à Consensus match locked: Blinding Lights (202000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (1054ms)
+  Γä╣∩╕Å    Synced lyrics: 1675 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Blinding Lights" by The Weeknd
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Welcome to the Internet" by Bo Burnham
+Category: Comedy/Special
+Notes: May not be on MusicBrainz, should have YouTube transcript
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Welcome to the Internet" by "Bo Burnham"...
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+  Γä╣∩╕Å  No studio baseline (848ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Welcome to the Internet" by "Bo Burnham"...
+  Γ£à PASS: LRCLIB search - synced lyrics (215ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for Kd7lCCbv5j0...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en)
+[YouTube.getTranscript] No en subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en-US)
+[YouTube.getTranscript] No en-US subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en-GB)
+[YouTube.getTranscript] No en-GB subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: auto)
+[YouTube.getTranscript] No auto subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] No subtitles found for Kd7lCCbv5j0 in any language
+  Γä╣∩╕Å  No YouTube transcript available (5920ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Welcome to the Internet" by "Bo Burnham"...
+[LyricsMatcher] Starting handshake for "Welcome to the Internet" - "Bo Burnham"
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+[LrclibClient] Found 20 synced lyric candidates for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: 'ecac130d-c517-4062-8e86-99107dfef0b6'
+  },
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: '6b74ecd9-c43f-4d0f-b1ba-0a6cd875c69e'
+  },
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: 'ae71314b-e5f0-4adc-9f90-6d495b286892'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Welcome to the Internet" - "Bo Burnham". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Welcome to the Internet" - 276s (9 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Welcome to the Internet (276000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 276000ms via mb-consensus, 7 candidates (1167ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Welcome to the Internet" by "Bo Burnham"...
+[LyricsMatcher] Starting handshake for "Welcome to the Internet" - "Bo Burnham"
+[LrclibClient] Found 20 synced lyric candidates for "Welcome to the Internet" - "Bo Burnham"
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Γ£à Consensus match locked: Welcome to the Internet (276000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (1080ms)
+  Γä╣∩╕Å    Synced lyrics: 3597 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Welcome to the Internet" by Bo Burnham
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Live in Life" by Will Stetson
+Category: Indie/Original
+Notes: Indie artist original song, unlikely on MusicBrainz, test YouTube fallback
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Live in Life" by "Will Stetson"...
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+  Γä╣∩╕Å  No studio baseline (1036ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Live in Life" by "Will Stetson"...
+node : [LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+At line:1 char:1
++ node "scratch/master test.js" 2>&1 | Out-File -FilePath "scratch\test ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([LrclibClient] ...ng in 5000ms...:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] Search error: timeout of 2000ms exceeded
+  Γä╣∩╕Å  No LRCLIB results (9041ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for CCqNPv-Z9JQ...
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: auto)
+[YouTube.getTranscript] No subtitles found for CCqNPv-Z9JQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9240ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Live in Life" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Live in Life" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γä╣∩╕Å  Handshake failed or no duration locked (9042ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Live in Life" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Live in Life" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+Γ£à Wave 1.2 Early Exit: YouTube Music Synced
+  Γ£à PASS: LyricsManager waterfall - YouTube Music (Synced) (5266ms)
+  Γä╣∩╕Å    Synced lyrics: 2388 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Live in Life" by Will Stetson
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Writing on the Wall" by Will Stetson
+Category: Indie/Fan Cover
+Notes: Indie artist, MusicBrainz fail expected, test YouTube Music fallback
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Writing on the Wall" by "Will Stetson"...
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+  Γä╣∩╕Å  No studio baseline (110ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Writing on the Wall" by "Will Stetson"...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] Search error: timeout of 2000ms exceeded
+  Γä╣∩╕Å  No LRCLIB results (9034ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for BW5G7v5PqPc...
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: auto)
+[YouTube.getTranscript] No subtitles found for BW5G7v5PqPc in any language
+  Γä╣∩╕Å  No YouTube transcript available (9261ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Writing on the Wall" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Writing on the Wall" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γä╣∩╕Å  Handshake failed or no duration locked (9025ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Writing on the Wall" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Writing on the Wall" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+≡ƒîè Wave 2: Plain Fallback Layer...
+≡ƒîè Final Resort: YouTube Transcript...
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-US)
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: auto)
+[YouTube.getTranscript] No subtitles found for BW5G7v5PqPc in any language
+  Γ¥î FAIL: LyricsManager for "Writing on the Wall"
+     Reason: No lyrics found in waterfall
+
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+Γ¥î STOPPED ON FAILURE: Test failed: LyricsManager for "Writing on the Wall" - No lyrics found in waterfall
+Song: "Writing on the Wall" by Will Stetson
+TEST SUMMARY
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+Γ£à "Blinding Lights" by The Weeknd
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Welcome to the Internet" by Bo Burnham
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Live in Life" by Will Stetson
+   Sources: [MBΓ£ù] [LRΓ£ù] [YTΓ£ù] [LMΓ£ô]
+
+3/3 songs passed
+
+Γ£à All songs passed!
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+Cache cleanup?
+Run: Remove-Item -Path "C:\Bot\MusicBot\audio_cache\*" -Recurse -Force
+Run: Remove-Item -Path "C:\Bot\MusicBot\cache\lyrics\*" -Recurse -Force
+Run: Remove-Item -Path "C:\Bot\MusicBot\tmp\musicbrainz_cache\*" -Recurse -Force
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "7733a394-5b17-4f9c-a38e-60371a319d18",
+    "name": "Chill",
+    "tracks": [
+      {
+        "id": "IOqXiyqNAnU",
+        "title": "Summer of 69 (Classic Version)",
+        "song": "Summer of 69 (Classic Version)",
+        "artist": "Bryan Adams",
+        "duration": 249,
+        "thumbnail": "https://img.youtube.com/vi/IOqXiyqNAnU/hqdefault.jpg",
+        "cover": "https://img.youtube.com/vi/IOqXiyqNAnU/hqdefault.jpg",
+        "url": "https://www.youtube.com/watch?v=IOqXiyqNAnU",
+        "platform": "youtube"
+      },
+      {
+        "id": "XDjB9E3YtUE",
+        "title": "Heat Waves",
+        "song": "Heat Waves",
+        "artist": "Glass Animals",
+        "duration": 239,
+        "thumbnail": "https://img.youtube.com/vi/XDjB9E3YtUE/hqdefault.jpg",
+        "cover": "https://img.youtube.com/vi/XDjB9E3YtUE/hqdefault.jpg",
+        "url": "https://www.youtube.com/watch?v=XDjB9E3YtUE",
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-06-04T20:26:55.227Z"
+  }
+]

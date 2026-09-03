@@ -1,0 +1,75 @@
+{
+  "song": "Writing on the Wall by Will Stenson",
+  "timestamp": "2026-07-18T12:23:44.494Z",
+  "steps": [
+    {
+      "name": "MusicBrainz Studio Baseline",
+      "input": {
+        "title": "Writing on the Wall",
+        "artist": "Will Stenson"
+      },
+      "output": null,
+      "durationMs": 1156,
+      "passed": false,
+      "note": "No match (indie artist not in MusicBrainz)"
+    },
+    {
+      "name": "MusicBrainz Consensus Search",
+      "input": {
+        "title": "Writing on the Wall",
+        "artist": "Will Stenson",
+        "lrclibDurationMs": 0
+      },
+      "output": null,
+      "durationMs": 2129,
+      "passed": false,
+      "note": "No consensus (artist not in database)"
+    },
+    {
+      "name": "LRCLIB Search",
+      "input": {
+        "title": "Writing on the Wall",
+        "artist": "Will Stenson"
+      },
+      "output": [],
+      "durationMs": 9054,
+      "passed": false,
+      "note": "Found 0 candidates"
+    },
+    {
+      "name": "YouTube Duration Fallback",
+      "input": {
+        "title": "Writing on the Wall",
+        "artist": "Will Stenson"
+      },
+      "output": 277000,
+      "durationMs": 1964,
+      "passed": true,
+      "note": "Found: 277000ms"
+    },
+    {
+      "name": "Full Handshake",
+      "input": {
+        "title": "Writing on the Wall",
+        "artist": "Will Stenson"
+      },
+      "output": {
+        "success": false,
+        "lockedDurationMs": null,
+        "fallbackUsed": "no-candidates",
+        "candidateCount": 0,
+        "lockedCandidate": null
+      },
+      "durationMs": 9038,
+      "passed": false,
+      "note": "Handshake failed"
+    }
+  ],
+  "finalResult": {
+    "success": false,
+    "durationLocked": false,
+    "fallbackUsed": "no-candidates",
+    "totalDurationMs": 9038
+  },
+  "pass": false
+}

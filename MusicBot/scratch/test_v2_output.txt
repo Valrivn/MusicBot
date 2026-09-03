@@ -1,0 +1,852 @@
+﻿ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ           BEATRA MUSIC BOT - MASTER PIPELINE TEST                       Γòæ
+Γòæ           Testing songs across mainstream/niche/indie/classic + algo     Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+Timestamp: 2026-07-18T14:23:41.101Z
+Songs to test: 9
+
+Loading modules...
+Γ£à Loaded 22 language files
+Γ£à All modules loaded
+
+Clearing all caches...
+Γ£à Cleared 11 cached files
+
+  Γä╣∩╕Å  All caches verified empty
+
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Blinding Lights" by The Weeknd
+Category: Mainstream Pop
+Notes: Major label, should have MusicBrainz + LRCLIB + YouTube transcript
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Blinding Lights" by "The Weeknd"...
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+  Γä╣∩╕Å  No studio baseline (748ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Blinding Lights" by "The Weeknd"...
+  Γ£à PASS: LRCLIB search - synced lyrics (426ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for 4NRXx6U8ABQ...
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: auto)
+[YouTube.getTranscript] No subtitles found for 4NRXx6U8ABQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9723ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Blinding Lights" by "The Weeknd"...
+[LyricsMatcher] Starting handshake for "Blinding Lights" - "The Weeknd"
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+[LrclibClient] Found 20 synced lyric candidates for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '9ce40394-cfc8-43fe-aa14-a36f61680cd3'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: 'e60bbc5c-1a95-4738-98a8-afb67e251256'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '4a7e3973-48fa-4d6b-8c54-7dd87c177243'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '2537b91a-1fae-4d74-9322-d0c6b97a5d38'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '1227659f-a933-4549-8fc4-d839b4cd3d45'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Blinding Lights" - "The Weeknd". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Blinding Lights" - 200s (120 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Blinding Lights (202000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 202000ms via mb-consensus, 17 candidates (1598ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Blinding Lights" by "The Weeknd"...
+[LyricsMatcher] Starting handshake for "Blinding Lights" - "The Weeknd"
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+[LrclibClient] Found 20 synced lyric candidates for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Γ£à Consensus match locked: Blinding Lights (202000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (1046ms)
+  Γä╣∩╕Å    Synced lyrics: 1675 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Blinding Lights" by The Weeknd
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Welcome to the Internet" by Bo Burnham
+Category: Comedy/Special
+Notes: May not be on MusicBrainz, should have YouTube transcript
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Welcome to the Internet" by "Bo Burnham"...
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+  Γä╣∩╕Å  No studio baseline (739ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Welcome to the Internet" by "Bo Burnham"...
+  Γ£à PASS: LRCLIB search - synced lyrics (1763ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for Kd7lCCbv5j0...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en)
+[YouTube.getTranscript] No en subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en-US)
+[YouTube.getTranscript] No en-US subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en-GB)
+[YouTube.getTranscript] No en-GB subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: auto)
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[YouTube.getTranscript] No auto subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] No subtitles found for Kd7lCCbv5j0 in any language
+  Γä╣∩╕Å  No YouTube transcript available (6029ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Welcome to the Internet" by "Bo Burnham"...
+[LyricsMatcher] Starting handshake for "Welcome to the Internet" - "Bo Burnham"
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Found 20 synced lyric candidates for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: 'ae71314b-e5f0-4adc-9f90-6d495b286892'
+  },
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: '6b74ecd9-c43f-4d0f-b1ba-0a6cd875c69e'
+  },
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: 'ecac130d-c517-4062-8e86-99107dfef0b6'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Welcome to the Internet" - "Bo Burnham". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Welcome to the Internet" - 276s (9 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Welcome to the Internet (276000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 276000ms via mb-consensus, 7 candidates (1256ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Welcome to the Internet" by "Bo Burnham"...
+[LyricsMatcher] Starting handshake for "Welcome to the Internet" - "Bo Burnham"
+[LrclibClient] Found 20 synced lyric candidates for "Welcome to the Internet" - "Bo Burnham"
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Γ£à Consensus match locked: Welcome to the Internet (276000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (8688ms)
+  Γä╣∩╕Å    Synced lyrics: 3597 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Welcome to the Internet" by Bo Burnham
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Live in Life" by Will Stetson
+Category: Indie/Original
+Notes: Indie artist original song, unlikely on MusicBrainz, test YouTube fallback
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Live in Life" by "Will Stetson"...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+  Γä╣∩╕Å  No studio baseline (341ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Live in Life" by "Will Stetson"...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+node : [LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+At line:1 char:1
++ node "scratch/master test.js" 2>&1 | Out-File -FilePath "scratch\test ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([LrclibClient] ...ng in 5000ms...:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] Search error: timeout of 2000ms exceeded
+  Γä╣∩╕Å  No LRCLIB results (9021ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for CCqNPv-Z9JQ...
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: auto)
+[YouTube.getTranscript] No subtitles found for CCqNPv-Z9JQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9371ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Live in Life" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Live in Life" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γä╣∩╕Å  Handshake failed or no duration locked (9051ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Live in Life" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Live in Life" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+Γ£à Wave 1.2 Early Exit: YouTube Music Synced
+  Γ£à PASS: LyricsManager waterfall - YouTube Music (Synced) (12572ms)
+  Γä╣∩╕Å    Synced lyrics: 2388 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Live in Life" by Will Stetson
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Writing on the Wall" by Will Stetson
+Category: Indie/Fan Cover
+Notes: Indie artist, MusicBrainz fail expected, test YouTube Music fallback
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Writing on the Wall" by "Will Stetson"...
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+  Γä╣∩╕Å  No studio baseline (3162ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Writing on the Wall" by "Will Stetson"...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] Search error: timeout of 2000ms exceeded
+  Γä╣∩╕Å  No LRCLIB results (9015ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for BW5G7v5PqPc...
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: auto)
+[YouTube.getTranscript] No subtitles found for BW5G7v5PqPc in any language
+  Γä╣∩╕Å  No YouTube transcript available (11767ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Writing on the Wall" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Writing on the Wall" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γä╣∩╕Å  Handshake failed or no duration locked (9035ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Writing on the Wall" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Writing on the Wall" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+≡ƒîè Wave 2: Plain Fallback Layer...
+≡ƒôí [LYRICS ENGINE] Evaluated 1 lyric sources.
+   - Source: YouTube Music (Plain) | Penalty: 5000.00
+≡ƒÅå Selected Lyrics Source: YouTube Music (Plain) | Penalty Score: 5000.00
+  Γ£à PASS: LyricsManager waterfall - YouTube Music (Plain) (11271ms)
+  Γä╣∩╕Å    Plain lyrics: 1933 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Writing on the Wall" by Will Stetson
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Summer of 69" by Bryan Adams
+Category: Classic Rock
+Notes: Classic hit, should have full coverage across all sources
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Summer of 69" by "Bryan Adams"...
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Summer of 69" - "Bryan Adams".
+  Γä╣∩╕Å  No studio baseline (439ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Summer of 69" by "Bryan Adams"...
+  Γ£à PASS: LRCLIB search - synced lyrics (640ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for eJnNsCqd_q8...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: en)
+[YouTube.getTranscript] No en subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: en-US)
+[YouTube.getTranscript] No en-US subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: en-GB)
+[YouTube.getTranscript] No en-GB subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: auto)
+[YouTube.getTranscript] No auto subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] No subtitles found for eJnNsCqd_q8 in any language
+  Γä╣∩╕Å  No YouTube transcript available (6042ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Summer of 69" by "Bryan Adams"...
+[LyricsMatcher] Starting handshake for "Summer of 69" - "Bryan Adams"
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Summer of 69" - "Bryan Adams".
+[LrclibClient] Found 20 synced lyric candidates for "Summer of 69" - "Bryan Adams"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: '9736cf93-2a8e-4c8b-a92d-56607b31aa09'
+  },
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: 'b6bee6b7-c1a9-4a55-958c-8251d36f0198'
+  },
+  {
+    title: 'Summer of 69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: '2baae32e-1813-4d3b-ae87-fb03cb7c1eec'
+  },
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: '8c9d5b5e-fd33-49fe-84f9-391aad5f357e'
+  },
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: 'eaff52ba-19de-4695-ade8-446818ae0ec1'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Summer of 69" - "Bryan Adams". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Summer of ΓÇÖ69" - 242s (16 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Summer Of 69 (242000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 242000ms via mb-consensus, 4 candidates (1823ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Summer of 69" by "Bryan Adams"...
+[LyricsMatcher] Starting handshake for "Summer of 69" - "Bryan Adams"
+[LrclibClient] Found 20 synced lyric candidates for "Summer of 69" - "Bryan Adams"
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Summer of 69" - "Bryan Adams".
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Summer of 69" - "Bryan Adams"
+[LyricsMatcher] Γ£à Consensus match locked: Summer Of 69 (242000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (1170ms)
+  Γä╣∩╕Å    Synced lyrics: 1832 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Summer of 69" by Bryan Adams
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Never Gonna Give You Up" by Rick Astley
+Category: LRCLIB Baseline
+Notes: LRCLIB-only test: skipMusicBrainz=true. Validates whether LRCLIB works when a song genuinely exists. If this fails, LRCLIB is down or rate-limited.
+ΓÜí MODE: LRCLIB-ONLY (skipMusicBrainz)
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  Γä╣∩╕Å    Skipping MusicBrainz (skipMusicBrainz: true)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Never Gonna Give You Up" by "Rick Astley"...
+  Γ£à PASS: LRCLIB search - synced lyrics (501ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for dQw4w9WgXcQ...
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: en-GB)
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: auto)
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[YouTube.getTranscript] No subtitles found for dQw4w9WgXcQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9865ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Never Gonna Give You Up" by "Rick Astley"...
+  Γä╣∩╕Å    skipMusicBrainz: true
+[LyricsMatcher] Starting handshake for "Never Gonna Give You Up" - "Rick Astley" [skipMusicBrainz]
+[LyricsMatcher] Skipping MusicBrainz (test mode), waiting for LRCLIB only...
+[LrclibClient] Found 19 synced lyric candidates for "Never Gonna Give You Up" - "Rick Astley"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 19
+[LyricsMatcher] skipMusicBrainz: skipping MB consensus, going straight to YouTube duration fallback...
+[LyricsMatcher] No MusicBrainz consensus. Trying YouTube duration fallback...
+[LyricsMatcher] YouTube fallback duration: 214s (214000ms) for "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)"
+[LyricsMatcher] Γ£à YouTube duration match locked: Never Gonna Give You Up (214000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 214000ms via youtube-duration, 16 candidates (2802ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Never Gonna Give You Up" by "Rick Astley"...
+  Γä╣∩╕Å    skipMusicBrainz: true (LRCLIB-only test)
+[LyricsMatcher] Starting handshake for "Never Gonna Give You Up" - "Rick Astley" [skipMusicBrainz]
+[LyricsMatcher] Skipping MusicBrainz (test mode), waiting for LRCLIB only...
+[LrclibClient] Found 19 synced lyric candidates for "Never Gonna Give You Up" - "Rick Astley"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 19
+[LyricsMatcher] skipMusicBrainz: skipping MB consensus, going straight to YouTube duration fallback...
+[LyricsMatcher] No MusicBrainz consensus. Trying YouTube duration fallback...
+[LyricsMatcher] YouTube fallback duration: 214s (214000ms) for "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)"
+[LyricsMatcher] Γ£à YouTube duration match locked: Never Gonna Give You Up (214000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (2665ms)
+  Γä╣∩╕Å    Synced lyrics: 2565 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Never Gonna Give You Up" by Rick Astley
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Life is a Highway"
+Category: MusicBrainz Algorithm
+Notes: No artist specified. Algorithm must pick Rascal Flatts (2006, soundtrack + streaming era boost) over Tom Cochrane (1991, compilation camping bias).
+≡ƒºá MODE: ALGORITHM TEST (title-only, artist must be determined)
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MB Algorithm] Testing title-only search for "Life is a Highway"...
+  [MB Algorithm] Expected artist: "Rascal Flatts"
+[MusicBrainz] Industry weight: "Sesame Street Gangsters" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Tom Cochrane" score=225 (releases=81, soundtrack=false, compilations=72, yearBoost=0)
+[MusicBrainz] Industry weight: "InPulse" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Rascal Flatts" score=284 (releases=38, soundtrack=true, compilations=23, yearBoost=150)
+[MusicBrainz] Industry weight: "Home Free" score=5 (releases=5, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Midnite String Quartet" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Annapantsu" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Boogie and the Yo-Yoz" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Straight No Chaser" score=2 (releases=2, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "The Academy Singers" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "The Stairwells" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Brown University Chattertocks" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Revelation Rock-Gospel Choirs" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "The Metropolitones" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Indigal" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Jonathan Young" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "Lang Lang" score=3 (releases=3, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Brigham Young University Vocal Point" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "FM" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Hushabye Baby!" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Ely Jaffe" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Johnny V" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "PelleK" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "University of Wisconsin Madhatters" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Michigan State University Accafellas" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "8-Bit Misfits" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "ABC for Kids" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "University of Notre Dame Marching Band" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "The Nashville Riders" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "First to Eleven" score=2 (releases=2, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Juice Music" score=6 (releases=2, soundtrack=false, compilations=2, yearBoost=0)
+[MusicBrainz] Industry weight: "Aniket" score=4 (releases=2, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Best recording for "Life is a Highway": "Rascal Flatts" (score: 284)
+
+  [MB Algorithm] Results (sorted by industry weight):
+    1. "Rascal Flatts" | score=284 | releases=38 | soundtrack=1 | duration=276s | yearBoost=150 ΓåÉ EXPECTED
+    2. "Tom Cochrane" | score=225 | releases=81 | soundtrack=0 | duration=266s
+    3. "Juice Music" | score=6 | releases=2 | soundtrack=0 | duration=258s
+    4. "Home Free" | score=5 | releases=5 | soundtrack=0 | duration=202s
+    5. "Aniket" | score=4 | releases=2 | soundtrack=0 | duration=194s
+  Γ£à PASS: MB Algorithm - "Rascal Flatts" correctly selected (score: 284, 1019ms)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Stereo Love"
+Category: MusicBrainz Algorithm
+Notes: No artist specified. Algorithm must pick Edward Maya (highest industry weight). MB credits as "Edward Maya" (primary) with Vika Jigulina as secondary.
+≡ƒºá MODE: ALGORITHM TEST (title-only, artist must be determined)
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MB Algorithm] Testing title-only search for "Stereo Love"...
+  [MB Algorithm] Expected artist: "Edward Maya"
+[MusicBrainz] Industry weight: "Vika Jigulina" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "M4LY" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "Croma Latina" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "King & Prince" score=157 (releases=7, soundtrack=false, compilations=0, yearBoost=150)
+[MusicBrainz] Industry weight: "Audiogroove" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "PJ" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "Novi Sad" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Proles" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "my!lane" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Cour" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Adhesive Sounds" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Fly Project" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "PJ & Velvet" score=9 (releases=3, soundtrack=false, compilations=3, yearBoost=0)
+[MusicBrainz] Industry weight: "Set" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "AWITW" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Kadir ├çetin" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Edward Maya" score=444 (releases=54, soundtrack=false, compilations=45, yearBoost=300)
+[MusicBrainz] Industry weight: "Partycrowd" score=6 (releases=2, soundtrack=false, compilations=2, yearBoost=0)
+[MusicBrainz] Industry weight: "Geno Samuel" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Jeremy Renner" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "CG5" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Serena Lin Coco" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Best recording for "Stereo Love": "Edward Maya" (score: 444)
+
+  [MB Algorithm] Results (sorted by industry weight):
+    1. "Edward Maya" | score=444 | releases=54 | soundtrack=0 | duration=249s | yearBoost=300 ΓåÉ EXPECTED [allArtists: Edward Maya, Vika Jigulina]
+    2. "King & Prince" | score=157 | releases=7 | soundtrack=0 | duration=196s | yearBoost=150
+    3. "PJ & Velvet" | score=9 | releases=3 | soundtrack=0 | duration=205s
+    4. "Partycrowd" | score=6 | releases=2 | soundtrack=0 | duration=186s
+    5. "Vika Jigulina" | score=3 | releases=1 | soundtrack=0 | duration=249s
+  Γ£à PASS: MB Algorithm - "Edward Maya" correctly selected (score: 444, 1912ms)
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "It's My Life"
+Category: MusicBrainz Algorithm
+Notes: No artist specified. Algorithm must pick Bon Jovi (2000, high releases + download era boost) over random covers below the 5-release threshold.
+≡ƒºá MODE: ALGORITHM TEST (title-only, artist must be determined)
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MB Algorithm] Testing title-only search for "It's My Life"...
+  [MB Algorithm] Expected artist: "Bon Jovi"
+[MusicBrainz] Industry weight: "Madball" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Snowman" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Edgard Jaude" score=3 (releases=3, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "The Princeton University Band" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Eric Burdon and The Animals" score=6 (releases=2, soundtrack=false, compilations=2, yearBoost=0)
+[MusicBrainz] Industry weight: "E'voke" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Dr. Alban" score=7 (releases=3, soundtrack=false, compilations=2, yearBoost=0)
+[MusicBrainz] Industry weight: "Ultrabeat" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Amy Diamond" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "The Animals" score=15 (releases=5, soundtrack=false, compilations=5, yearBoost=0)
+[MusicBrainz] Industry weight: "DJ BoBo" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "Ryan Paris" score=9 (releases=3, soundtrack=false, compilations=3, yearBoost=0)
+[MusicBrainz] Industry weight: "Aaron Keta" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "Rock DJ" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "Public Display Of Posi" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "kmistry" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Bobby ΓÇ£BlueΓÇ¥ Bland" score=9 (releases=3, soundtrack=false, compilations=3, yearBoost=0)
+[MusicBrainz] Industry weight: "Sweet Little Band" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Robbie Laws" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "The Tribute All Stars" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "CΓÇÉBo" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "V@PYD" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "Jim Ford" score=3 (releases=1, soundtrack=false, compilations=1, yearBoost=0)
+[MusicBrainz] Industry weight: "Talk Talk" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "EΓÇÉColi" score=1 (releases=1, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Industry weight: "The Past" score=2 (releases=2, soundtrack=false, compilations=0, yearBoost=0)
+[MusicBrainz] Best recording for "It's My Life": "The Animals" (score: 15)
+
+  [MB Algorithm] Results (sorted by industry weight):
+    1. "The Animals" | score=15 | releases=5 | soundtrack=0 | duration=201s
+    2. "Ryan Paris" | score=9 | releases=3 | soundtrack=0 | duration=235s
+    3. "Bobby ΓÇ£BlueΓÇ¥ Bland" | score=9 | releases=3 | soundtrack=0 | duration=160s
+    4. "Dr. Alban" | score=7 | releases=3 | soundtrack=0 | duration=77s
+    5. "Eric Burdon and The Animals" | score=6 | releases=2 | soundtrack=0 | duration=223s
+  Γ¥î FAIL: MB Algorithm for "It's My Life"
+     Reason: Expected "Bon Jovi" but got "The Animals" (score: 15)
+
+Γ¥î STOPPED ON FAILURE: Test failed: MB Algorithm for "It's My Life" - Expected "Bon Jovi" but got "The Animals" 
+(score: 15)
+Song: "It's My Life" by 
+
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TEST SUMMARY
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+Γ£à "Blinding Lights" by The Weeknd
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Welcome to the Internet" by Bo Burnham
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Live in Life" by Will Stetson
+   Sources: [MBΓ£ù] [LRΓ£ù] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Writing on the Wall" by Will Stetson
+   Sources: [MBΓ£ù] [LRΓ£ù] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Summer of 69" by Bryan Adams
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Never Gonna Give You Up" by Rick Astley
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Life is a Highway" [ALGORITHM TEST]
+   Picked: "Rascal Flatts" (score: 284) | Expected: "Rascal Flatts"
+Γ£à "Stereo Love" [ALGORITHM TEST]
+   Picked: "Edward Maya" (score: 444) | Expected: "Edward Maya"
+
+8/8 songs passed
+
+Γ£à All songs passed!
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+Cache cleanup?
+Run: Remove-Item -Path "C:\Bot\MusicBot\audio_cache\*" -Recurse -Force
+Run: Remove-Item -Path "C:\Bot\MusicBot\cache\lyrics\*" -Recurse -Force
+Run: Remove-Item -Path "C:\Bot\MusicBot\tmp\musicbrainz_cache\*" -Recurse -Force
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ

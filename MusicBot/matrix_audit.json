@@ -1,0 +1,88 @@
+{
+  "target": {
+    "title": "Never Gonna Give You Up",
+    "artists": [
+      "rick astley"
+    ],
+    "durationMs": 214000,
+    "durationSec": "214.00"
+  },
+  "timestamp": "2026-09-03T22:48:08.858Z",
+  "candidates": [
+    {
+      "rank": 1,
+      "title": "Never Gonna Give You Up (2022 Remaster)",
+      "channel": "Rick Astley",
+      "durationMs": 214000,
+      "durationSec": "214.00",
+      "deltaSeconds": "0.00",
+      "isDisqualified": false,
+      "scores": {
+        "driftPenalty": 0,
+        "artistWeight": -50000,
+        "titleWeight": -10000,
+        "totalScore": -60000
+      }
+    },
+    {
+      "rank": 2,
+      "title": "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)",
+      "channel": "Rick Astley",
+      "durationMs": 214000,
+      "durationSec": "214.00",
+      "deltaSeconds": "0.00",
+      "isDisqualified": false,
+      "scores": {
+        "driftPenalty": 0,
+        "artistWeight": -50000,
+        "titleWeight": -10000,
+        "totalScore": -60000
+      }
+    },
+    {
+      "rank": 3,
+      "title": "Rick Astley - Never Gonna Give You Up (HQ Audio)",
+      "channel": "Rick Astley",
+      "durationMs": 212000,
+      "durationSec": "212.00",
+      "deltaSeconds": "2.00",
+      "isDisqualified": false,
+      "scores": {
+        "driftPenalty": 50000,
+        "artistWeight": -50000,
+        "titleWeight": -10000,
+        "totalScore": -10000
+      }
+    },
+    {
+      "rank": 4,
+      "title": "Rick Astley - Never Gonna Give You Up (HQ)",
+      "channel": "Funnyjunk",
+      "durationMs": 216000,
+      "durationSec": "216.00",
+      "deltaSeconds": "2.00",
+      "isDisqualified": false,
+      "scores": {
+        "driftPenalty": 50000,
+        "artistWeight": -50000,
+        "titleWeight": -10000,
+        "totalScore": -10000
+      }
+    },
+    {
+      "rank": 5,
+      "title": "Rick Astley  - Never Gonna Give You Up (Pianoforte) (Official Audio)",
+      "channel": "Rick Astley",
+      "durationMs": 210000,
+      "durationSec": "210.00",
+      "deltaSeconds": "4.00",
+      "isDisqualified": true,
+      "scores": {
+        "driftPenalty": 100000,
+        "artistWeight": -65000,
+        "titleWeight": -10000,
+        "totalScore": 25000
+      }
+    }
+  ]
+}

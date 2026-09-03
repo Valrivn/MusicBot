@@ -1,0 +1,1259 @@
+﻿ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ           BEATRA MUSIC BOT - MASTER PIPELINE TEST                       Γòæ
+Γòæ           Testing 5 songs across mainstream/niche/indie/classic          Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+Timestamp: 2026-07-18T13:14:28.240Z
+Songs to test: 6
+
+Loading modules...
+Γ£à Loaded 22 language files
+Γ£à All modules loaded
+
+Clearing all caches...
+Γ£à Cleared 5 cached files
+
+  Γä╣∩╕Å  All caches verified empty
+
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Blinding Lights" by The Weeknd
+Category: Mainstream Pop
+Notes: Major label, should have MusicBrainz + LRCLIB + YouTube transcript
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Blinding Lights" by "The Weeknd"...
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+  Γä╣∩╕Å  No studio baseline (908ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Blinding Lights" by "The Weeknd"...
+  Γ£à PASS: LRCLIB search - synced lyrics (686ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for 4NRXx6U8ABQ...
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for 4NRXx6U8ABQ (lang: auto)
+[YouTube.getTranscript] No subtitles found for 4NRXx6U8ABQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9691ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Blinding Lights" by "The Weeknd"...
+[LyricsMatcher] Starting handshake for "Blinding Lights" - "The Weeknd"
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+[LrclibClient] Found 20 synced lyric candidates for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '5bdbfe86-4ad5-4c19-8d29-ee5f30ba628b'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '9ce40394-cfc8-43fe-aa14-a36f61680cd3'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: 'e60bbc5c-1a95-4738-98a8-afb67e251256'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '4a7e3973-48fa-4d6b-8c54-7dd87c177243'
+  },
+  {
+    title: 'Blinding Lights',
+    artistCredit: [ 'The Weeknd' ],
+    id: '2537b91a-1fae-4d74-9322-d0c6b97a5d38'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Blinding Lights" - "The Weeknd". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Blinding Lights" - 200s (120 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Blinding Lights (202000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 202000ms via mb-consensus, 17 candidates (1373ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Blinding Lights" by "The Weeknd"...
+[LyricsMatcher] Starting handshake for "Blinding Lights" - "The Weeknd"
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+[LrclibClient] Found 20 synced lyric candidates for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Γ£à Consensus match locked: Blinding Lights (202000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (1165ms)
+  Γä╣∩╕Å    Synced lyrics: 1675 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Blinding Lights" by The Weeknd
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Welcome to the Internet" by Bo Burnham
+Category: Comedy/Special
+Notes: May not be on MusicBrainz, should have YouTube transcript
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Welcome to the Internet" by "Bo Burnham"...
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+  Γä╣∩╕Å  No studio baseline (809ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Welcome to the Internet" by "Bo Burnham"...
+  Γ£à PASS: LRCLIB search - synced lyrics (569ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for Kd7lCCbv5j0...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en)
+[YouTube.getTranscript] No en subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en-US)
+[YouTube.getTranscript] No en-US subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: en-GB)
+[YouTube.getTranscript] No en-GB subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] Fetching subtitles for Kd7lCCbv5j0 (lang: auto)
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[YouTube.getTranscript] No auto subtitles for Kd7lCCbv5j0, trying next language...
+[YouTube.getTranscript] No subtitles found for Kd7lCCbv5j0 in any language
+  Γä╣∩╕Å  No YouTube transcript available (6127ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Welcome to the Internet" by "Bo Burnham"...
+[LyricsMatcher] Starting handshake for "Welcome to the Internet" - "Bo Burnham"
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+[LrclibClient] Found 20 synced lyric candidates for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: '6b74ecd9-c43f-4d0f-b1ba-0a6cd875c69e'
+  },
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: 'ae71314b-e5f0-4adc-9f90-6d495b286892'
+  },
+  {
+    title: 'Welcome to the Internet',
+    artistCredit: [ 'Bo Burnham' ],
+    id: 'ecac130d-c517-4062-8e86-99107dfef0b6'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Welcome to the Internet" - "Bo Burnham". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Welcome to the Internet" - 276s (9 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Welcome to the Internet (276000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 276000ms via mb-consensus, 7 candidates (1176ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Welcome to the Internet" by "Bo Burnham"...
+[LyricsMatcher] Starting handshake for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Found 20 synced lyric candidates for "Welcome to the Internet" - "Bo Burnham"
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Γ£à Consensus match locked: Welcome to the Internet (276000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (1055ms)
+  Γä╣∩╕Å    Synced lyrics: 3597 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Welcome to the Internet" by Bo Burnham
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Live in Life" by Will Stetson
+Category: Indie/Original
+Notes: Indie artist original song, unlikely on MusicBrainz, test YouTube fallback
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Live in Life" by "Will Stetson"...
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+  Γä╣∩╕Å  No studio baseline (1661ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Live in Life" by "Will Stetson"...
+node : [LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+At line:1 char:1
++ node "scratch/master test.js" 2>&1 | Out-File -FilePath "scratch\test ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([LrclibClient] ...ng in 5000ms...:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] Search error: timeout of 2000ms exceeded
+  Γä╣∩╕Å  No LRCLIB results (9029ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for CCqNPv-Z9JQ...
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for CCqNPv-Z9JQ (lang: auto)
+[YouTube.getTranscript] No subtitles found for CCqNPv-Z9JQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9274ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Live in Life" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Live in Life" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γä╣∩╕Å  Handshake failed or no duration locked (9024ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Live in Life" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Live in Life" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+Γ£à Wave 1.2 Early Exit: YouTube Music Synced
+  Γ£à PASS: LyricsManager waterfall - YouTube Music (Synced) (12532ms)
+  Γä╣∩╕Å    Synced lyrics: 2388 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Live in Life" by Will Stetson
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Writing on the Wall" by Will Stetson
+Category: Indie/Fan Cover
+Notes: Indie artist, MusicBrainz fail expected, test YouTube Music fallback
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Writing on the Wall" by "Will Stetson"...
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+  Γä╣∩╕Å  No studio baseline (162ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Writing on the Wall" by "Will Stetson"...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] Search error: timeout of 2000ms exceeded
+  Γä╣∩╕Å  No LRCLIB results (9030ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for BW5G7v5PqPc...
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for BW5G7v5PqPc (lang: auto)
+[YouTube.getTranscript] No subtitles found for BW5G7v5PqPc in any language
+  Γä╣∩╕Å  No YouTube transcript available (9425ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Writing on the Wall" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Writing on the Wall" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γä╣∩╕Å  Handshake failed or no duration locked (9027ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Writing on the Wall" by "Will Stetson"...
+[LyricsMatcher] Starting handshake for "Writing on the Wall" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+≡ƒîè Wave 2: Plain Fallback Layer...
+≡ƒôí [LYRICS ENGINE] Evaluated 1 lyric sources.
+   - Source: YouTube Music (Plain) | Penalty: 5000.00
+≡ƒÅå Selected Lyrics Source: YouTube Music (Plain) | Penalty Score: 5000.00
+  Γ£à PASS: LyricsManager waterfall - YouTube Music (Plain) (10834ms)
+  Γä╣∩╕Å    Plain lyrics: 1933 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Writing on the Wall" by Will Stetson
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Summer of 69" by Bryan Adams
+Category: Classic Rock
+Notes: Classic hit, should have full coverage across all sources
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [MusicBrainz] Testing "Summer of 69" by "Bryan Adams"...
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Summer of 69" - "Bryan Adams".
+  Γä╣∩╕Å  No studio baseline (422ms) - expected for indie artists
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Summer of 69" by "Bryan Adams"...
+  Γ£à PASS: LRCLIB search - synced lyrics (785ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for eJnNsCqd_q8...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: en)
+[YouTube.getTranscript] No en subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: en-US)
+[YouTube.getTranscript] No en-US subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: en-GB)
+[YouTube.getTranscript] No en-GB subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] Fetching subtitles for eJnNsCqd_q8 (lang: auto)
+[YouTube.getTranscript] No auto subtitles for eJnNsCqd_q8, trying next language...
+[YouTube.getTranscript] No subtitles found for eJnNsCqd_q8 in any language
+  Γä╣∩╕Å  No YouTube transcript available (6097ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Summer of 69" by "Bryan Adams"...
+[LyricsMatcher] Starting handshake for "Summer of 69" - "Bryan Adams"
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Summer of 69" - "Bryan Adams".
+[LrclibClient] Found 20 synced lyric candidates for "Summer of 69" - "Bryan Adams"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz DEBUG] Top 5 recording artist-credits: [
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: 'fccee855-dcfb-4adb-afa7-4aa7bf71d423'
+  },
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: '4588752a-1476-4a27-8e0c-0672fcf112c1'
+  },
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: 'ab2865d8-3f01-4967-8695-ba0595bde4e2'
+  },
+  {
+    title: 'Summer of ΓÇÖ69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: '5156c340-5db1-4c6d-9d25-5e5202c9f94c'
+  },
+  {
+    title: 'Summer of 69',
+    artistCredit: [ 'Bryan Adams' ],
+    id: '41b7e2ee-fe93-4ae5-87c3-27d39c051f94'
+  }
+]
+[MusicBrainz] No official major-label releases found for "Summer of 69" - "Bryan Adams". Trying fallback to any official release...
+[MusicBrainz] Fallback winner: "Summer of ΓÇÖ69" - 242s (16 official releases)
+[LyricsMatcher] Γ£à Consensus match locked: Summer Of 69 (242000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 242000ms via mb-consensus, 4 candidates (1263ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Summer of 69" by "Bryan Adams"...
+[LyricsMatcher] Starting handshake for "Summer of 69" - "Bryan Adams"
+[LrclibClient] Found 20 synced lyric candidates for "Summer of 69" - "Bryan Adams"
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Summer of 69" - "Bryan Adams".
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Summer of 69" - "Bryan Adams"
+[LyricsMatcher] Γ£à Consensus match locked: Summer Of 69 (242000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (1055ms)
+  Γä╣∩╕Å    Synced lyrics: 1832 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Summer of 69" by Bryan Adams
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TESTING: "Never Gonna Give You Up" by Rick Astley
+Category: LRCLIB Baseline
+Notes: LRCLIB-only test: skipMusicBrainz=true. Validates whether LRCLIB works when a song genuinely exists. If this fails, LRCLIB is down or rate-limited.
+ΓÜí MODE: LRCLIB-ONLY (skipMusicBrainz)
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  Γä╣∩╕Å    Skipping MusicBrainz (skipMusicBrainz: true)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LRCLIB] Testing "Never Gonna Give You Up" by "Rick Astley"...
+  Γ£à PASS: LRCLIB search - synced lyrics (279ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [YouTube] Testing transcript for dQw4w9WgXcQ...
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: en)
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: en-US)
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: en-GB)
+[YouTube.getTranscript] Fetching subtitles for dQw4w9WgXcQ (lang: auto)
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[YouTube.getTranscript] No subtitles found for dQw4w9WgXcQ in any language
+  Γä╣∩╕Å  No YouTube transcript available (9653ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsMatcher] Testing handshake for "Never Gonna Give You Up" by "Rick Astley"...
+  Γä╣∩╕Å    skipMusicBrainz: true
+[LyricsMatcher] Starting handshake for "Never Gonna Give You Up" - "Rick Astley" [skipMusicBrainz]
+[LyricsMatcher] Skipping MusicBrainz (test mode), waiting for LRCLIB only...
+[LrclibClient] Found 19 synced lyric candidates for "Never Gonna Give You Up" - "Rick Astley"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 19
+[LyricsMatcher] skipMusicBrainz: skipping MB consensus, going straight to YouTube duration fallback...
+[LyricsMatcher] No MusicBrainz consensus. Trying YouTube duration fallback...
+[LyricsMatcher] YouTube fallback duration: 214s (214000ms) for "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)"
+[LyricsMatcher] Γ£à YouTube duration match locked: Never Gonna Give You Up (214000ms)
+  Γ£à PASS: LyricsMatcher handshake - locked 214000ms via youtube-duration, 16 candidates (2735ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [LyricsManager] Testing full waterfall for "Never Gonna Give You Up" by "Rick Astley"...
+  Γä╣∩╕Å    skipMusicBrainz: true (LRCLIB-only test)
+[LyricsMatcher] Starting handshake for "Never Gonna Give You Up" - "Rick Astley" [skipMusicBrainz]
+[LyricsMatcher] Skipping MusicBrainz (test mode), waiting for LRCLIB only...
+[LrclibClient] Found 19 synced lyric candidates for "Never Gonna Give You Up" - "Rick Astley"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 19
+[LyricsMatcher] skipMusicBrainz: skipping MB consensus, going straight to YouTube duration fallback...
+[LyricsMatcher] No MusicBrainz consensus. Trying YouTube duration fallback...
+[LyricsMatcher] YouTube fallback duration: 214s (214000ms) for "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)"
+[LyricsMatcher] Γ£à YouTube duration match locked: Never Gonna Give You Up (214000ms)
+Γ£à Wave 1.1 Early Exit: LRCLIB Synced (LRCLIB (Synced))
+  Γ£à PASS: LyricsManager waterfall - LRCLIB (Synced) (2265ms)
+  Γä╣∩╕Å    Synced lyrics: 2565 chars
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+Γ£à SONG TEST PASSED: "Never Gonna Give You Up" by Rick Astley
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ           FUZZY LOGIC TEST - Misspelled Song/Artist Matching            Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+SONG: "Blinding Lights" by The Weeknd
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [BASELINE] Running exact match: "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Starting handshake for "Blinding Lights" - "The Weeknd"
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] Fuzzy match: "The Weeknd" Γëê "The Weeknd" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Blinding Lights" - "The Weeknd".
+[LrclibClient] Found 20 synced lyric candidates for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Blinding Lights" - "The Weeknd"
+[LyricsMatcher] Γ£à Consensus match locked: Blinding Lights (202000ms)
+  [BASELINE] Duration: 202000ms (723ms)
+
+  [FUZZY] Testing: "Blindedd by the Ligh" - "The Weeekend"
+  [FUZZY] Note: Doubled letters + missing word
+[LyricsMatcher] Starting handshake for "Blindedd by the Ligh" - "The Weeekend"
+[MusicBrainz] Studio baseline: Exact match failed for "Blindedd by the Ligh" - "The Weeekend". Falling back to title-only search.
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 202000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Blinding Lites" - "The Weekend"
+  [FUZZY] Note: Missing letters + alternate spelling
+[LyricsMatcher] Starting handshake for "Blinding Lites" - "The Weekend"
+[MusicBrainz] Studio baseline: Exact match failed for "Blinding Lites" - "The Weekend". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 202000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Blindnig Lights" - "Weeknd"
+  [FUZZY] Note: Swapped letters + missing article
+[LyricsMatcher] Starting handshake for "Blindnig Lights" - "Weeknd"
+[MusicBrainz] Studio baseline: Exact match failed for "Blindnig Lights" - "Weeknd". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 202000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Bllinding Lights" - "The Weekeknd"
+  [FUZZY] Note: Extra letter + typo
+[LyricsMatcher] Starting handshake for "Bllinding Lights" - "The Weekeknd"
+[MusicBrainz] Studio baseline: Exact match failed for "Bllinding Lights" - "The Weekeknd". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 202000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Blinding Light" - "The Wkend"
+  [FUZZY] Note: Missing plural + missing vowel
+[LyricsMatcher] Starting handshake for "Blinding Light" - "The Wkend"
+[MusicBrainz] Studio baseline: Exact match failed for "Blinding Light" - "The Wkend". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[MusicBrainz] Studio baseline: No recordings matched artist "The Wkend" after filtering.
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 202000ms, delta: 0ms)
+
+  Song Summary: 0/5 fuzzy variants matched
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+SONG: "Welcome to the Internet" by Bo Burnham
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [BASELINE] Running exact match: "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Starting handshake for "Welcome to the Internet" - "Bo Burnham"
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bo Burnham" Γëê "Bo Burnham" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Welcome to the Internet" - "Bo Burnham".
+[LrclibClient] Found 20 synced lyric candidates for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Welcome to the Internet" - "Bo Burnham"
+[LyricsMatcher] Γ£à Consensus match locked: Welcome to the Internet (276000ms)
+  [BASELINE] Duration: 276000ms (711ms)
+
+  [FUZZY] Testing: "Wlcome to the Intenet" - "Bo Burnam"
+  [FUZZY] Note: Missing vowels
+[LyricsMatcher] Starting handshake for "Wlcome to the Intenet" - "Bo Burnam"
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[MusicBrainz] Studio baseline: Exact match failed for "Wlcome to the Intenet" - "Bo Burnam". Falling back to title-only search.
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 276000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Welcome to teh Internet" - "Bo Burnahm"
+  [FUZZY] Note: Swapped letters
+[LyricsMatcher] Starting handshake for "Welcome to teh Internet" - "Bo Burnahm"
+[MusicBrainz] Studio baseline: Exact match failed for "Welcome to teh Internet" - "Bo Burnahm". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 276000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Welcom to the Intarnet" - "Bo Burnam"
+  [FUZZY] Note: Missing e + alternate vowel
+[LyricsMatcher] Starting handshake for "Welcom to the Intarnet" - "Bo Burnam"
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[MusicBrainz] Studio baseline: Exact match failed for "Welcom to the Intarnet" - "Bo Burnam". Falling back to title-only search.
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 276000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Welcme to te Internet" - "Bo Burnhm"
+  [FUZZY] Note: Missing letters
+[LyricsMatcher] Starting handshake for "Welcme to te Internet" - "Bo Burnhm"
+[MusicBrainz] Studio baseline: Exact match failed for "Welcme to te Internet" - "Bo Burnhm". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 276000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Welcoem to the Internett" - "Bo Bnurham"
+  [FUZZY] Note: Typo + transposed letters
+[LyricsMatcher] Starting handshake for "Welcoem to the Internett" - "Bo Bnurham"
+[MusicBrainz] Studio baseline: Exact match failed for "Welcoem to the Internett" - "Bo Bnurham". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 276000ms, delta: 0ms)
+
+  Song Summary: 0/5 fuzzy variants matched
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+SONG: "Live in Life" by Will Stetson
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [BASELINE] Running exact match: "Live in Life" - "Will Stetson"
+[LyricsMatcher] Starting handshake for "Live in Life" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Live in Life" - "Will Stetson".
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  [BASELINE] Duration: nullms (9049ms)
+
+  [FUZZY] Testing: "Liveing Lif" - "Will Stetson"
+  [FUZZY] Note: Extra -ing + missing e
+[LyricsMatcher] Starting handshake for "Liveing Lif" - "Will Stetson"
+[MusicBrainz] Studio baseline: Exact match failed for "Liveing Lif" - "Will Stetson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Live in Lif" - "Wil Stetson"
+  [FUZZY] Note: Missing letters
+[LyricsMatcher] Starting handshake for "Live in Lif" - "Wil Stetson"
+[MusicBrainz] Studio baseline: Exact match failed for "Live in Lif" - "Wil Stetson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Liv in Life" - "Will Sttson"
+  [FUZZY] Note: Missing e + double consonant
+[LyricsMatcher] Starting handshake for "Liv in Life" - "Will Sttson"
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[MusicBrainz] Studio baseline: Exact match failed for "Liv in Life" - "Will Sttson". Falling back to title-only search.
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Live in Lfe" - "Will Stetson"
+  [FUZZY] Note: Missing vowel
+[LyricsMatcher] Starting handshake for "Live in Lfe" - "Will Stetson"
+[MusicBrainz] Studio baseline: Exact match failed for "Live in Lfe" - "Will Stetson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Lifve in Life" - "Will Setson"
+  [FUZZY] Note: Transposed letters + missing t
+[LyricsMatcher] Starting handshake for "Lifve in Life" - "Will Setson"
+[MusicBrainz] Studio baseline: Exact match failed for "Lifve in Life" - "Will Setson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  Song Summary: 5/5 fuzzy variants matched
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+SONG: "Writing on the Wall" by Will Stetson
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [BASELINE] Running exact match: "Writing on the Wall" - "Will Stetson"
+[LyricsMatcher] Starting handshake for "Writing on the Wall" - "Will Stetson"
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Will Stetson" Γëê "Will Stetson" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Writing on the Wall" - "Will Stetson".
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  [BASELINE] Duration: nullms (9035ms)
+
+  [FUZZY] Testing: "Writng on the Wll" - "Will Stetson"
+  [FUZZY] Note: Missing vowels
+[LyricsMatcher] Starting handshake for "Writng on the Wll" - "Will Stetson"
+[MusicBrainz] Studio baseline: Exact match failed for "Writng on the Wll" - "Will Stetson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Writing o the Wall" - "Wil Stetson"
+  [FUZZY] Note: Missing n + missing l
+[LyricsMatcher] Starting handshake for "Writing o the Wall" - "Wil Stetson"
+[MusicBrainz] Studio baseline: Exact match failed for "Writing o the Wall" - "Wil Stetson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Writting on teh Wall" - "Will Stetson"
+  [FUZZY] Note: Double t + typo
+[LyricsMatcher] Starting handshake for "Writting on teh Wall" - "Will Stetson"
+[MusicBrainz] Studio baseline: Exact match failed for "Writting on teh Wall" - "Will Stetson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Writing on te Wall" - "Will Sttson"
+  [FUZZY] Note: Missing h + missing vowel
+[LyricsMatcher] Starting handshake for "Writing on te Wall" - "Will Sttson"
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[MusicBrainz] Studio baseline: Exact match failed for "Writing on te Wall" - "Will Sttson". Falling back to title-only search.
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  [FUZZY] Testing: "Writig on the Wall" - "Will Setson"
+  [FUZZY] Note: Missing n + missing t
+[LyricsMatcher] Starting handshake for "Writig on the Wall" - "Will Setson"
+[MusicBrainz] Studio baseline: Exact match failed for "Writig on the Wall" - "Will Setson". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ£à Result: nullms (baseline: nullms, delta: 0ms)
+
+  Song Summary: 5/5 fuzzy variants matched
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+SONG: "Summer of 69" by Bryan Adams
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  [BASELINE] Running exact match: "Summer of 69" - "Bryan Adams"
+[LyricsMatcher] Starting handshake for "Summer of 69" - "Bryan Adams"
+[LrclibClient] Found 20 synced lyric candidates for "Summer of 69" - "Bryan Adams"
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] Fuzzy match: "Bryan Adams" Γëê "Bryan Adams" (score: 1.00)
+[MusicBrainz] No official major-label studio album releases found for "Summer of 69" - "Bryan Adams".
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 20
+[LyricsMatcher] No studio match, falling back to MusicBrainz consensus...
+[MusicBrainz] Cache hit for "Summer of 69" - "Bryan Adams"
+[LyricsMatcher] Γ£à Consensus match locked: Summer Of 69 (242000ms)
+  [BASELINE] Duration: 242000ms (506ms)
+
+  [FUZZY] Testing: "Summer of 68" - "Bryan Adams"
+  [FUZZY] Note: Wrong number
+[LyricsMatcher] Starting handshake for "Summer of 68" - "Bryan Adams"
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[MusicBrainz] Studio baseline: Exact match failed for "Summer of 68" - "Bryan Adams". Falling back to title-only search.
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[MusicBrainz] Studio baseline: No recordings matched artist "Bryan Adams" after filtering.
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 242000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Summr of 69" - "Bryan Adms"
+  [FUZZY] Note: Missing letters
+[LyricsMatcher] Starting handshake for "Summr of 69" - "Bryan Adms"
+[MusicBrainz] Studio baseline: Exact match failed for "Summr of 69" - "Bryan Adms". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 242000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Summer ov 69" - "Bryan Adams"
+  [FUZZY] Note: Alternate vowel
+[LyricsMatcher] Starting handshake for "Summer ov 69" - "Bryan Adams"
+[MusicBrainz] Studio baseline: Exact match failed for "Summer ov 69" - "Bryan Adams". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 242000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Sumemr of 69" - "Bryan Admas"
+  [FUZZY] Note: Transposed letters
+[LyricsMatcher] Starting handshake for "Sumemr of 69" - "Bryan Admas"
+[MusicBrainz] Studio baseline: Exact match failed for "Sumemr of 69" - "Bryan Admas". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 242000ms, delta: 0ms)
+
+  [FUZZY] Testing: "Summer fo 69" - "Bryan Adems"
+  [FUZZY] Note: Swapped words + vowel change
+[LyricsMatcher] Starting handshake for "Summer fo 69" - "Bryan Adems"
+[MusicBrainz] Studio baseline: Exact match failed for "Summer fo 69" - "Bryan Adems". Falling back to title-only search.
+[LyricsMatcher] LRCLIB exceeded 10000ms cutoff - aborting LRCLIB, falling back...
+[LrclibClient] Request attempt 1 failed: timeout of 2000ms exceeded. Retrying in 5000ms...
+[LrclibClient] Request attempt 2 failed: timeout of 2000ms exceeded.
+[LrclibClient] SearchAllTracks error: timeout of 2000ms exceeded
+[LyricsMatcher] Studio baseline: none
+[LyricsMatcher] LRCLIB candidates: 0
+[LyricsMatcher] No LRCLIB candidates found
+  Γ¥î Result: nullms (baseline: 242000ms, delta: 0ms)
+
+  Song Summary: 0/5 fuzzy variants matched
+
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+FUZZY LOGIC TEST SUMMARY
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+
+ΓÜá∩╕Å "Blinding Lights" by The Weeknd
+   Baseline: 202000ms
+   Variants: 0/5 matched
+     Γ¥î "Blindedd by the Ligh" - "The Weeekend"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Blinding Lites" - "The Weekend"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Blindnig Lights" - "Weeknd"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Bllinding Lights" - "The Weekeknd"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Blinding Light" - "The Wkend"
+        Duration: nullms (delta: 0ms)
+
+ΓÜá∩╕Å "Welcome to the Internet" by Bo Burnham
+   Baseline: 276000ms
+   Variants: 0/5 matched
+     Γ¥î "Wlcome to the Intenet" - "Bo Burnam"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Welcome to teh Internet" - "Bo Burnahm"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Welcom to the Intarnet" - "Bo Burnam"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Welcme to te Internet" - "Bo Burnhm"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Welcoem to the Internett" - "Bo Bnurham"
+        Duration: nullms (delta: 0ms)
+
+Γ£à "Live in Life" by Will Stetson
+   Baseline: nullms
+   Variants: 5/5 matched
+     Γ£à "Liveing Lif" - "Will Stetson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Live in Lif" - "Wil Stetson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Liv in Life" - "Will Sttson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Live in Lfe" - "Will Stetson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Lifve in Life" - "Will Setson"
+        Duration: nullms (delta: 0ms)
+
+Γ£à "Writing on the Wall" by Will Stetson
+   Baseline: nullms
+   Variants: 5/5 matched
+     Γ£à "Writng on the Wll" - "Will Stetson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Writing o the Wall" - "Wil Stetson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Writting on teh Wall" - "Will Stetson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Writing on te Wall" - "Will Sttson"
+        Duration: nullms (delta: 0ms)
+     Γ£à "Writig on the Wall" - "Will Setson"
+        Duration: nullms (delta: 0ms)
+
+ΓÜá∩╕Å "Summer of 69" by Bryan Adams
+   Baseline: 242000ms
+   Variants: 0/5 matched
+     Γ¥î "Summer of 68" - "Bryan Adams"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Summr of 69" - "Bryan Adms"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Summer ov 69" - "Bryan Adams"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Sumemr of 69" - "Bryan Admas"
+        Duration: nullms (delta: 0ms)
+     Γ¥î "Summer fo 69" - "Bryan Adems"
+        Duration: nullms (delta: 0ms)
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+TOTAL: 10/25 fuzzy variants matched correctly
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+TEST SUMMARY
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+Γ£à "Blinding Lights" by The Weeknd
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Welcome to the Internet" by Bo Burnham
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Live in Life" by Will Stetson
+   Sources: [MBΓ£ù] [LRΓ£ù] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Writing on the Wall" by Will Stetson
+   Sources: [MBΓ£ù] [LRΓ£ù] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Summer of 69" by Bryan Adams
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+Γ£à "Never Gonna Give You Up" by Rick Astley
+   Sources: [MBΓ£ù] [LRΓ£ô] [YTΓ£ù] [LMΓ£ô]
+
+6/6 songs passed
+
+Γ£à All songs passed!
+
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+Cache cleanup?
+Run: Remove-Item -Path "C:\Bot\MusicBot\audio_cache\*" -Recurse -Force
+Run: Remove-Item -Path "C:\Bot\MusicBot\cache\lyrics\*" -Recurse -Force
+Run: Remove-Item -Path "C:\Bot\MusicBot\tmp\musicbrainz_cache\*" -Recurse -Force
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ

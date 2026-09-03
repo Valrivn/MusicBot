@@ -1,0 +1,28 @@
+{
+  "name": "voxaria-orchestrator",
+  "version": "1.0.0",
+  "description": "Multi-model AI orchestrator with parallel workers and skills.sh integration",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "worker": "node src/workers/WorkerPool.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "cors": "^2.8.6",
+    "ws": "^8.18.0",
+    "dotenv": "^16.4.5",
+    "uuid": "^11.1.0",
+    "p-queue": "^8.0.1",
+    "p-retry": "^6.2.1",
+    "eventemitter3": "^5.0.1",
+    "better-queue": "^3.8.12",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=24.11.1"
+  }
+}

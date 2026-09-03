@@ -1,0 +1,42 @@
+{
+  "videoId": "BW5G7v5PqPc",
+  "timestamp": "2026-07-18T12:32:35.411Z",
+  "steps": [
+    {
+      "name": "YouTube Transcript Fetch",
+      "input": {
+        "videoId": "BW5G7v5PqPc"
+      },
+      "output": null,
+      "durationMs": 9471,
+      "passed": false,
+      "note": "No transcript available"
+    },
+    {
+      "name": "LyricsManager Waterfall",
+      "input": {
+        "title": "Writing on the Wall",
+        "artist": "Will Stenson",
+        "url": "https://www.youtube.com/watch?v=BW5G7v5PqPc",
+        "hasPreFetchedLyrics": false
+      },
+      "output": {
+        "source": "YouTube Music (Plain)",
+        "hasSynced": false,
+        "plainLength": 1933,
+        "syncedLength": 0,
+        "preview": "Palaces of silver and gold\nCannot be designed overnight\nIt's like the saying I've often been told\n\"No matter the cost, do things right\"\n\nYou have to be careful\nYou have to be diligent\nPlanning and mea..."
+      },
+      "durationMs": 4640,
+      "passed": true,
+      "note": "Lyrics found via: YouTube Music (Plain)"
+    }
+  ],
+  "finalResult": {
+    "transcriptAvailable": false,
+    "lyricsFound": true,
+    "source": "YouTube Music (Plain)",
+    "totalDurationMs": 14111
+  },
+  "pass": true
+}
