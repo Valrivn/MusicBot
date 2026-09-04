@@ -27,5 +27,447 @@
       }
     ],
     "savedAt": "2026-06-04T20:26:55.227Z"
+  },
+  {
+    "id": "test-edge-case-1",
+    "name": "test-edge-case-1",
+    "tracks": [
+      {
+        "id": "https://www.youtube.com/watch?v=test1",
+        "title": "Test Track 1",
+        "song": "Test Track 1",
+        "artist": "Test Artist",
+        "url": "https://www.youtube.com/watch?v=test1",
+        "duration": 200,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      },
+      {
+        "id": "https://www.youtube.com/watch?v=test2",
+        "title": "Test Track 2",
+        "song": "Test Track 2",
+        "artist": "Test Artist 2",
+        "url": "https://www.youtube.com/watch?v=test2",
+        "duration": 250,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:17.168Z"
+  },
+  {
+    "id": "bulk-test-1",
+    "name": "bulk-test-1",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk1",
+        "title": "Track 1",
+        "song": "Track 1",
+        "artist": "Artist 1",
+        "url": "https://youtube.com/watch?v=bulk1",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.463Z"
+  },
+  {
+    "id": "bulk-test-2",
+    "name": "bulk-test-2",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk2",
+        "title": "Track 2",
+        "song": "Track 2",
+        "artist": "Artist 2",
+        "url": "https://youtube.com/watch?v=bulk2",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.507Z"
+  },
+  {
+    "id": "bulk-test-3",
+    "name": "bulk-test-3",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk3",
+        "title": "Track 3",
+        "song": "Track 3",
+        "artist": "Artist 3",
+        "url": "https://youtube.com/watch?v=bulk3",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.535Z"
+  },
+  {
+    "id": "bulk-test-4",
+    "name": "bulk-test-4",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk4",
+        "title": "Track 4",
+        "song": "Track 4",
+        "artist": "Artist 4",
+        "url": "https://youtube.com/watch?v=bulk4",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.562Z"
+  },
+  {
+    "id": "bulk-test-5",
+    "name": "bulk-test-5",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk5",
+        "title": "Track 5",
+        "song": "Track 5",
+        "artist": "Artist 5",
+        "url": "https://youtube.com/watch?v=bulk5",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.589Z"
+  },
+  {
+    "id": "bulk-test-6",
+    "name": "bulk-test-6",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk6",
+        "title": "Track 6",
+        "song": "Track 6",
+        "artist": "Artist 6",
+        "url": "https://youtube.com/watch?v=bulk6",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.617Z"
+  },
+  {
+    "id": "bulk-test-7",
+    "name": "bulk-test-7",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk7",
+        "title": "Track 7",
+        "song": "Track 7",
+        "artist": "Artist 7",
+        "url": "https://youtube.com/watch?v=bulk7",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.645Z"
+  },
+  {
+    "id": "bulk-test-8",
+    "name": "bulk-test-8",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk8",
+        "title": "Track 8",
+        "song": "Track 8",
+        "artist": "Artist 8",
+        "url": "https://youtube.com/watch?v=bulk8",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.672Z"
+  },
+  {
+    "id": "bulk-test-9",
+    "name": "bulk-test-9",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk9",
+        "title": "Track 9",
+        "song": "Track 9",
+        "artist": "Artist 9",
+        "url": "https://youtube.com/watch?v=bulk9",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.699Z"
+  },
+  {
+    "id": "bulk-test-10",
+    "name": "bulk-test-10",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk10",
+        "title": "Track 10",
+        "song": "Track 10",
+        "artist": "Artist 10",
+        "url": "https://youtube.com/watch?v=bulk10",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.728Z"
+  },
+  {
+    "id": "bulk-test-11",
+    "name": "bulk-test-11",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk11",
+        "title": "Track 11",
+        "song": "Track 11",
+        "artist": "Artist 11",
+        "url": "https://youtube.com/watch?v=bulk11",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.756Z"
+  },
+  {
+    "id": "bulk-test-12",
+    "name": "bulk-test-12",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk12",
+        "title": "Track 12",
+        "song": "Track 12",
+        "artist": "Artist 12",
+        "url": "https://youtube.com/watch?v=bulk12",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.782Z"
+  },
+  {
+    "id": "bulk-test-13",
+    "name": "bulk-test-13",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk13",
+        "title": "Track 13",
+        "song": "Track 13",
+        "artist": "Artist 13",
+        "url": "https://youtube.com/watch?v=bulk13",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.808Z"
+  },
+  {
+    "id": "bulk-test-14",
+    "name": "bulk-test-14",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk14",
+        "title": "Track 14",
+        "song": "Track 14",
+        "artist": "Artist 14",
+        "url": "https://youtube.com/watch?v=bulk14",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.837Z"
+  },
+  {
+    "id": "bulk-test-15",
+    "name": "bulk-test-15",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk15",
+        "title": "Track 15",
+        "song": "Track 15",
+        "artist": "Artist 15",
+        "url": "https://youtube.com/watch?v=bulk15",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.865Z"
+  },
+  {
+    "id": "bulk-test-16",
+    "name": "bulk-test-16",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk16",
+        "title": "Track 16",
+        "song": "Track 16",
+        "artist": "Artist 16",
+        "url": "https://youtube.com/watch?v=bulk16",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.893Z"
+  },
+  {
+    "id": "bulk-test-17",
+    "name": "bulk-test-17",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk17",
+        "title": "Track 17",
+        "song": "Track 17",
+        "artist": "Artist 17",
+        "url": "https://youtube.com/watch?v=bulk17",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.920Z"
+  },
+  {
+    "id": "bulk-test-18",
+    "name": "bulk-test-18",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk18",
+        "title": "Track 18",
+        "song": "Track 18",
+        "artist": "Artist 18",
+        "url": "https://youtube.com/watch?v=bulk18",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.948Z"
+  },
+  {
+    "id": "bulk-test-19",
+    "name": "bulk-test-19",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk19",
+        "title": "Track 19",
+        "song": "Track 19",
+        "artist": "Artist 19",
+        "url": "https://youtube.com/watch?v=bulk19",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:33.975Z"
+  },
+  {
+    "id": "bulk-test-20",
+    "name": "bulk-test-20",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=bulk20",
+        "title": "Track 20",
+        "song": "Track 20",
+        "artist": "Artist 20",
+        "url": "https://youtube.com/watch?v=bulk20",
+        "duration": 180,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:41:34.003Z"
+  },
+  {
+    "id": "concurrent-test",
+    "name": "concurrent-test",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=user1",
+        "title": "User 1 Track",
+        "song": "User 1 Track",
+        "artist": "User 1",
+        "url": "https://youtube.com/watch?v=user1",
+        "duration": 200,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      },
+      {
+        "id": "https://youtube.com/watch?v=user2",
+        "title": "User 2 Track",
+        "song": "User 2 Track",
+        "artist": "User 2",
+        "url": "https://youtube.com/watch?v=user2",
+        "duration": 250,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube"
+      }
+    ],
+    "savedAt": "2026-09-03T23:51:15.004Z"
+  },
+  {
+    "id": "i1v95410v",
+    "name": "Community Playlist",
+    "ownerId": "guest",
+    "isPublic": true,
+    "description": "Everyone can add",
+    "tracks": [
+      {
+        "id": "https://youtube.com/watch?v=community",
+        "title": "Community Track",
+        "song": "Community Track",
+        "artist": "Community Artist",
+        "url": "https://youtube.com/watch?v=community",
+        "duration": 300,
+        "thumbnail": null,
+        "cover": null,
+        "platform": "youtube",
+        "addedBy": "different-user",
+        "addedAt": "2026-09-04T00:29:10.565Z"
+      }
+    ],
+    "createdAt": "2026-09-04T00:28:27.558Z",
+    "updatedAt": "2026-09-04T00:29:10.566Z"
   }
 ]

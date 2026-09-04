@@ -235,12 +235,12 @@ function startServer(client) {
     app.post('/discord/join', async (req, res) => {
         console.log("🚀 SUMMON: Request received from dashboard.");
         try {
-            const myUserId = "895441968241459271";
-            console.log("🔍 SUMMON: Searching for User ID: " + myUserId);
+            const targetUserId = req.body?.userId || "895441968241459271";
+            console.log("🔍 SUMMON: Searching for User ID: " + targetUserId);
             let member = null;
 
             for (const guild of client.guilds.cache.values()) {
-                member = await guild.members.fetch(myUserId).catch(() => null);
+                member = await guild.members.fetch(targetUserId).catch(() => null);
                 if (member?.voice.channel) break;
             }
 
@@ -248,7 +248,7 @@ function startServer(client) {
             console.log("📊 SUMMON: Shard results found: ", JSON.stringify(results));
 
             if (!member?.voice.channel) {
-                return res.status(400).json({ error: "I couldn't find you in any voice channel!" });
+                return res.status(400).json({ error: "I couldn't find that user in any voice channel!" });
             }
 
             const { joinVoiceChannel } = require('@discordjs/voice');

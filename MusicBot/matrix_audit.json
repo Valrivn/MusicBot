@@ -1,87 +1,85 @@
 {
   "target": {
-    "title": "Never Gonna Give You Up",
-    "artists": [
-      "rick astley"
-    ],
-    "durationMs": 214000,
-    "durationSec": "214.00"
+    "title": "",
+    "artists": [],
+    "durationMs": 0,
+    "durationSec": "0.00"
   },
-  "timestamp": "2026-09-03T22:48:08.858Z",
+  "timestamp": "2026-09-04T00:32:36.814Z",
   "candidates": [
     {
       "rank": 1,
-      "title": "Never Gonna Give You Up (2022 Remaster)",
-      "channel": "Rick Astley",
-      "durationMs": 214000,
-      "durationSec": "214.00",
-      "deltaSeconds": "0.00",
-      "isDisqualified": false,
+      "title": "Pooh Shiesty - Reap What You Sow [Official Audio]",
+      "channel": "Pooh Shiesty",
+      "durationMs": 218000,
+      "durationSec": "218.00",
+      "deltaSeconds": "218.00",
+      "isDisqualified": true,
       "scores": {
-        "driftPenalty": 0,
-        "artistWeight": -50000,
+        "driftPenalty": 5450000,
+        "artistWeight": 10000,
         "titleWeight": -10000,
-        "totalScore": -60000
+        "totalScore": 5450000
       }
     },
     {
       "rank": 2,
-      "title": "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)",
-      "channel": "Rick Astley",
-      "durationMs": 214000,
-      "durationSec": "214.00",
-      "deltaSeconds": "0.00",
-      "isDisqualified": false,
+      "title": "Lil Uzi Vert - Sanguine Paradise [Official Audio]",
+      "channel": "LIL UZI VERT",
+      "durationMs": 245000,
+      "durationSec": "245.00",
+      "deltaSeconds": "245.00",
+      "isDisqualified": true,
       "scores": {
-        "driftPenalty": 0,
-        "artistWeight": -50000,
+        "driftPenalty": 6125000,
+        "artistWeight": 10000,
         "titleWeight": -10000,
-        "totalScore": -60000
+        "totalScore": 6125000
       }
     },
     {
       "rank": 3,
-      "title": "Rick Astley - Never Gonna Give You Up (HQ Audio)",
-      "channel": "Rick Astley",
-      "durationMs": 212000,
-      "durationSec": "212.00",
-      "deltaSeconds": "2.00",
-      "isDisqualified": false,
+      "title": "Journey - Open Arms (Official Audio)",
+      "channel": "journey",
+      "durationMs": 200000,
+      "durationSec": "200.00",
+      "deltaSeconds": "200.00",
+      "isDisqualified": true,
       "scores": {
-        "driftPenalty": 50000,
-        "artistWeight": -50000,
+        "driftPenalty": 5000000,
+        "artistWeight": 10000,
         "titleWeight": -10000,
-        "totalScore": -10000
+        "totalScore": 5000000
       }
     },
     {
       "rank": 4,
-      "title": "Rick Astley - Never Gonna Give You Up (HQ)",
-      "channel": "Funnyjunk",
-      "durationMs": 216000,
-      "durationSec": "216.00",
-      "deltaSeconds": "2.00",
-      "isDisqualified": false,
+      "title": "Earth, Wind & Fire - That's the Way of the World (Official Audio)",
+      "channel": "Earth Wind & Fire",
+      "durationMs": 348000,
+      "durationSec": "348.00",
+      "deltaSeconds": "348.00",
+      "isDisqualified": true,
       "scores": {
-        "driftPenalty": 50000,
-        "artistWeight": -50000,
+        "driftPenalty": 8700000,
+        "artistWeight": 10000,
         "titleWeight": -10000,
-        "totalScore": -10000
+        "totalScore": 8700000
       }
     },
     {
       "rank": 5,
-      "title": "Rick Astley  - Never Gonna Give You Up (Pianoforte) (Official Audio)",
-      "channel": "Rick Astley",
-      "durationMs": 210000,
-      "durationSec": "210.00",
-      "deltaSeconds": "4.00",
+      "title": "Alice In Chains - Nutshell (Official Audio)",
+      "channel": "Alice In Chains",
+      "durationMs": 261000,
+      "durationSec": "261.00",
+      "deltaSeconds": "261.00",
       "isDisqualified": true,
       "scores": {
-        "driftPenalty": 100000,
-        "artistWeight": -65000,
+        "driftPenalty": 6525000,
+        "artistWeight": 10000,
         "titleWeight": -10000,
-        "totalScore": 25000
+        "totalScore": 6525000
       }
     }
   ]

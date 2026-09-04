@@ -112,6 +112,59 @@ export interface AudioCacheInfo {
     sizeMb: number;
 }
 
+export interface Playlist {
+    id: string;
+    name: string;
+    ownerId: string;
+    isPublic: boolean;
+    description: string;
+    tracks: Array<{
+        id: string;
+        title: string;
+        song: string;
+        artist: string;
+        url: string | null;
+        duration: number;
+        thumbnail: string | null;
+        cover: string | null;
+        platform: string;
+        addedBy: string;
+        addedAt: string;
+    }>;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface PlaylistSummary {
+    id: string;
+    name: string;
+    trackCount: number;
+    isPublic?: boolean;
+    description?: string;
+    ownerId?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    savedAt?: string;
+}
+
+export interface CreatePlaylistRequest {
+    name: string;
+    isPublic?: boolean;
+    description?: string;
+}
+
+export interface AddTrackToPlaylistRequest {
+    playlistId: string;
+    track: {
+        title: string;
+        artist?: string;
+        url?: string;
+        duration?: number;
+        thumbnail?: string;
+        platform?: string;
+    };
+}
+
 export interface SystemSettings {
     sessionRestoreEnabled: boolean;
 }
@@ -283,4 +336,47 @@ export async function getPitchData(trackId: string): Promise<PitchFrame[]> {
 
 export function getStemUrl(jobId: string, type: 'vocals' | 'instrumental'): string {
     return `${API_BASE_URL}/karaoke/stems/${jobId}/${type === 'vocals' ? 'vocals.wav' : 'no_vocals.wav'}`;
+}
+
+// Playlist Management
+export async function createPlaylist(data: CreatePlaylistRequest): Promise<GenericResponse & { playlist: Playlist }> {
+    return fetchApi('/playlist/create', {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
+}
+
+export async function getPlaylist(id: string): Promise<Playlist> {
+    return fetchApi<Playlist>(`/playlist/${id}`);
+}
+
+export async function addTrackToPlaylist(data: AddTrackToPlaylistRequest): Promise<GenericResponse> {
+    return fetchApi<GenericResponse>('/playlist/add', {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
+}
+
+export async function deletePlaylist(id: string): Promise<GenericResponse> {
+    return fetchApi<GenericResponse>(`/playlist/${id}`, { method: 'DELETE' });
+}
+
+export async function getMyPlaylists(): Promise<PlaylistSummary[]> {
+    return fetchApi<PlaylistSummary[]>('/playlists/my');
+}
+
+export async function getPublicPlaylists(): Promise<PlaylistSummary[]> {
+    return fetchApi<PlaylistSummary[]>('/playlists/public');
+}
+
+export async function getAllPlaylists(): Promise<PlaylistSummary[]> {
+    return fetchApi<PlaylistSummary[]>('/playlists');
+}
+
+// Discord Join (multi-user)
+export async function joinVoiceChannel(userId?: string): Promise<{ ok: boolean; channel: string }> {
+    return fetchApi('/discord/join', {
+        method: 'POST',
+        body: JSON.stringify({ userId }),
+    });
 }

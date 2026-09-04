@@ -44,7 +44,7 @@ module.exports = (client, checkPermission) => {
     });
 
     // POST /api/cache/clean
-    router.post('/api/cache/clean', async (req, res) => {
+    router.post('/api/cache/clean', checkPermission(2), async (req, res) => {
         try {
             await cleanupAudioCache();
             res.json({ success: true, message: 'Audio cache cleaned successfully.' });
@@ -54,7 +54,7 @@ module.exports = (client, checkPermission) => {
     });
 
     // POST /api/settings/session-restore
-    router.post('/api/settings/session-restore', (req, res) => {
+    router.post('/api/settings/session-restore', checkPermission(3), (req, res) => {
         const { enabled } = req.body;
         if (typeof enabled === 'boolean') {
             config.sessionRestore.enabled = enabled;

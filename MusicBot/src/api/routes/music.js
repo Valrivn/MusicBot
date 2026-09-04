@@ -87,6 +87,10 @@ module.exports = (client, checkPermission) => {
         if (!player) return res.status(404).json({ error: 'No active player' });
 
         const { action } = req.body;
+        const allowedActions = ['play_pause', 'next', 'previous', 'stop', 'pause', 'resume'];
+        if (!action || !allowedActions.includes(action)) {
+            return res.status(400).json({ error: `Invalid action. Allowed: ${allowedActions.join(', ')}` });
+        }
         if (action === 'play_pause') {
             if (player.paused) player.resumeFor('api');
             else player.pauseFor('api');
@@ -96,6 +100,10 @@ module.exports = (client, checkPermission) => {
             if (typeof player.previous === 'function') player.previous();
         } else if (action === 'stop') {
             if (typeof player.stop === 'function') player.stop();
+        } else if (action === 'pause') {
+            if (!player.paused) player.pauseFor('api');
+        } else if (action === 'resume') {
+            if (player.paused) player.resumeFor('api');
         }
         res.json({ success: true });
     });
@@ -126,27 +134,27 @@ module.exports = (client, checkPermission) => {
 
     // POST /music/volume
     router.post('/music/volume', (req, res) => {
+        const { volume } = req.body;
+        if (typeof volume !== 'number' || volume < 0 || volume > 100) {
+            return res.status(400).json({ error: 'Invalid volume (must be 0-100)' });
+        }
+
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
 
-        const { volume } = req.body;
-        if (typeof volume === 'number') {
-            if (typeof player.setVolume === 'function') player.setVolume(volume);
-            res.json({ success: true, volume });
-        } else {
-            res.status(400).json({ error: 'Invalid volume' });
-        }
+        if (typeof player.setVolume === 'function') player.setVolume(volume);
+        res.json({ success: true, volume });
     });
 
     // POST /music/seek
     router.post('/music/seek', (req, res) => {
-        const player = client.players.first();
-        if (!player) return res.status(404).json({ error: 'No active player' });
-
         const { positionMs } = req.body;
         if (typeof positionMs !== 'number' || positionMs < 0) {
             return res.status(400).json({ error: 'Invalid positionMs (must be non-negative number)' });
         }
+
+        const player = client.players.first();
+        if (!player) return res.status(404).json({ error: 'No active player' });
 
         if (typeof player.seek === 'function') {
             try {
@@ -189,7 +197,7 @@ module.exports = (client, checkPermission) => {
 
     const requestHandler = async (req, res) => {
         const { query, guildId } = req.body;
-        if (!query) return res.status(400).json({ error: 'Query is required' });
+        if (!query || !query.trim()) return res.status(400).json({ error: 'Query is required' });
 
         const targetGuildId = guildId || req.headers['x-guild-id'];
         let player = null;
@@ -259,6 +267,10 @@ module.exports = (client, checkPermission) => {
     // POST /music/request
     router.post('/music/request', checkPermission(0), async (req, res) => {
         const { query, guildId } = req.body;
+        
+        if (!query || !query.trim()) {
+            return res.status(400).json({ error: 'Query is required' });
+        }
         
         const musicManager = {
             getPlayer: (gId) => {
@@ -427,38 +439,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // DELETE /api/queue/:index (without checkPermission)
-    router.delete('/api/queue/:index', (req, res) => {
-        const targetIndex = parseInt(req.params.index, 10);
-        const player = client.players.first();
-        
-        if (!player) return res.status(404).json({ error: "Player instance offline" });
-        
-        const updatedQueue = player.removeQueueItem(targetIndex);
-        
-        return res.status(200).json({ 
-            message: "Item removed safely", 
-            queue: updatedQueue.map(t => {
-                const ytId = extractYtVideoId(t.url);
-                const art = t.thumbnail || (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
-                return {
-                    id: t.id || t.url || Math.random().toString(36).substr(2, 9),
-                    title: t.title || 'Unknown',
-                    artist: t.artist || 'Unknown',
-                    url: t.url || null,
-                    trackUrl: t.url || null,
-                    thumbnail: art,
-                    art: art,
-                    artworkUrl: art,
-                    duration: t.duration || 0,
-                    length: t.duration || 0,
-                    requestedBy: t.requestedBy?.tag || t.requestedBy?.username || t.requesterTag || 'Unknown',
-                    requesterName: t.requestedBy?.tag || t.requestedBy?.username || t.requesterTag || 'Unknown',
-                    requesterAvatar: t.requestedBy?.avatar ? `https://cdn.discordapp.com/avatars/${t.requestedBy.id}/${t.requestedBy.avatar}.png` : null
-                };
-            })
-        });
-    });
+    // DELETE /api/queue/:index — REMOVED: duplicate of safe /queue/:index route with ownership checks
 
     // POST /player/previous
     router.post('/player/previous', (req, res) => {

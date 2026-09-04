@@ -75,3 +75,21 @@ skills-lock.json
 # Application config
 application.yml
 opencode.json
+
+# Sensitive / secrets
+**/cookies.txt
+
+# Binaries
+*.exe
+
+# MusicBot runtime data
+MusicBot/bin/
+MusicBot/tmp/
+MusicBot/database/audit_log.json
+MusicBot/database/playlists.json
+
+# Lock files
+*.lck
+
+# Bun
+bun.lockb

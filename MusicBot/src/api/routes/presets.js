@@ -378,9 +378,49 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // POST /playlist/add - Add track to playlist (routes to database playlists.json)
+    // POST /playlist/create - Create a new playlist with ownership
+    router.post('/playlist/create', checkPermission(0), (req, res) => {
+        const { name, isPublic = true, description = '' } = req.body;
+        const ownerId = req.user?.id || req.headers['x-user-id'] || 'unknown';
+
+        if (!name || typeof name !== 'string' || name.trim().length === 0) {
+            return res.status(400).json({ error: 'Playlist name is required' });
+        }
+
+        const playlists = readPlaylists();
+        
+        // Check for duplicate name (optional - could allow same name for different users)
+        const existing = playlists.find(p => p.name === name && p.ownerId === ownerId);
+        if (existing) {
+            return res.status(409).json({ error: 'You already have a playlist with this name' });
+        }
+
+        const playlist = {
+            id: Math.random().toString(36).substr(2, 9),
+            name: name.trim(),
+            ownerId,
+            isPublic: Boolean(isPublic),
+            description: description.trim(),
+            tracks: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        playlists.push(playlist);
+        const success = writePlaylists(playlists);
+
+        if (success) {
+            console.log(chalk.green(`📚 Playlist created: "${name}" by ${req.user.username} (public: ${isPublic})`));
+            res.json({ success: true, playlist });
+        } else {
+            res.status(500).json({ error: 'Failed to create playlist' });
+        }
+    });
+
+    // POST /playlist/add - Add track to playlist (requires ownership or public playlist)
     router.post('/playlist/add', checkPermission(0), (req, res) => {
         const { playlistId, track } = req.body;
+        const userId = req.user?.id || req.headers['x-user-id'];
 
         if (!playlistId || typeof playlistId !== 'string') {
             return res.status(400).json({ error: 'Playlist ID is required' });
@@ -399,42 +439,43 @@ module.exports = (client, checkPermission) => {
             duration: track.duration || 0,
             thumbnail: track.thumbnail || null,
             cover: track.thumbnail || null,
-            platform: track.platform || 'youtube'
+            platform: track.platform || 'youtube',
+            addedBy: userId,
+            addedAt: new Date().toISOString()
         };
 
         const playlists = readPlaylists();
         let playlist = playlists.find(p => p.id === playlistId);
 
         if (!playlist) {
-            // Create new playlist
-            playlist = {
-                id: playlistId,
-                name: playlistId,
-                tracks: [sanitizedTrack],
-                savedAt: new Date().toISOString()
-            };
-            playlists.push(playlist);
-        } else {
-            if (!Array.isArray(playlist.tracks)) {
-                playlist.tracks = [];
-            }
-
-            const isDuplicate = sanitizedTrack.url && playlist.tracks.some(
-                t => t.url === sanitizedTrack.url
-            );
-
-            if (isDuplicate) {
-                return res.status(409).json({ error: 'Track already exists in this playlist' });
-            }
-
-            playlist.tracks.push(sanitizedTrack);
-            playlist.savedAt = new Date().toISOString();
+            return res.status(404).json({ error: `Playlist "${playlistId}" not found` });
         }
+
+        // Check permissions: owner can always edit, others only if public
+        const isOwner = playlist.ownerId === userId;
+        if (!isOwner && !playlist.isPublic) {
+            return res.status(403).json({ error: 'This playlist is private. Only the owner can add tracks.' });
+        }
+
+        if (!Array.isArray(playlist.tracks)) {
+            playlist.tracks = [];
+        }
+
+        const isDuplicate = sanitizedTrack.url && playlist.tracks.some(
+            t => t.url === sanitizedTrack.url
+        );
+
+        if (isDuplicate) {
+            return res.status(409).json({ error: 'Track already exists in this playlist' });
+        }
+
+        playlist.tracks.push(sanitizedTrack);
+        playlist.updatedAt = new Date().toISOString();
 
         const success = writePlaylists(playlists);
 
         if (success) {
-            console.log(chalk.green(`📚 Playlist Builder: Added "${sanitizedTrack.title}" to playlist "${playlist.name}" by ${req.user.username}`));
+            console.log(chalk.green(`📚 Playlist: Added "${sanitizedTrack.title}" to "${playlist.name}" by ${req.user.username}`));
             res.json({
                 success: true,
                 playlist: playlist.name,
@@ -445,7 +486,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // GET /playlist/:id - Get playlist by ID
+    // GET /playlist/:id - Get playlist by ID (public, or owner/staff for private)
     router.get('/playlist/:id', (req, res) => {
         const { id } = req.params;
         const playlists = readPlaylists();
@@ -453,6 +494,17 @@ module.exports = (client, checkPermission) => {
 
         if (!playlist) {
             return res.status(404).json({ error: `Playlist "${id}" not found` });
+        }
+
+        if (playlist.isPublic === false || playlist.isPublic === undefined) {
+            const userId = req.user?.id || req.headers['x-user-id'];
+            const userRole = req.user?.role || 0;
+            const isOwner = playlist.ownerId === userId;
+            const isStaff = userRole >= 2;
+
+            if (!isOwner && !isStaff) {
+                return res.status(403).json({ error: 'This playlist is private' });
+            }
         }
 
         res.json(playlist);
@@ -470,9 +522,11 @@ module.exports = (client, checkPermission) => {
         res.json(result);
     });
 
-    // DELETE /playlist/:id
-    router.delete('/playlist/:id', checkPermission(2), (req, res) => {
+    // DELETE /playlist/:id - Owner or staff can delete
+    router.delete('/playlist/:id', checkPermission(0), (req, res) => {
         const { id } = req.params;
+        const userId = req.user?.id || req.headers['x-user-id'];
+        const userRole = req.user?.role || 0;
 
         let playlists = readPlaylists();
         const index = playlists.findIndex(p => p.id === id);
@@ -480,15 +534,58 @@ module.exports = (client, checkPermission) => {
             return res.status(404).json({ error: `Playlist "${id}" not found` });
         }
 
+        const playlist = playlists[index];
+        const isOwner = playlist.ownerId === userId;
+        const isStaff = userRole >= 2;
+
+        if (!isOwner && !isStaff) {
+            return res.status(403).json({ error: 'Only the playlist owner or staff can delete this playlist' });
+        }
+
         const deleted = playlists.splice(index, 1)[0];
         const success = writePlaylists(playlists);
 
         if (success) {
-            console.log(chalk.yellow(`🗑️ Playlist Builder: Deleted playlist "${deleted.name}" by ${req.user.username}`));
+            console.log(chalk.yellow(`🗑️ Playlist: Deleted "${deleted.name}" by ${req.user.username} (owner: ${isOwner})`));
             res.json({ success: true, deleted: id });
         } else {
             res.status(500).json({ error: 'Failed to delete playlist' });
         }
+    });
+
+    // GET /playlists/my - Get current user's playlists
+    router.get('/playlists/my', checkPermission(0), (req, res) => {
+        const userId = req.user?.id || req.headers['x-user-id'];
+        const playlists = readPlaylists();
+        const userPlaylists = playlists
+            .filter(p => p.ownerId === userId)
+            .map(p => ({
+                id: p.id,
+                name: p.name,
+                trackCount: p.tracks?.length || 0,
+                isPublic: p.isPublic,
+                description: p.description,
+                createdAt: p.createdAt,
+                updatedAt: p.updatedAt
+            }));
+        res.json(userPlaylists);
+    });
+
+    // GET /playlists/public - Get all public playlists
+    router.get('/playlists/public', (req, res) => {
+        const playlists = readPlaylists();
+        const publicPlaylists = playlists
+            .filter(p => p.isPublic)
+            .map(p => ({
+                id: p.id,
+                name: p.name,
+                trackCount: p.tracks?.length || 0,
+                description: p.description,
+                ownerId: p.ownerId,
+                createdAt: p.createdAt,
+                updatedAt: p.updatedAt
+            }));
+        res.json(publicPlaylists);
     });
 
     // DELETE /library/playlists/:name
