@@ -1,0 +1,32 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/health/live"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+
+[services.web]
+name = "musicbot-web"
+dockerfilePath = "Dockerfile"
+startCommand = "npm start"
+healthcheckPath = "/health/live"
+healthcheckTimeout = 300
+
+[services.worker]
+name = "karaoke-worker"
+dockerfilePath = "Dockerfile"
+startCommand = "npm run worker:karaoke"
+healthcheckPath = "/health/live"
+healthcheckTimeout = 300
+
+[plugins.redis]
+name = "musicbot-redis"
+plan = "hobby"
+
+[volumes.voxaria-data]
+name = "voxaria-data"
+mountPath = "/app/data"
+size = "1GB"

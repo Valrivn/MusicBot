@@ -2,6 +2,8 @@ const express = require('express');
 const chalk = require('chalk');
 const MusicPlayer = require('../../MusicPlayer');
 const YouTube = require('../../YouTube');
+const { optionalAuth } = require('../../auth/middleware');
+const { apiLimiter } = require('../../auth/rate-limit');
 
 const router = express.Router();
 
@@ -15,9 +17,8 @@ const isYouTubeUrl = (url) => {
     return url && (url.includes('youtube.com') || url.includes('youtu.be'));
 };
 
-module.exports = (client, checkPermission) => {
-    // GET /music/player
-    router.get('/music/player', (req, res) => {
+module.exports = (client, requirePermission) => {
+    router.get('/music/player', optionalAuth, (req, res) => {
         const player = client.players.first();
         if (!player) return res.json(null);
 
@@ -54,8 +55,7 @@ module.exports = (client, checkPermission) => {
         });
     });
 
-    // GET /music/queue
-    router.get('/music/queue', (req, res) => {
+    router.get('/music/queue', optionalAuth, (req, res) => {
         const player = client.players.first();
         if (!player || !player.queue) return res.json([]);
 
@@ -81,8 +81,7 @@ module.exports = (client, checkPermission) => {
         }));
     });
 
-    // POST /music/playback
-    router.post('/music/playback', (req, res) => {
+    router.post('/music/playback', requirePermission('queue', 'write'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
 
@@ -108,32 +107,28 @@ module.exports = (client, checkPermission) => {
         res.json({ success: true });
     });
 
-    // POST /music/skip
-    router.post('/music/skip', (req, res) => {
+    router.post('/music/skip', requirePermission('queue', 'write'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
         if (typeof player.skip === 'function') player.skip();
         res.json({ success: true });
     });
 
-    // POST /music/previous
-    router.post('/music/previous', (req, res) => {
+    router.post('/music/previous', requirePermission('queue', 'write'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
         if (typeof player.previous === 'function') player.previous();
         res.json({ success: true });
     });
 
-    // POST /music/stop
-    router.post('/music/stop', (req, res) => {
+    router.post('/music/stop', requirePermission('queue', 'write'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
         if (typeof player.stop === 'function') player.stop();
         res.json({ success: true });
     });
 
-    // POST /music/volume
-    router.post('/music/volume', (req, res) => {
+    router.post('/music/volume', requirePermission('queue', 'write'), (req, res) => {
         const { volume } = req.body;
         if (typeof volume !== 'number' || volume < 0 || volume > 100) {
             return res.status(400).json({ error: 'Invalid volume (must be 0-100)' });
@@ -146,8 +141,7 @@ module.exports = (client, checkPermission) => {
         res.json({ success: true, volume });
     });
 
-    // POST /music/seek
-    router.post('/music/seek', (req, res) => {
+    router.post('/music/seek', requirePermission('queue', 'write'), (req, res) => {
         const { positionMs } = req.body;
         if (typeof positionMs !== 'number' || positionMs < 0) {
             return res.status(400).json({ error: 'Invalid positionMs (must be non-negative number)' });
@@ -168,8 +162,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // GET /music/history
-    router.get('/music/history', (req, res) => {
+    router.get('/music/history', optionalAuth, (req, res) => {
         const player = client.players.first();
         if (!player || !player.previousTracks) return res.json([]);
 
@@ -261,11 +254,9 @@ module.exports = (client, checkPermission) => {
         }
     };
 
-    // POST /music/search
-    router.post('/music/search', checkPermission(0), requestHandler);
+    router.post('/music/search', apiLimiter, requirePermission('queue', 'write'), requestHandler);
 
-    // POST /music/request
-    router.post('/music/request', checkPermission(0), async (req, res) => {
+    router.post('/music/request', apiLimiter, requirePermission('queue', 'write'), async (req, res) => {
         const { query, guildId } = req.body;
         
         if (!query || !query.trim()) {
@@ -315,7 +306,6 @@ module.exports = (client, checkPermission) => {
             const requesterTag = req.user?.username || req.headers['x-user-username'] || 'Dashboard User';
             const requesterId = req.user?.id || req.headers['x-user-id'] || '1';
 
-            // Direct YouTube URL handling - bypass MusicBrainz lookup
             if (isYouTubeUrl(query)) {
                 console.log(`🎵 [DIRECT YT] YouTube URL detected, playing directly: ${query}`);
                 let player = musicManager.getPlayer(guildId);
@@ -372,8 +362,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // POST /queue/reorder
-    router.post('/queue/reorder', checkPermission(2), (req, res) => {
+    router.post('/queue/reorder', requirePermission('queue', 'write'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
 
@@ -394,8 +383,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // DELETE /queue/:index
-    router.delete('/queue/:index', checkPermission(0), (req, res) => {
+    router.delete('/queue/:index', optionalAuth, (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
 
@@ -405,7 +393,8 @@ module.exports = (client, checkPermission) => {
         }
 
         const track = player.queue[index];
-        if (req.user.role < 2 && track.requestedBy?.id !== req.user.id) {
+        const userRole = req.user?.role || 0;
+        if (userRole < 2 && track.requestedBy?.id !== req.user.id) {
             return res.status(403).json({ error: 'Forbidden: You can only remove songs you added.' });
         }
 
@@ -439,10 +428,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // DELETE /api/queue/:index — REMOVED: duplicate of safe /queue/:index route with ownership checks
-
-    // POST /player/previous
-    router.post('/player/previous', (req, res) => {
+    router.post('/player/previous', requirePermission('queue', 'write'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
 
@@ -459,8 +445,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // POST /queue/shuffle
-    router.post('/queue/shuffle', (req, res) => {
+    router.post('/queue/shuffle', requirePermission('queue', 'write'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
 
@@ -484,8 +469,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // GET /library/search
-    router.get('/library/search', async (req, res) => {
+    router.get('/library/search', optionalAuth, async (req, res) => {
         const query = req.query.q;
         if (!query || typeof query !== 'string' || query.trim().length === 0) {
             return res.status(400).json({ error: 'Query parameter "q" is required' });
@@ -516,6 +500,55 @@ module.exports = (client, checkPermission) => {
         } catch (error) {
             console.error(chalk.red('❌ Library search error:'), error.message);
             res.status(500).json({ error: 'Search failed: ' + error.message });
+        }
+    });
+
+    // GET /api/queue/:guildId/events - Get event history for debugging
+    router.get('/api/queue/:guildId/events', async (req, res) => {
+        const { guildId } = req.params;
+        const { fromSequence } = req.query;
+        
+        if (!guildId) {
+            return res.status(400).json({ error: 'guildId is required' });
+        }
+
+        try {
+            const QueueEventStore = require('../../services/queue-event-store');
+            const events = await QueueEventStore.getEvents(guildId, parseInt(fromSequence) || 0);
+            res.json({ events, count: events.length });
+        } catch (error) {
+            console.error('❌ Failed to get queue events:', error);
+            res.status(500).json({ error: error.message });
+        }
+    });
+
+    // POST /api/queue/:guildId/undo - Revert last N events (bonus)
+    router.post('/api/queue/:guildId/undo', async (req, res) => {
+        const { guildId } = req.params;
+        const { count = 1 } = req.body;
+        
+        if (!guildId) {
+            return res.status(400).json({ error: 'guildId is required' });
+        }
+
+        try {
+            const QueueEventStore = require('../../services/queue-event-store');
+            const result = await QueueEventStore.undoEvents(guildId, parseInt(count) || 1);
+            
+            if (result.success) {
+                // Update the player's state if it exists
+                const player = client.players.get(guildId);
+                if (player) {
+                    player._applyRestoredState(result.newState);
+                }
+                
+                res.json({ success: true, undoneEvents: result.undoneEvents, newState: result.newState });
+            } else {
+                res.status(400).json({ success: false, error: result.error });
+            }
+        } catch (error) {
+            console.error('❌ Failed to undo queue events:', error);
+            res.status(500).json({ error: error.message });
         }
     });
 

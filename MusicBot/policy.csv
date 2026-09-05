@@ -1,0 +1,34 @@
+p, role:owner, playlist, create
+p, role:owner, playlist, read
+p, role:owner, playlist, write
+p, role:owner, playlist, delete
+p, role:owner, queue, write
+p, role:owner, queue, read
+p, role:owner, settings, write
+p, role:owner, karaoke, write
+
+p, role:admin, playlist, create
+p, role:admin, playlist, read
+p, role:admin, playlist, write
+p, role:admin, queue, write
+p, role:admin, queue, read
+p, role:admin, karaoke, write
+
+p, role:dj, playlist, read
+p, role:dj, queue, write
+p, role:dj, queue, read
+p, role:dj, karaoke, write
+
+p, role:vip, playlist, read
+p, role:vip, playlist, write
+p, role:vip, queue, read
+p, role:vip, karaoke, write
+
+p, role:user, playlist, read
+p, role:user, queue, read
+p, role:user, karaoke, read
+
+g, role:owner, role:admin
+g, role:admin, role:dj
+g, role:dj, role:user
+g, role:vip, role:user

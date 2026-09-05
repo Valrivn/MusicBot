@@ -1,0 +1,158 @@
+groups:
+  - name: voxaria-alerts
+    interval: 30s
+    rules:
+      # Queue depth alert
+      - alert: VoxariaQueueDepthHigh
+        expr: voxaria_queue_depth > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Queue depth high for guild {{ $labels.guild_id }}"
+          description: "Queue depth is {{ $value }} for guild {{ $labels.guild_id }}. Consider scaling workers or investigating stuck jobs."
+
+      # Karaoke job duration alert
+      - alert: VoxariaKaraokeJobDurationHigh
+        expr: histogram_quantile(0.95, rate(voxaria_karaoke_job_duration_seconds_bucket[5m])) > 300
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Karaoke job duration high"
+          description: "P95 karaoke job duration is {{ $value }}s. Demucs processing may be slow or stuck."
+
+      # Circuit breaker open alert
+      - alert: VoxariaCircuitBreakerOpen
+        expr: voxaria_circuit_breaker_state == 2
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Circuit breaker open for {{ $labels.service }}"
+          description: "Circuit breaker for {{ $labels.service }} has been open for more than 1 minute. External service {{ $labels.service }} is failing."
+
+      # Circuit breaker half-open alert
+      - alert: VoxariaCircuitBreakerHalfOpen
+        expr: voxaria_circuit_breaker_state == 1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Circuit breaker half-open for {{ $labels.service }}"
+          description: "Circuit breaker for {{ $labels.service }} is half-open, testing recovery."
+
+      # High HTTP error rate
+      - alert: VoxariaHighHttpErrorRate
+        expr: |
+          sum(rate(voxaria_http_requests_total{status=~"5.."}[5m])) 
+          / 
+          sum(rate(voxaria_http_requests_total[5m])) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High HTTP error rate"
+          description: "HTTP 5xx error rate is above 5% for the last 5 minutes."
+
+      # High yt-dlp failure rate
+      - alert: VoxariaHighYtdlpFailureRate
+        expr: |
+          sum(rate(voxaria_ytdlp_calls_total{status="error"}[5m]))
+          /
+          sum(rate(voxaria_ytdlp_calls_total[5m])) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High yt-dlp failure rate"
+          description: "yt-dlp error rate is above 10%. YouTube may be blocking requests or Invidious fallback needed."
+
+      # High FFmpeg failure rate
+      - alert: VoxariaHighFfmpegFailureRate
+        expr: |
+          sum(rate(voxaria_ffmpeg_calls_total{status="error"}[5m]))
+          /
+          sum(rate(voxaria_ffmpeg_calls_total[5m])) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High FFmpeg failure rate"
+          description: "FFmpeg error rate is above 10%. Corrupt input files or codec issues."
+
+      # High Discord API error rate
+      - alert: VoxariaHighDiscordApiErrorRate
+        expr: |
+          sum(rate(voxaria_discord_api_calls_total{status="error"}[5m]))
+          /
+          sum(rate(voxaria_discord_api_calls_total[5m])) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Discord API error rate"
+          description: "Discord API error rate is above 5%. Rate limiting or API issues."
+
+      # High external HTTP error rate
+      - alert: VoxariaHighExternalHttpErrorRate
+        expr: |
+          sum(rate(voxaria_external_http_calls_total{status="error"}[5m]))
+          /
+          sum(rate(voxaria_external_http_calls_total[5m])) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High external HTTP error rate"
+          description: "External HTTP (Invidious, YouTube API) error rate is above 10%."
+
+      # No active players but queue has items
+      - alert: VoxariaQueueStuck
+        expr: voxaria_queue_depth > 0 and voxaria_active_players == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Queue has items but no active players"
+          description: "Guild {{ $labels.guild_id }} has {{ $value }} queued tracks but no active player. Player may have crashed."
+
+      # Memory usage high
+      - alert: VoxariaMemoryUsageHigh
+        expr: (process_resident_memory_bytes / process_virtual_memory_bytes) > 0.9
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Process memory usage is above 90%. Risk of OOM kill."
+
+      # Redis connection issues (if Redis metrics available)
+      - alert: VoxariaRedisConnectionDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis connection down"
+          description: "Redis is not reachable. Queue and cache operations will fail."
+
+      # Health check failing
+      - alert: VoxariaHealthCheckFailing
+        expr: probe_success{job="voxaria-health"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Voxaria health check failing"
+          description: "Health endpoint /health/ready returning non-200 status. Service not ready for traffic."
+
+      # Rate limit rejections
+      - alert: VoxariaRateLimitHigh
+        expr: sum(rate(voxaria_rate_limit_rejections_total[5m])) > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High rate limit rejections"
+          description: "More than 10 requests/minute rejected by rate limiter. Possible bot traffic or DDoS."

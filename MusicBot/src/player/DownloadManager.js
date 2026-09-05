@@ -6,6 +6,7 @@ const { Readable } = require('stream');
 const prism = require('prism-media');
 const ffmpegPath = require('ffmpeg-static');
 const StreamResolver = require('./StreamResolver');
+const { runYtdlp, runFfmpeg, getYtDlpOptions } = require('../resilience/external-calls');
 
 const CACHE_DIR = path.join(__dirname, '..', '..', 'audio_cache');
 
@@ -74,8 +75,7 @@ class DownloadManager {
             }
 
             if (track.platform === 'youtube' || track.platform === 'soundcloud') {
-                const youtubedl = require('youtube-dl-exec');
-                await youtubedl(downloadUrl, {
+                await runYtdlp(downloadUrl, {
                     output: filepath,
                     format: 'bestaudio',
                     noCheckCertificates: true,
@@ -108,28 +108,15 @@ class DownloadManager {
                     ? Readable.fromWeb(response.body)
                     : response.body;
 
-                const ffmpegProcess = new prism.FFmpeg({
-                    command: ffmpegPath,
-                    args: [
-                        '-i', 'pipe:0',
-                        '-f', 'opus',
-                        '-ar', '48000',
-                        '-ac', '2',
-                        '-b:a', '128k',
-                        '-y',
-                        filepath
-                    ]
-                });
-
-                audioStream.pipe(ffmpegProcess);
-
-                await new Promise((resolve, reject) => {
-                    ffmpegProcess.on('close', (code) => {
-                        if (code === 0) resolve();
-                        else reject(new Error(`FFmpeg exited with code ${code}`));
-                    });
-                    ffmpegProcess.on('error', reject);
-                });
+                await runFfmpeg([
+                    '-i', 'pipe:0',
+                    '-f', 'opus',
+                    '-ar', '48000',
+                    '-ac', '2',
+                    '-b:a', '128k',
+                    '-y',
+                    filepath
+                ], audioStream);
             }
 
             const stats = await fs.stat(filepath);

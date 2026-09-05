@@ -26,8 +26,8 @@ function writePlaylists(data) {
         return true;
     } catch (e) {
         console.error(chalk.red('❌ Failed to write playlists.json:'), e.message);
-        return false;
     }
+    return false;
 }
 
 function readPresets() {
@@ -49,13 +49,12 @@ function writePresets(data) {
         return true;
     } catch (e) {
         console.error(chalk.red('❌ Failed to write presets.json:'), e.message);
-        return false;
     }
+    return false;
 }
 
-module.exports = (client, checkPermission) => {
-    // POST /presets/save
-    router.post('/presets/save', checkPermission(2), (req, res) => {
+module.exports = (client, requirePermission) => {
+    router.post('/presets/save', requirePermission('playlist', 'write'), (req, res) => {
         const { name } = req.body;
         if (!name || typeof name !== 'string') {
             return res.status(400).json({ error: 'Preset name is required' });
@@ -102,7 +101,6 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // GET /presets
     router.get('/presets', (req, res) => {
         const presets = readPresets();
         const result = Object.entries(presets).map(([name, data]) => ({
@@ -114,8 +112,7 @@ module.exports = (client, checkPermission) => {
         res.json(result);
     });
 
-    // POST /presets/load
-    router.post('/presets/load', checkPermission(2), async (req, res) => {
+    router.post('/presets/load', requirePermission('playlist', 'write'), async (req, res) => {
         const { name } = req.body;
         if (!name || typeof name !== 'string') {
             return res.status(400).json({ error: 'Preset name is required' });
@@ -205,7 +202,6 @@ module.exports = (client, checkPermission) => {
         res.json({ success: true, name, loaded: loadedCount, total: preset.tracks.length });
     });
 
-    // GET /library/playlists
     router.get('/library/playlists', (req, res) => {
         const presets = readPresets();
         const playlists = Object.entries(presets).map(([name, data]) => ({
@@ -216,8 +212,7 @@ module.exports = (client, checkPermission) => {
         res.json(playlists);
     });
 
-    // POST /library/playlists/:name
-    router.post('/library/playlists/:name', checkPermission(0), (req, res) => {
+    router.post('/library/playlists/:name', requirePermission('playlist', 'write'), (req, res) => {
         const { name } = req.params;
         const track = req.body;
 
@@ -276,8 +271,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // POST /playlist/search - Search endpoint for playlist builder (uses MusicBrainz + YouTube pipeline)
-    router.post('/playlist/search', checkPermission(0), async (req, res) => {
+    router.post('/playlist/search', requirePermission('playlist', 'read'), async (req, res) => {
         const { query } = req.body;
         if (!query || typeof query !== 'string' || query.trim().length === 0) {
             return res.status(400).json({ error: 'Query parameter "query" is required' });
@@ -290,7 +284,6 @@ module.exports = (client, checkPermission) => {
             const CoverArtResolver = require('../../musicbrainz/CoverArtResolver');
             const YouTube = require('../../YouTube');
 
-            // Parse query for "song by artist" or "artist - song" patterns
             const parseQuery = (q) => {
                 const trimmed = q.trim();
                 const byMatch = trimmed.match(/^(.+?)\s+by\s+(.+)$/i);
@@ -303,20 +296,17 @@ module.exports = (client, checkPermission) => {
             const { title, artist } = parseQuery(query);
             console.log(`[MusicBrainz Debug] Dissected Query -> Title: "${title}", Artist: "${artist}"`);
 
-            // Search MusicBrainz for ALL artist versions of this title
             const mbResults = await MusicBrainzClient.searchRecordingsByTitle(title, 15);
             
             let results = [];
             
             if (mbResults.length > 0) {
-                // Batch fetch cover art for all results efficiently
                 const coverArtPromises = mbResults.map(async (mbRecord) => {
                     const premiumArt = await CoverArtResolver.resolveCoverArt(mbRecord.releaseMbid, mbRecord.releaseGroupMbid);
                     return { ...mbRecord, albumCover: premiumArt };
                 });
                 const mbRecordsWithArt = await Promise.all(coverArtPromises);
 
-                // For each MusicBrainz result, find YouTube match
                 const youtubePromises = mbRecordsWithArt.map(async (mbRecord) => {
                     const matchedTrack = await YouTube.resolveMetadataTrack(
                         mbRecord.title,
@@ -351,7 +341,6 @@ module.exports = (client, checkPermission) => {
                     }));
             }
 
-            // Fallback: basic YouTube search if MusicBrainz didn't return results
             if (results.length === 0) {
                 const ytResults = await YouTube.search(query.trim(), 10);
                 results = ytResults.map(track => ({
@@ -378,8 +367,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // POST /playlist/create - Create a new playlist with ownership
-    router.post('/playlist/create', checkPermission(0), (req, res) => {
+    router.post('/playlist/create', requirePermission('playlist', 'create'), (req, res) => {
         const { name, isPublic = true, description = '' } = req.body;
         const ownerId = req.user?.id || req.headers['x-user-id'] || 'unknown';
 
@@ -389,7 +377,6 @@ module.exports = (client, checkPermission) => {
 
         const playlists = readPlaylists();
         
-        // Check for duplicate name (optional - could allow same name for different users)
         const existing = playlists.find(p => p.name === name && p.ownerId === ownerId);
         if (existing) {
             return res.status(409).json({ error: 'You already have a playlist with this name' });
@@ -417,8 +404,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // POST /playlist/add - Add track to playlist (requires ownership or public playlist)
-    router.post('/playlist/add', checkPermission(0), (req, res) => {
+    router.post('/playlist/add', requirePermission('playlist', 'write'), (req, res) => {
         const { playlistId, track } = req.body;
         const userId = req.user?.id || req.headers['x-user-id'];
 
@@ -451,7 +437,6 @@ module.exports = (client, checkPermission) => {
             return res.status(404).json({ error: `Playlist "${playlistId}" not found` });
         }
 
-        // Check permissions: owner can always edit, others only if public
         const isOwner = playlist.ownerId === userId;
         if (!isOwner && !playlist.isPublic) {
             return res.status(403).json({ error: 'This playlist is private. Only the owner can add tracks.' });
@@ -486,7 +471,6 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // GET /playlist/:id - Get playlist by ID (public, or owner/staff for private)
     router.get('/playlist/:id', (req, res) => {
         const { id } = req.params;
         const playlists = readPlaylists();
@@ -510,7 +494,6 @@ module.exports = (client, checkPermission) => {
         res.json(playlist);
     });
 
-    // GET /playlists - List all playlists
     router.get('/playlists', (req, res) => {
         const playlists = readPlaylists();
         const result = playlists.map(p => ({
@@ -522,8 +505,7 @@ module.exports = (client, checkPermission) => {
         res.json(result);
     });
 
-    // DELETE /playlist/:id - Owner or staff can delete
-    router.delete('/playlist/:id', checkPermission(0), (req, res) => {
+    router.delete('/playlist/:id', requirePermission('playlist', 'delete'), (req, res) => {
         const { id } = req.params;
         const userId = req.user?.id || req.headers['x-user-id'];
         const userRole = req.user?.role || 0;
@@ -553,8 +535,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // GET /playlists/my - Get current user's playlists
-    router.get('/playlists/my', checkPermission(0), (req, res) => {
+    router.get('/playlists/my', requirePermission('playlist', 'read'), (req, res) => {
         const userId = req.user?.id || req.headers['x-user-id'];
         const playlists = readPlaylists();
         const userPlaylists = playlists
@@ -571,7 +552,6 @@ module.exports = (client, checkPermission) => {
         res.json(userPlaylists);
     });
 
-    // GET /playlists/public - Get all public playlists
     router.get('/playlists/public', (req, res) => {
         const playlists = readPlaylists();
         const publicPlaylists = playlists
@@ -588,8 +568,7 @@ module.exports = (client, checkPermission) => {
         res.json(publicPlaylists);
     });
 
-    // DELETE /library/playlists/:name
-    router.delete('/library/playlists/:name', checkPermission(2), (req, res) => {
+    router.delete('/library/playlists/:name', requirePermission('playlist', 'delete'), (req, res) => {
         const { name } = req.params;
 
         const presets = readPresets();

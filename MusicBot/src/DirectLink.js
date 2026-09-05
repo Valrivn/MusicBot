@@ -1,4 +1,4 @@
-const axios = require('axios');
+const { runHttpRequest } = require('./resilience/external-calls');
 const path = require('path');
 const LanguageManager = require('./LanguageManager');
 
@@ -10,22 +10,21 @@ class DirectLink {
 
     static async getInfo(url, guildId = null) {
         try {
-
             if (!this.isDirectAudioLink(url)) {
                 throw new Error(await LanguageManager.getTranslation(guildId, 'directlink.not_supported'));
             }
 
-            // Get file info from URL
-            const response = await axios.head(url, { timeout: 10000 });
-            const contentType = response.headers['content-type'] || '';
-            const contentLength = response.headers['content-length'];
+            const response = await runHttpRequest(url, { 
+                method: 'HEAD', 
+                timeout: 10000 
+            });
+            const contentType = response.headers.get('content-type') || '';
+            const contentLength = response.headers.get('content-length');
 
-            // Extract filename from URL
             const urlPath = new URL(url).pathname;
             const filename = path.basename(urlPath) || await LanguageManager.getTranslation(guildId, 'directlink.unknown_file');
             const extension = path.extname(filename).toLowerCase();
 
-            // Estimate duration based on file size (rough estimate)
             const estimatedDuration = this.estimateDuration(contentLength, contentType);
 
             const track = {
@@ -52,25 +51,19 @@ class DirectLink {
 
     static async getStream(url, guildId = null, startSeconds = 0) {
         try {
-
             if (!this.isDirectAudioLink(url)) {
                 throw new Error(await LanguageManager.getTranslation(guildId, 'directlink.not_supported'));
             }
 
-            // Create a stream from the URL
-            const response = await axios({
+            const response = await runHttpRequest(url, {
                 method: 'GET',
-                url: url,
-                responseType: 'stream',
                 timeout: 30000,
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
                 }
             });
 
-            // Note: Direct links typically don't support seek via URL
-            // Seeking will be handled by FFmpeg in MusicPlayer
-            return response.data;
+            return response.body;
 
         } catch (error) {
             throw error;
@@ -82,12 +75,10 @@ class DirectLink {
             const urlObj = new URL(url);
             const pathname = urlObj.pathname.toLowerCase();
 
-            // Check if URL ends with supported audio format
             const hasAudioExtension = this.supportedFormats.some(format =>
                 pathname.endsWith(format)
             );
 
-            // Check if it's a direct HTTP/HTTPS link
             const isHttpLink = urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
 
             return isHttpLink && hasAudioExtension;
@@ -103,21 +94,20 @@ class DirectLink {
                 return false;
             }
 
-            // Try to make a HEAD request to check if the URL is accessible
-            const response = await axios.head(url, {
+            const response = await runHttpRequest(url, {
+                method: 'HEAD',
                 timeout: 10000,
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
                 }
             });
 
-            // Check if response is successful and content type is audio
-            const contentType = response.headers['content-type'] || '';
+            const contentType = response.headers.get('content-type') || '';
             const isAudio = contentType.startsWith('audio/') ||
                 contentType.startsWith('video/') ||
                 contentType.includes('octet-stream');
 
-            return response.status === 200 && isAudio;
+            return response.ok && isAudio;
 
         } catch (error) {
             return false;
@@ -125,28 +115,23 @@ class DirectLink {
     }
 
     static async extractTitle(filename, guildId = null) {
-        // Remove extension and clean up filename
         const nameWithoutExt = path.parse(filename).name;
 
-        // Replace common separators with spaces
         let title = nameWithoutExt
             .replace(/[-_\.]/g, ' ')
             .replace(/\s+/g, ' ')
             .trim();
 
-        // Capitalize first letter of each word
         title = title.replace(/\b\w/g, l => l.toUpperCase());
 
         return title || await LanguageManager.getTranslation(guildId, 'directlink.unknown_title');
     }
 
     static generateId(url) {
-        // Generate a simple ID based on URL
         return Buffer.from(url).toString('base64').substring(0, 16);
     }
 
     static getDefaultThumbnail(extension) {
-        // Return default thumbnails based on file type
         const thumbnails = {
             '.mp3': 'https://cdn-icons-png.flaticon.com/512/2611/2611282.png',
             '.wav': 'https://cdn-icons-png.flaticon.com/512/8263/8263222.png',
@@ -161,21 +146,18 @@ class DirectLink {
     static estimateDuration(fileSize, contentType) {
         if (!fileSize) return 0;
 
-        // Rough estimation based on file size and type
-        // These are very rough estimates and won't be accurate
-        let estimatedBitrate = 128; // kbps default
+        let estimatedBitrate = 128;
 
         if (contentType.includes('mp3')) {
             estimatedBitrate = 128;
         } else if (contentType.includes('wav')) {
-            estimatedBitrate = 1411; // CD quality
+            estimatedBitrate = 1411;
         } else if (contentType.includes('flac')) {
             estimatedBitrate = 1000;
         } else if (contentType.includes('ogg')) {
             estimatedBitrate = 160;
         }
 
-        // Convert file size to bits, then divide by bitrate to get seconds
         const fileSizeBits = fileSize * 8;
         const bitratePerSecond = estimatedBitrate * 1000;
         const estimatedSeconds = Math.floor(fileSizeBits / bitratePerSecond);
@@ -202,14 +184,14 @@ class DirectLink {
 
     static async getFileMetadata(url) {
         try {
-            const response = await axios.head(url, { timeout: 10000 });
+            const response = await runHttpRequest(url, { method: 'HEAD', timeout: 10000 });
 
             return {
-                contentType: response.headers['content-type'],
-                contentLength: response.headers['content-length'],
-                lastModified: response.headers['last-modified'],
-                server: response.headers['server'],
-                acceptRanges: response.headers['accept-ranges'],
+                contentType: response.headers.get('content-type'),
+                contentLength: response.headers.get('content-length'),
+                lastModified: response.headers.get('last-modified'),
+                server: response.headers.get('server'),
+                acceptRanges: response.headers.get('accept-ranges'),
             };
 
         } catch (error) {
@@ -218,8 +200,6 @@ class DirectLink {
     }
 
     static async downloadAndCache(url, cacheDir) {
-        // This would implement downloading and caching files locally
-        // For now, just return the original URL
         return url;
     }
 
@@ -229,20 +209,15 @@ class DirectLink {
 
     static async testStreamability(url) {
         try {
-
-            // Try to get a small chunk of the file
-            const response = await axios({
+            const response = await runHttpRequest(url, {
                 method: 'GET',
-                url: url,
                 headers: {
-                    'Range': 'bytes=0-1024' // Request first 1KB
+                    'Range': 'bytes=0-1024'
                 },
                 timeout: 5000
             });
 
-            const success = response.status === 206 || response.status === 200;
-
-            return success;
+            return response.status === 206 || response.status === 200;
 
         } catch (error) {
             return false;
@@ -271,8 +246,6 @@ class DirectLink {
 
     static async analyzeAudioFile(url, guildId = null) {
         try {
-            // This would implement audio file analysis
-            // For now, return basic info
             const metadata = await this.getFileMetadata(url);
             const urlInfo = this.extractMetadataFromUrl(url, guildId);
 
@@ -298,7 +271,7 @@ class DirectLink {
                     inline: true
                 },
                 {
-                    name: await LanguageManager.getTranslation(guildId, 'directlink.embed_filesize'),
+                    name: await LanguageManager.getTranslation(guildid, 'directlink.embed_filesize'),
                     value: this.formatFileSize(fileInfo.fileSize, guildId),
                     inline: true
                 },
@@ -324,7 +297,6 @@ class DirectLink {
     static formatDuration(seconds) {
         if (!seconds || seconds === 0) return '0:00';
 
-        // Ensure we work with integers to avoid floating point errors
         const totalSeconds = Math.floor(Number(seconds) || 0);
         const hours = Math.floor(totalSeconds / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);

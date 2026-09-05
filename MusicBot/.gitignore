@@ -1,5 +1,8 @@
 node_modules/
 .env
+.env.*
+!.env.production.example
+.env.*.local
 *.log
 audio-cache/
 
@@ -10,5 +13,12 @@ tmp/
 
 database/audit_log.json
 database/playlists.json
+database/auth.db
 
+voxaria.db
+voxaria.db-shm
+voxaria.db-wal
+
+keys/
+*.pem
 *.lck

@@ -854,6 +854,39 @@ class TrackManager {
         });
         return total;
     }
+
+    /**
+     * Deserialize track from storage (for event store restoration)
+     */
+    _deserializeTrack(data) {
+        if (!data) return null;
+
+        const track = {
+            id: data.id || null,
+            title: data.title || null,
+            url: data.url || null,
+            duration: typeof data.duration === 'number' ? data.duration : Number(data.duration) || null,
+            thumbnail: data.thumbnail || null,
+            artist: data.artist || null,
+            album: data.album || null,
+            platform: data.platform || null,
+            uploader: data.uploader || null,
+            youtubeUrl: data.youtubeUrl || null,
+            soundcloudUrl: data.soundcloudUrl || null,
+            isLive: Boolean(data.isLive),
+            addedAt: data.addedAt || Date.now(),
+            extra: data.extra || null
+        };
+
+        if (data.requesterId) {
+            const cachedMember = this.player?.guild?.members?.cache?.get?.(data.requesterId) || null;
+            track.requestedBy = cachedMember || { id: data.requesterId, tag: data.requesterTag || data.requesterId };
+            track.requesterId = data.requesterId;
+            track.requesterTag = data.requesterTag || null;
+        }
+
+        return track;
+    }
 }
 
 module.exports = TrackManager;

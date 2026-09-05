@@ -24,16 +24,15 @@ export type ApiCache = {
   maxMb: number;
 };
 
+import type { AuthUser } from './auth';
+
 export type ApiSettings = {
   guildId?: string;
-  sessionToken?: string;
-  loggedInUser?: {
-    discordId?: string;
-    sessionToken?: string;
-  };
+  user?: AuthUser;
 };
 
 export type ApiPlayer = {
+  id?: string | null;
   title: string | null;
   artist: string | null;
   cleanedTitle?: string | null;
@@ -134,6 +133,8 @@ export type ApiAuditTrack = {
 type PlaybackAction = "previous" | "play_pause" | "next" | "stop";
 
 // 🌐 Fallback link points to your active permanent Ngrok domain
+import { getAccessToken, getAuthHeaders, fetchWithAuth } from './auth';
+
 export const BASE_URL =
   import.meta.env.VITE_VOXARIA_API_BASE_URL?.trim() || "https://unhitched-shrink-dorsal.ngrok-free.dev";
 const OWNER_USER_ID = "owner";
@@ -218,11 +219,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
   try {
     const extraHeaders = new Headers(init?.headers);
-    const activeGuildId = toStringValue(extraHeaders.get("x-guild-id")) ?? apiAuthContext.guildId ?? DEFAULT_GUILD_ID;
-    const activeUserId = toStringValue(extraHeaders.get("x-user-id")) ?? apiAuthContext.userId ?? OWNER_USER_ID;
-    const authHeader = toStringValue(extraHeaders.get("Authorization"));
-    const activeSessionToken =
-      (authHeader && authHeader.replace(/^Bearer\s+/i, "").trim()) || apiAuthContext.sessionToken;
+    const activeGuildId = toStringValue(extraHeaders.get("x-guild-id")) ?? DEFAULT_GUILD_ID;
+    const activeUserId = toStringValue(extraHeaders.get("x-user-id")) ?? OWNER_USER_ID;
 
     const defaultHeaders: Record<string, string> = {
       "Content-Type": "application/json",
@@ -232,27 +230,15 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
       "x-api-key": OWNER_API_KEY,
     };
 
-    if (activeSessionToken) {
-      defaultHeaders.Authorization = `Bearer ${activeSessionToken}`;
-    }
+    const headers = {
+      ...defaultHeaders,
+      ...Object.fromEntries(extraHeaders.entries()),
+    };
 
-    const response = await fetch(`${BASE_URL}${path}`, {
+    return fetchWithAuth<T>(path, {
       ...init,
-      credentials: "include",
-      headers: {
-        ...defaultHeaders,
-        ...Object.fromEntries(extraHeaders.entries()),
-      },
+      headers
     });
-
-    if (!response.ok) {
-      const body = await readErrorMessage(response);
-      console.error(`API Error: ${response.status} - ${body}`);
-      throw new ApiClientError(response.status, body);
-    }
-
-    if (response.status === 204) return {} as T;
-    return response.json() as Promise<T>;
   } catch (error) {
     console.error("Fetch failed:", error);
     throw error;
@@ -331,6 +317,7 @@ const normalizePlayerPayload = (payload: RawPlayerPayload): ApiPlayer => {
     toOptionalString(rootInfo.art);
 
   return {
+    id: toOptionalString(pick("id", data, root)) ?? toOptionalString(pick("identifier", data, root)),
     title: toStringValue(pick("title", data, root)),
     artist: toStringValue(pick("artist", data, root)),
     cleanedTitle: toStringValue(pick("cleanedTitle", data, root)) ?? toStringValue(pick("title", data, root)),
@@ -399,7 +386,7 @@ const normalizeSearchCatalogPayload = (payload: unknown): ApiSearchResult[] => {
     .filter((track) => track.id && track.title);
 };
 
-const normalizeLyricsPayload = (payload: unknown): ApiLyrics => {
+export const normalizeLyricsPayload = (payload: unknown): ApiLyrics => {
   const root = payload && typeof payload === "object" ? (payload as Record<string, unknown>) : {};
   const lyrics = root.lyrics && typeof root.lyrics === "object" ? (root.lyrics as Record<string, unknown>) : root;
   const rawLines = Array.isArray(lyrics.lines) ? lyrics.lines : [];
@@ -509,31 +496,18 @@ async function postJson<TResponse, TBody extends Record<string, unknown>>(
   userId?: string,
 ): Promise<TResponse> {
   try {
-    const activeGuildId = guildId?.trim() || apiAuthContext.guildId || DEFAULT_GUILD_ID;
-    const activeUserId = userId?.trim() || apiAuthContext.userId || OWNER_USER_ID;
-    const authHeader = apiAuthContext.sessionToken ? { Authorization: `Bearer ${apiAuthContext.sessionToken}` } : {};
+    const activeGuildId = guildId?.trim() || DEFAULT_GUILD_ID;
+    const activeUserId = userId?.trim() || OWNER_USER_ID;
 
-    const response = await fetch(`${BASE_URL}${path}`, {
+    return fetchWithAuth<TResponse>(path, {
       method: "POST",
-      credentials: "include",
       headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
         "x-user-id": activeUserId,
         "x-guild-id": activeGuildId,
         "x-api-key": OWNER_API_KEY,
-        ...authHeader,
       },
       body: JSON.stringify(body),
     });
-
-    if (!response.ok) {
-      const fallbackMessage = await readErrorMessage(response);
-      console.error(`API Error: ${response.status} - ${fallbackMessage}`);
-      throw new ApiClientError(response.status, fallbackMessage);
-    }
-
-    return response.json() as Promise<TResponse>;
   } catch (error) {
     console.error("Fetch failed:", error);
     throw error;
@@ -602,31 +576,18 @@ export const voxariaApi = {
     if (!normalizedTitle) throw new Error("Missing search query for lyrics");
 
     try {
-      const activeGuildId = guildId?.trim() || apiAuthContext.guildId || DEFAULT_GUILD_ID;
-      const activeUserId = userId?.trim() || apiAuthContext.userId || OWNER_USER_ID;
-      const authHeader = apiAuthContext.sessionToken ? { Authorization: `Bearer ${apiAuthContext.sessionToken}` } : {};
+      const activeGuildId = guildId?.trim() || DEFAULT_GUILD_ID;
+      const activeUserId = userId?.trim() || OWNER_USER_ID;
 
-      const response = await fetch(`${BASE_URL}${ENDPOINTS.lyrics}`, {
+      return fetchWithAuth<ApiLyrics>(ENDPOINTS.lyrics, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true",
           "x-user-id": activeUserId,
           "x-guild-id": activeGuildId,
           "x-api-key": OWNER_API_KEY,
-          ...authHeader,
         },
         body: JSON.stringify({ title: normalizedTitle, artist: normalizedArtist }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => "");
-        console.error(`fetchLyrics failed: HTTP ${response.status}`, errorText || response.statusText);
-        throw new Error("Failed to fetch lyrics");
-      }
-
-      const payload = (await response.json()) as unknown;
-      return normalizeLyricsPayload(payload);
+      }).then(normalizeLyricsPayload);
     } catch (error) {
       console.error("fetchLyrics request failed:", error);
       throw error;
@@ -636,30 +597,18 @@ export const voxariaApi = {
     if (!guildId?.trim() || !trackUrl?.trim()) throw new Error("Missing guildId or trackUrl");
 
     try {
-      const activeGuildId = guildId?.trim() || apiAuthContext.guildId || DEFAULT_GUILD_ID;
-      const activeUserId = userId?.trim() || apiAuthContext.userId || OWNER_USER_ID;
-      const authHeader = apiAuthContext.sessionToken ? { Authorization: `Bearer ${apiAuthContext.sessionToken}` } : {};
+      const activeGuildId = guildId?.trim() || DEFAULT_GUILD_ID;
+      const activeUserId = userId?.trim() || OWNER_USER_ID;
 
-      const response = await fetch(`${BASE_URL}/music/karaoke`, {
+      return fetchWithAuth<ApiKaraokeResponse>('/music/karaoke', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true",
           "x-user-id": activeUserId,
           "x-guild-id": activeGuildId,
           "x-api-key": OWNER_API_KEY,
-          ...authHeader,
         },
         body: JSON.stringify({ guildId: activeGuildId, trackUrl: trackUrl.trim() }),
       });
-
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => "");
-        console.error(`startKaraoke failed: HTTP ${response.status}`, errorText || response.statusText);
-        throw new Error("Failed to generate pitch map");
-      }
-
-      return response.json() as Promise<ApiKaraokeResponse>;
     } catch (error) {
       console.error("startKaraoke request failed:", error);
       throw error;

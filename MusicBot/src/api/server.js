@@ -1,83 +1,68 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const chalk = require('chalk');
+const { createServer } = require('http');
+const { fetchRequestHandler } = require('@trpc/server/adapters/fetch');
 const config = require('../../config');
 const AuditLog = require('../AuditLog');
+const { createAccessToken, createRefreshToken, verifyAccessToken, verifyRefreshToken, revokeRefreshToken, revokeAllUserRefreshTokens, getJWKS, rotateRefreshToken } = require('../auth/jwt');
+const { setupWebSocket, broadcastToGuild } = require('../utils/websocket');
+// Lazy load karaoke queue to avoid Redis version check at startup
+let _karaokeQueue = null;
+function getKaraokeQueue() {
+    if (!_karaokeQueue) {
+        _karaokeQueue = require('../queue/karaoke-queue').karaokeQueue;
+    }
+    return _karaokeQueue;
+}
+const { appRouter, createContext } = require('@voxaria/contracts');
 
-const sessionStore = new Map();
+const { createBullBoard } = require('@bull-board/api');
+const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
+const { ExpressAdapter } = require('@bull-board/express');
+
+const { initPermissionService, requirePermission, optionalAuth, getPermissionService } = require('../auth/middleware');
+const { addPolicy, removePolicy, getAllPolicies, addGroupingPolicy, removeGroupingPolicy, reloadPolicy } = require('../auth/casbin');
+const { apiLimiter, truncLimiter, authLimiter, createRateLimiter } = require('../auth/rate-limit');
+
 const ROLES_FILE = path.join(__dirname, '..', '..', 'roles.json');
 const OWNER_ID = '895441968241459271';
 
 function getUserRole(discordId) {
-    if (discordId === OWNER_ID) return 3; // Owner implicitly has highest role
+    if (discordId === OWNER_ID) return 3;
     try {
         if (fs.existsSync(ROLES_FILE)) {
             const roles = JSON.parse(fs.readFileSync(ROLES_FILE, 'utf-8'));
-            return roles[discordId] !== undefined ? roles[discordId] : 0; // 0: Guest
+            return roles[discordId] !== undefined ? roles[discordId] : 0;
         }
     } catch (e) {
         console.error('❌ Failed to read roles.json:', e.message);
     }
-    return 0; // Guest
+    return 0;
 }
 
-// Numeric Role Hierarchy: 3: Owner, 2: Staff, 1: DJ, 0: Guest
-function checkPermission(requiredLevel) {
-    return (req, res, next) => {
-        const authHeader = req.headers.authorization;
-        if (requiredLevel > 0) {
-            if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                return res.status(401).json({ error: 'Missing or invalid Authorization header' });
-            }
-            const token = authHeader.split(' ')[1];
-            const user = sessionStore.get(token);
-
-            if (!user) {
-                return res.status(401).json({ error: 'Invalid or expired session' });
-            }
-
-            const userRoleLevel = getUserRole(user.id);
-
-            if (userRoleLevel < requiredLevel) {
-                return res.status(403).json({ error: `Forbidden: Requires permission level ${requiredLevel}` });
-            }
-
-            req.user = { ...user, role: userRoleLevel };
-        } else {
-            // For Guest (0), if token is provided, resolve the user. Otherwise, set fallback guest values.
-            if (authHeader && authHeader.startsWith('Bearer ')) {
-                const token = authHeader.split(' ')[1];
-                const user = sessionStore.get(token);
-                if (user) {
-                    req.user = { ...user, role: getUserRole(user.id) };
-                }
-            }
-            if (!req.user) {
-                req.user = { id: req.headers['x-user-id'] || 'guest', username: req.headers['x-user-username'] || 'Guest', role: 0 };
-            }
-        }
-        next();
-    };
-}
-
-function startServer(client) {
+async function startServer(client) {
+    await initPermissionService(client);
+    
     const app = express();
+    app.set('sessionStore', new Map());
 
     const corsOptions = {
         origin: [
-            'https://voxaria.lovable.app', 
-            'http://localhost:3000', 
-            'http://localhost:5173' 
+            'https://voxaria.lovable.app',
+            'http://localhost:3000',
+            'http://localhost:5173'
         ],
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: [
-            'Content-Type', 
-            'Authorization', 
-            'ngrok-skip-browser-warning', 
+            'Content-Type',
+            'Authorization',
+            'ngrok-skip-browser-warning',
             'x-guild-id',
             'X-Guild-Id',
             'x-user-id',
@@ -91,18 +76,15 @@ function startServer(client) {
         ]
     };
 
-    // Handle preflight OPTIONS requests explicitly BEFORE cors middleware
     app.options('*path', cors(corsOptions));
-    
     app.use(cors(corsOptions));
+    app.use(cookieParser());
     app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
     app.use(express.static(path.join(__dirname, '..', '..', 'public')));
 
-    // 🛡️ THE NGROK INTERCEPT BYPASS GUARD:
-    // Force your server to attach the header that tells ngrok to disable the splash alert
     app.use((req, res, next) => {
         res.setHeader('ngrok-skip-browser-warning', 'true');
-        // Ensure CORS headers are set on every response
         const origin = req.headers.origin;
         if (corsOptions.origin.includes(origin)) {
             res.setHeader('Access-Control-Allow-Origin', origin);
@@ -118,8 +100,110 @@ function startServer(client) {
         next();
     });
 
-    // --- ADMIN ENDPOINTS ---
-    app.post('/admin/set-role', checkPermission(3), (req, res) => {
+    // --- tRPC ENDPOINT ---
+    app.use('/api/trpc', truncLimiter, async (req, res) => {
+        const response = await fetchRequestHandler({
+            endpoint: '/api/trpc',
+            req,
+            router: appRouter,
+            createContext: () => createContext({ req, client }),
+            onError: ({ path, error }) => {
+                console.error(`❌ tRPC error on ${path}:`, error);
+            },
+        });
+        
+        res.status(response.status);
+        for (const [key, value] of response.headers.entries()) {
+            res.setHeader(key, value);
+        }
+        const body = await response.text();
+        res.send(body);
+    });
+
+    // --- JWKS ENDPOINT (for key rotation) ---
+    app.get('/.well-known/jwks.json', async (req, res) => {
+        try {
+            const jwks = await getJWKS();
+            res.json(jwks);
+        } catch (error) {
+            console.error('JWKS error:', error);
+            res.status(500).json({ error: 'Failed to generate JWKS' });
+        }
+    });
+
+    // --- REFRESH TOKEN ENDPOINT ---
+    app.post('/api/auth/refresh', authLimiter, async (req, res) => {
+        const refreshToken = req.cookies?.refresh_token || req.body?.refresh_token;
+
+        if (!refreshToken) {
+            return res.status(401).json({ error: 'Refresh token required', code: 'MISSING_REFRESH_TOKEN' });
+        }
+
+        try {
+            const refreshData = await verifyRefreshToken(refreshToken);
+
+            if (!refreshData) {
+                return res.status(401).json({ error: 'Invalid or expired refresh token', code: 'INVALID_REFRESH_TOKEN' });
+            }
+
+            const role = getUserRole(refreshData.userId);
+
+            const newAccessToken = await createAccessToken({
+                id: refreshData.userId,
+                roles: role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [],
+                guildId: req.headers['x-guild-id'] || null,
+                username: req.headers['x-user-username'] || null
+            });
+
+            const userAgent = req.headers['user-agent'] || null;
+            const ipAddress = req.ip || req.connection?.remoteAddress || null;
+            const newRefreshToken = await rotateRefreshToken(refreshToken, {
+                id: refreshData.userId,
+                roles: role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [],
+                guildId: req.headers['x-guild-id'] || null,
+                username: req.headers['x-user-username'] || null
+            }, userAgent, ipAddress);
+
+            res.cookie('refresh_token', newRefreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+                path: '/'
+            });
+
+            res.json({
+                access_token: newAccessToken,
+                token_type: 'Bearer',
+                expires_in: 900
+            });
+
+        } catch (error) {
+            console.error('Refresh token error:', error);
+            res.status(500).json({ error: 'Failed to refresh token' });
+        }
+    });
+
+    // --- LOGOUT ENDPOINT ---
+    app.post('/api/auth/logout', authLimiter, async (req, res) => {
+        const refreshToken = req.cookies?.refresh_token || req.body?.refresh_token;
+
+        if (refreshToken) {
+            await revokeRefreshToken(refreshToken);
+        }
+
+        res.clearCookie('refresh_token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            path: '/'
+        });
+
+        res.json({ success: true, message: 'Logged out successfully' });
+    });
+
+    // --- ADMIN ENDPOINTS (Legacy - keep for backward compatibility) ---
+    app.post('/admin/set-role', requirePermission('settings', 'write'), (req, res) => {
         const { userId, role } = req.body;
         if (!userId || typeof role !== 'number' || role < 0 || role > 2) {
             return res.status(400).json({ error: 'Invalid userId or role (0: Guest, 1: DJ, 2: Staff)' });
@@ -139,8 +223,105 @@ function startServer(client) {
         }
     });
 
+    // --- CASBIN POLICY MANAGEMENT API ---
+    app.get('/api/admin/policies', requirePermission('settings', 'write'), async (req, res) => {
+        try {
+            const policies = await getAllPolicies();
+            res.json({ policies });
+        } catch (e) {
+            console.error('Failed to get policies:', e);
+            res.status(500).json({ error: 'Failed to retrieve policies' });
+        }
+    });
+
+    app.post('/api/admin/policies', requirePermission('settings', 'write'), async (req, res) => {
+        const { sub, obj, act } = req.body;
+        if (!sub || !obj || !act) {
+            return res.status(400).json({ error: 'Missing sub, obj, or act' });
+        }
+        try {
+            const added = await addPolicy(sub, obj, act);
+            if (added) {
+                await reloadPolicy();
+                res.json({ success: true, message: `Policy added: ${sub}, ${obj}, ${act}` });
+            } else {
+                res.status(409).json({ error: 'Policy already exists' });
+            }
+        } catch (e) {
+            console.error('Failed to add policy:', e);
+            res.status(500).json({ error: 'Failed to add policy' });
+        }
+    });
+
+    app.delete('/api/admin/policies', requirePermission('settings', 'write'), async (req, res) => {
+        const { sub, obj, act } = req.body;
+        if (!sub || !obj || !act) {
+            return res.status(400).json({ error: 'Missing sub, obj, or act' });
+        }
+        try {
+            const removed = await removePolicy(sub, obj, act);
+            if (removed) {
+                await reloadPolicy();
+                res.json({ success: true, message: `Policy removed: ${sub}, ${obj}, ${act}` });
+            } else {
+                res.status(404).json({ error: 'Policy not found' });
+            }
+        } catch (e) {
+            console.error('Failed to remove policy:', e);
+            res.status(500).json({ error: 'Failed to remove policy' });
+        }
+    });
+
+    app.post('/api/admin/policies/reload', requirePermission('settings', 'write'), async (req, res) => {
+        try {
+            await reloadPolicy();
+            res.json({ success: true, message: 'Policy reloaded' });
+        } catch (e) {
+            console.error('Failed to reload policy:', e);
+            res.status(500).json({ error: 'Failed to reload policy' });
+        }
+    });
+
+    app.post('/api/admin/roles', requirePermission('settings', 'write'), async (req, res) => {
+        const { userId, role } = req.body;
+        if (!userId || !role) {
+            return res.status(400).json({ error: 'Missing userId or role' });
+        }
+        try {
+            const added = await addGroupingPolicy(userId, role);
+            if (added) {
+                await reloadPolicy();
+                res.json({ success: true, message: `Role ${role} assigned to ${userId}` });
+            } else {
+                res.status(409).json({ error: 'Role assignment already exists' });
+            }
+        } catch (e) {
+            console.error('Failed to assign role:', e);
+            res.status(500).json({ error: 'Failed to assign role' });
+        }
+    });
+
+    app.delete('/api/admin/roles', requirePermission('settings', 'write'), async (req, res) => {
+        const { userId, role } = req.body;
+        if (!userId || !role) {
+            return res.status(400).json({ error: 'Missing userId or role' });
+        }
+        try {
+            const removed = await removeGroupingPolicy(userId, role);
+            if (removed) {
+                await reloadPolicy();
+                res.json({ success: true, message: `Role ${role} removed from ${userId}` });
+            } else {
+                res.status(404).json({ error: 'Role assignment not found' });
+            }
+        } catch (e) {
+            console.error('Failed to remove role:', e);
+            res.status(500).json({ error: 'Failed to remove role' });
+        }
+    });
+
     // --- DISCORD OAUTH ENDPOINTS ---
-    app.post('/auth/discord', async (req, res) => {
+    app.post('/auth/discord', authLimiter, async (req, res) => {
         const { code, redirectUri } = req.body;
         if (!code || !redirectUri) {
             return res.status(400).json({ error: 'Missing code or redirectUri' });
@@ -151,7 +332,6 @@ function startServer(client) {
         }
 
         try {
-            // 1. Exchange code for token
             const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -172,7 +352,6 @@ function startServer(client) {
 
             const tokenData = await tokenResponse.json();
 
-            // 2. Fetch User Profile
             const userResponse = await fetch('https://discord.com/api/users/@me', {
                 headers: { authorization: `${tokenData.token_type} ${tokenData.access_token}` }
             });
@@ -183,18 +362,57 @@ function startServer(client) {
 
             const userData = await userResponse.json();
 
-            // 3. Create Session
-            const sessionToken = crypto.randomBytes(32).toString('hex');
+            const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
+                headers: { authorization: `${tokenData.token_type} ${tokenData.access_token}` }
+            });
+
+            let guildId = null;
+            if (guildsResponse.ok) {
+                const guilds = await guildsResponse.json();
+                if (guilds.length > 0) {
+                    guildId = guilds[0].id;
+                }
+            }
+
+            const role = getUserRole(userData.id);
+            const roles = role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [];
+
+            const accessToken = await createAccessToken({
+                id: userData.id,
+                username: userData.username,
+                roles,
+                guildId
+            });
+
+            const refreshToken = await createRefreshToken({
+                id: userData.id,
+                username: userData.username,
+                roles,
+                guildId
+            }, req.headers['user-agent'], req.ip);
+
             const userInfo = {
                 id: userData.id,
                 username: userData.username,
                 global_name: userData.global_name,
-                avatar: userData.avatar
+                avatar: userData.avatar,
+                role
             };
 
-            sessionStore.set(sessionToken, userInfo);
+            res.cookie('refresh_token', refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+                path: '/'
+            });
 
-            res.json({ token: sessionToken, user: { ...userInfo, role: getUserRole(userData.id) } });
+            res.json({
+                access_token: accessToken,
+                token_type: 'Bearer',
+                expires_in: 900,
+                user: userInfo
+            });
 
         } catch (error) {
             console.error('OAuth2 Error:', error);
@@ -202,17 +420,9 @@ function startServer(client) {
         }
     });
 
-    app.get('/auth/session', (req, res) => {
-        const authHeader = req.headers.authorization;
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(401).json({ error: 'Missing token' });
-        }
-        const token = authHeader.split(' ')[1];
-        const user = sessionStore.get(token);
-        if (!user) {
-            return res.status(401).json({ error: 'Invalid or expired session' });
-        }
-        res.json({ user: { ...user, role: getUserRole(user.id) } });
+    // --- SESSION VALIDATION (for backward compatibility) ---
+    app.get('/auth/session', optionalAuth(), (req, res) => {
+        res.json({ user: req.user });
     });
 
     // --- AUDIT LOGS ---
@@ -226,10 +436,10 @@ function startServer(client) {
     });
 
     // --- MODULAR ROUTERS ---
-    app.use('/', require('./routes/music')(client, checkPermission));
-    app.use('/', require('./routes/karaoke')(client, checkPermission));
-    app.use('/', require('./routes/presets')(client, checkPermission));
-    app.use('/', require('./routes/system')(client, checkPermission));
+    app.use('/', require('./routes/music')(client, requirePermission));
+    app.use('/', require('./routes/karaoke')(client, requirePermission));
+    app.use('/', require('./routes/presets')(client, requirePermission));
+    app.use('/', require('./routes/system')(client, requirePermission));
 
     // --- DISCORD SUMMON / JOIN ---
     app.post('/discord/join', async (req, res) => {
@@ -265,12 +475,31 @@ function startServer(client) {
         }
     });
 
-    const PORT = process.env.MUSIC_API_PORT || 3002;
-    const server = app.listen(PORT, () => {
-        console.log(chalk.blue(`🌐 API Bridge running on port ${PORT}`));
+    // --- BULL BOARD DASHBOARD ---
+    const serverAdapter = new ExpressAdapter();
+    serverAdapter.setBasePath('/admin/queues');
+
+    createBullBoard({
+        queues: [new BullMQAdapter(getKaraokeQueue())],
+        serverAdapter,
     });
 
-    server.on('error', (error) => {
+    app.use('/admin/queues', serverAdapter.getRouter());
+
+    const PORT = process.env.MUSIC_API_PORT || 3002;
+    const httpServer = createServer(app);
+
+    setupWebSocket(httpServer);
+
+    httpServer.listen(PORT, () => {
+        console.log(chalk.blue(`🌐 API Bridge running on port ${PORT}`));
+        console.log(chalk.green(`🔐 JWT Auth enabled with RS256`));
+        console.log(chalk.green(`🔑 JWKS available at /.well-known/jwks.json`));
+        console.log(chalk.green(`📊 Bull Board dashboard at http://localhost:${PORT}/admin/queues`));
+        console.log(chalk.green(`🔌 WebSocket available at ws://localhost:${PORT}/ws/karaoke?guildId=<guildId>`));
+    });
+
+    httpServer.on('error', (error) => {
         if (error.code === 'EADDRINUSE') {
             console.error(chalk.red(`❌ Port ${PORT} already in use. API Bridge cannot start.`));
             console.error(chalk.yellow(`ℹ️  Another process may be using the port. Try: lsof -i :${PORT}`));
@@ -279,9 +508,10 @@ function startServer(client) {
         }
     });
 
-    return server;
+    return httpServer;
 }
 
 module.exports = {
-    startServer
+    startServer,
+    broadcastToGuild,
 };

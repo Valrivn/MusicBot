@@ -77,12 +77,17 @@ class StatePersistence {
         const guildId = this.player.guild?.id;
         if (!guildId) return null;
 
+        const currentTrackUrl = this.player.currentTrack?.url;
+
         return {
             guildId,
             voiceChannelId: this.player.voiceChannel?.id || null,
             textChannelId: this.player.textChannel?.id || null,
             currentTrack: this.serializeTrack(this.player.currentTrack),
-            queue: this.player.queue.map(track => this.serializeTrack(track)).filter(Boolean),
+            queue: this.player.queue
+                .map(track => this.serializeTrack(track))
+                .filter(Boolean)
+                .filter(track => track.url !== currentTrackUrl),
             previousTracks: this.player.previousTracks.slice(-10).map(track => this.serializeTrack(track)).filter(Boolean),
             volume: this.player.volume,
             loop: this.player.loop,

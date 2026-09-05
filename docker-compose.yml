@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  musicbot:
+    build:
+      context: .
+      dockerfile: MusicBot/Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PORT=3002
+      - FRONTEND_URL=https://voxaria.lovable.app
+      - DATABASE_PATH=/app/data/voxaria.db
+      - JWT_PRIVATE_KEY_PATH=/app/keys/private.pem
+      - JWT_PUBLIC_KEY_PATH=/app/keys/public.pem
+      - KARAOKE_OUTPUT_DIR=/app/audio_cache/karaoke
+    volumes:
+      - voxaria_data:/app/data
+      - musicbot_audio_cache:/app/audio_cache
+      - ./MusicBot/.env:/app/.env:ro
+      - ./MusicBot/keys:/app/keys:ro
+      - ./MusicBot/cookies.txt:/app/cookies.txt:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  karaoke-worker:
+    build:
+      context: .
+      dockerfile: MusicBot/Dockerfile
+    command: npm run worker:karaoke
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_PATH=/app/data/voxaria.db
+      - KARAOKE_OUTPUT_DIR=/app/audio_cache/karaoke
+      - DEMUCS_MODEL=htdemucs
+      - KARAOKE_CONCURRENCY=2
+    volumes:
+      - voxaria_data:/app/data
+      - musicbot_audio_cache:/app/audio_cache
+      - ./MusicBot/.env:/app/.env:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  voxaria_data:
+  musicbot_audio_cache:

@@ -1,41 +1,30 @@
-const youtubedl = require('youtube-dl-exec');
-const axios = require('axios');
+const { runYtdlp, runYtdlpWrap, getYtDlpOptions } = require('./resilience/external-calls');
 const config = require('../config');
 const LanguageManager = require('./LanguageManager');
 
 class SoundCloud {
-    // SoundCloud no longer requires client ID, we'll use yt-dlp directly
-
     static async search(query, limit = 1, guildId = null) {
         try {
-
-
-            // If it's already a SoundCloud URL, get info directly
             if (this.isSoundCloudURL(query)) {
                 const info = await this.getInfo(query, guildId);
                 return info ? [info] : [];
             }
 
-            // We'll use yt-dlp for SoundCloud search
-            // SoundCloud search: "ytsearch5:query site:soundcloud.com"
             const searchQuery = `ytsearch${limit}:${query} site:soundcloud.com`;
 
-            const results = await youtubedl(searchQuery, {
-                dumpSingleJson: true,
-                flatPlaylist: true,
-                noCheckCertificates: true,
-                noWarnings: true,
-            });
+            const results = await runYtdlpWrap([
+                searchQuery,
+                '--extractor-args', 'youtube:player_client=web',
+                '--flat-playlist', '--skip-download', '--dump-json'
+            ]);
 
             if (!results || !results.entries) {
-
                 return [];
             }
 
             const tracks = [];
             for (const item of results.entries.slice(0, limit)) {
                 try {
-                    // Filter only SoundCloud links
                     if (item.webpage_url && item.webpage_url.includes('soundcloud.com')) {
                         const track = await this.formatTrack(item, guildId);
                         if (track) {
@@ -47,7 +36,6 @@ class SoundCloud {
                 }
             }
 
-
             return tracks;
 
         } catch (error) {
@@ -57,14 +45,9 @@ class SoundCloud {
 
     static async getInfo(url, guildId = null) {
         try {
-
-
-            // Get SoundCloud info using yt-dlp
-            const info = await youtubedl(url, {
+            const info = await runYtdlp(url, getYtDlpOptions({
                 dumpSingleJson: true,
-                noCheckCertificates: true,
-                noWarnings: true,
-            });
+            }));
 
             if (!info) {
                 const errorMsg = guildId ? await LanguageManager.getTranslation(guildId, 'soundcloud.no_info_returned') : 'No info returned from SoundCloud';
@@ -82,23 +65,16 @@ class SoundCloud {
 
     static async getStream(url, guildId = null, startSeconds = 0) {
         try {
-
-
-            // Get audio stream using yt-dlp
-            const result = await youtubedl(url, {
+            const result = await runYtdlp(url, getYtDlpOptions({
                 format: 'bestaudio/best',
                 getUrl: true,
-                noCheckCertificates: true,
-                noWarnings: true,
-            });
+            }));
 
             if (!result) {
                 const errorMsg = guildId ? await LanguageManager.getTranslation(guildId, 'soundcloud.no_stream_url') : 'No stream URL found';
                 throw new Error(errorMsg);
             }
 
-            // Note: SoundCloud streams typically don't support seek via URL parameters
-            // Seeking will be handled by FFmpeg in MusicPlayer
             return result;
 
         } catch (error) {
@@ -108,15 +84,10 @@ class SoundCloud {
 
     static async getPlaylist(url, guildId = null) {
         try {
-
-
-            // Get playlist info using yt-dlp
-            const result = await youtubedl(url, {
+            const result = await runYtdlp(url, getYtDlpOptions({
                 dumpSingleJson: true,
                 flatPlaylist: true,
-                noCheckCertificates: true,
-                noWarnings: true,
-            });
+            }));
 
             if (!result || !result.entries) {
                 const errorMsg = guildId ? await LanguageManager.getTranslation(guildId, 'soundcloud.no_playlist_tracks') : 'No playlist tracks found';
@@ -151,16 +122,11 @@ class SoundCloud {
 
     static async getUserTracks(userUrl, limit = 10, guildId = null) {
         try {
-
-            // Use yt-dlp for SoundCloud user profile
-            // Get user's latest tracks
-            const result = await youtubedl(userUrl, {
+            const result = await runYtdlp(userUrl, getYtDlpOptions({
                 dumpSingleJson: true,
                 flatPlaylist: true,
                 playlistEnd: limit,
-                noCheckCertificates: true,
-                noWarnings: true,
-            });
+            }));
 
             if (!result || !result.entries) {
                 return [];
@@ -173,7 +139,6 @@ class SoundCloud {
                     tracks.push(formattedTrack);
                 }
             }
-
 
             return tracks;
 
@@ -228,7 +193,6 @@ class SoundCloud {
     }
 
     static isUser(url) {
-        // Check if it's a user profile URL (no track or playlist path)
         const match = url.match(/^https?:\/\/(www\.)?soundcloud\.com\/([\w-]+)$/);
         return !!match;
     }
@@ -254,12 +218,9 @@ class SoundCloud {
                 return false;
             }
 
-            // URL validation with yt-dlp
-            const info = await youtubedl(url, {
+            const info = await runYtdlp(url, getYtDlpOptions({
                 dumpSingleJson: true,
-                noCheckCertificates: true,
-                noWarnings: true,
-            });
+            }));
             return !!info && !!info.title;
 
         } catch (error) {
@@ -295,11 +256,7 @@ class SoundCloud {
 
     static async getRelatedTracks(trackUrl, limit = 5) {
         try {
-
-            // This would implement getting related tracks
-            // For now, return empty array as it requires complex implementation
             return [];
-
         } catch (error) {
             return [];
         }
@@ -307,44 +264,7 @@ class SoundCloud {
 
     static async searchAdvanced(query, options = {}, guildId = null) {
         try {
-            // Advanced search using yt-dlp (simplified)
             return await this.search(query, options.limit || 20, guildId);
-
-            const {
-                limit = 20,
-                offset = 0,
-                filter = 'all', // 'all', 'tracks', 'playlists', 'users'
-                sort = 'relevance' // 'relevance', 'created_at', 'hotness', 'duration'
-            } = options;
-
-            const searchUrl = `https://api-v2.soundcloud.com/search`;
-            const params = {
-                q: query,
-                client_id: this.clientId,
-                limit: limit,
-                offset: offset,
-                filter: filter,
-                sort: sort,
-            };
-
-            const response = await axios.get(searchUrl, { params });
-
-            if (!response.data || !response.data.collection) {
-                return [];
-            }
-
-            const tracks = [];
-            for (const item of response.data.collection) {
-                if (item.kind === 'track') {
-                    const track = await this.formatTrack(item);
-                    if (track) {
-                        tracks.push(track);
-                    }
-                }
-            }
-
-            return tracks;
-
         } catch (error) {
             return [];
         }

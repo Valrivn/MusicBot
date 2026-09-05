@@ -1,0 +1,75 @@
+config:
+  target: "http://localhost:3002"
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm up"
+    - duration: 60
+      arrivalRate: 20
+      name: "Sustained load"
+    - duration: 30
+      arrivalRate: 50
+      name: "Spike"
+    - duration: 30
+      arrivalRate: 0
+      name: "Cool down"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+  processor: "./artillery-processor.js"
+
+scenarios:
+  - name: "Health and status checks"
+    weight: 30
+    flow:
+      - get:
+          url: "/health/live"
+      - get:
+          url: "/health/ready"
+      - get:
+          url: "/metrics"
+
+  - name: "tRPC API calls"
+    weight: 50
+    flow:
+      - post:
+          url: "/api/trpc/music.searchCatalog"
+          json:
+            query: "Never Gonna Give You Up"
+          capture:
+            - json: "$.result.data.results[0].id"
+              as: "firstResultId"
+      - post:
+          url: "/api/trpc/queue.get"
+      - post:
+          url: "/api/trpc/player.get"
+      - post:
+          url: "/api/trpc/bot.getStatus"
+      - post:
+          url: "/api/trpc/bot.getCache"
+      - post:
+          url: "/api/trpc/presets.getAll"
+
+  - name: "Karaoke operations"
+    weight: 10
+    flow:
+      - post:
+          url: "/api/trpc/karaoke.prepare"
+          json:
+            trackUrl: "https://youtube.com/watch?v=dQw4w9WgXcQ"
+      - post:
+          url: "/api/trpc/karaoke.getStatus"
+          json:
+            jobId: "{{ $randomString(32) }}"
+      - post:
+          url: "/api/trpc/karaoke.getPitchData"
+          json:
+            trackId: "test"
+
+  - name: "Playlist operations"
+    weight: 10
+    flow:
+      - post:
+          url: "/api/trpc/playlist.getAll"
+      - post:
+          url: "/api/trpc/playlist.getPublicPlaylists"

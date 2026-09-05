@@ -7,15 +7,21 @@
   "scripts": {
     "start": "node index.js",
     "shard": "node shard.js",
+    "worker:karaoke": "node src/workers/start-worker.js",
     "test": "node --check index.js",
-    "postinstall": "node scripts/update-ytdlp.js"
+    "postinstall": "node scripts/update-ytdlp.js",
+    "build:contracts": "cd ../voxaria-contracts && npm run build",
+    "deploy:railway": "railway up",
+    "deploy:railway:worker": "railway up --service karaoke-worker",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "health": "node -e \"require('http').get('http://localhost:3002/health/ready', (r) => { r.on('data', d => console.log(d.toString())); process.exit(r.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))\""
   },
   "keywords": [
     "discord",
     "music",
     "bot",
     "youtube",
-
     "soundcloud",
     "audio",
     "umutxyp"
@@ -23,28 +29,53 @@
   "author": "umutxyp",
   "license": "MIT",
   "dependencies": {
+    "@bull-board/api": "^9.8.0",
+    "@bull-board/express": "^9.8.0",
     "@discordjs/voice": "^0.19.0",
     "@snazzah/davey": "^0.1.7",
+    "@trpc/server": "^11.18.0",
+    "@voxaria/contracts": "file:../voxaria-contracts",
     "axios": "^1.12.0",
+    "better-sqlite3": "^13.0.3",
+    "bull-board": "^1.7.2",
+    "bullmq": "^6.3.4",
+    "casbin": "^5.51.1",
     "chalk": "^4.1.2",
+    "cls-rtracer": "^2.6.4",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "discord.js": "^14.22.1",
     "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.45.2",
     "express": "^5.2.1",
     "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0",
     "fs-extra": "^11.2.0",
     "genius-lyrics": "^4.4.7",
+    "ioredis": "^6.0.0",
+    "jose": "^6.2.11",
     "lyrics-finder": "^21.7.0",
     "moment": "^2.30.1",
     "node-fetch": "^3.3.2",
     "node-json-db": "^2.3.1",
+    "opossum": "^10.0.0",
     "opusscript": "^0.0.8",
+    "pino": "^10.3.1",
+    "pino-pretty": "^13.1.3",
     "prism-media": "^1.3.5",
+    "prom-client": "^15.1.3",
+    "ws": "^8.21.3",
     "youtube-dl-exec": "^3.0.25",
     "yt-dlp-wrap": "^2.3.12",
-    "ytdl-core": "^4.11.5"
+    "ytdl-core": "^4.11.5",
+    "zod": "^3.23.8"
   },
   "engines": {
     "node": ">=24.11.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "drizzle-kit": "^0.31.10",
+    "k6": "^0.0.0"
   }
 }

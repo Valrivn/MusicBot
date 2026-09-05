@@ -17,6 +17,7 @@ const VoiceConnectionHandler = require('./VoiceConnection');
 const AudioEngineCore = require('./AudioEngineCore');
 const StatePersistence = require('./StatePersistence');
 const PlayerUI = require('./PlayerUI');
+const QueueEventStore = require('../services/queue-event-store');
 
 // Cache directory for downloaded audio files
 const CACHE_DIR = path.join(__dirname, '..', '..', 'audio_cache');
@@ -65,14 +66,175 @@ class PlayerCore {
         this.nowPlayingMessage = null;
         this.requesterId = null;
 
-        // Session management - unique ID to prevent old button interactions
+// Session management - unique ID to prevent old button interactions
         this.sessionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 
         // Persistence management
         this.statePersistence = new StatePersistence(this);
 
+        // Event-sourced queue persistence
+        this.eventStore = QueueEventStore;
+        this._eventStoreInitialized = false;
+
         // UI Management logic
         this.ui = new PlayerUI(this);
+    }
+
+    /**
+     * Initialize event store and rebuild state from persistence
+     */
+    async initializeEventStore() {
+        if (this._eventStoreInitialized) return;
+        
+        try {
+            const guildId = this.guild?.id;
+            if (!guildId) return;
+
+            console.log(`[EventStore] Initializing for guild ${guildId}`);
+            
+            // Rebuild state from events
+            const state = await this.eventStore.rebuildState(guildId);
+            
+            if (state && (state.currentTrack || state.queue?.length > 0 || state.previousTracks?.length > 0)) {
+                console.log(`[EventStore] Restored state for guild ${guildId}:`, {
+                    currentTrack: state.currentTrack?.title,
+                    queueLength: state.queue?.length || 0,
+                    historyLength: state.previousTracks?.length || 0,
+                    volume: state.volume,
+                    loop: state.loop,
+                    shuffle: state.shuffle
+                });
+                
+                // Apply restored state
+                this._applyRestoredState(state);
+            }
+
+            // Start periodic snapshot timer
+            this.eventStore.startSnapshotTimer(guildId, () => this.getQueueState());
+            
+            this._eventStoreInitialized = true;
+        } catch (error) {
+            console.error('[EventStore] Initialization error:', error);
+        }
+    }
+
+    /**
+     * Get current queue state for snapshotting
+     */
+    getQueueState() {
+        return {
+            currentTrack: this.currentTrack ? this._serializeTrack(this.currentTrack) : null,
+            queue: this.queue.map(t => this._serializeTrack(t)).filter(Boolean),
+            previousTracks: this.previousTracks.slice(-50).map(t => this._serializeTrack(t)).filter(Boolean),
+            volume: this.volume,
+            loop: this.loop,
+            shuffle: this.shuffle,
+            autoplay: this.autoplay,
+            paused: this.paused,
+            playbackPositionMs: this.getCurrentTime() || 0,
+            currentTrackStartOffsetMs: this.currentTrackStartOffsetMs || 0,
+            lastPlaybackPosition: this.lastPlaybackPosition || 0
+        };
+    }
+
+    /**
+     * Serialize track for storage
+     */
+    _serializeTrack(track) {
+        if (!track) return null;
+        return {
+            id: track.id || null,
+            title: track.title || null,
+            url: track.url || null,
+            duration: typeof track.duration === 'number' ? track.duration : Number(track.duration) || null,
+            thumbnail: track.thumbnail || null,
+            artist: track.artist || null,
+            album: track.album || null,
+            platform: track.platform || null,
+            uploader: track.uploader || null,
+            youtubeUrl: track.youtubeUrl || null,
+            soundcloudUrl: track.soundcloudUrl || null,
+            isLive: track.isLive || track.live || false,
+            addedAt: track.addedAt || Date.now(),
+            requesterId: track.requesterId || track.requestedBy?.id || null,
+            requesterTag: track.requesterTag || track.requestedBy?.tag || null,
+            extra: track.extra || null
+        };
+    }
+
+    /**
+     * Apply restored state from event store
+     */
+    _applyRestoredState(state) {
+        this.volume = typeof state.volume === 'number' ? state.volume : this.volume;
+        this.loop = state.loop ?? false;
+        this.shuffle = state.shuffle ?? false;
+        this.autoplay = state.autoplay ?? false;
+
+        this.previousTracks = (state.previousTracks || [])
+            .map(serialized => this.trackManager._deserializeTrack ? this.trackManager._deserializeTrack(serialized) : this._deserializeTrack(serialized))
+            .filter(Boolean);
+
+        const restoredQueue = (state.queue || [])
+            .map(serialized => this.trackManager._deserializeTrack ? this.trackManager._deserializeTrack(serialized) : this._deserializeTrack(serialized))
+            .filter(Boolean);
+
+        this.currentTrack = state.currentTrack ? (this.trackManager._deserializeTrack ? this.trackManager._deserializeTrack(state.currentTrack) : this._deserializeTrack(state.currentTrack)) : null;
+
+        if (!this.currentTrack && restoredQueue.length > 0) {
+            this.currentTrack = restoredQueue.shift();
+        }
+        
+        this.queue = restoredQueue;
+
+        this.currentTrackStartOffsetMs = Math.max(Number(state.currentTrackStartOffsetMs) || 0, 0);
+        this.lastPlaybackPosition = Math.max(Number(state.playbackPositionMs) || 0, 0);
+        this.paused = false; // Will be resumed by caller
+    }
+
+    /**
+     * Deserialize track from storage
+     */
+    _deserializeTrack(data) {
+        if (!data) return null;
+
+        const track = {
+            id: data.id || null,
+            title: data.title || null,
+            url: data.url || null,
+            duration: typeof data.duration === 'number' ? data.duration : Number(data.duration) || null,
+            thumbnail: data.thumbnail || null,
+            artist: data.artist || null,
+            album: data.album || null,
+            platform: data.platform || null,
+            uploader: data.uploader || null,
+            youtubeUrl: data.youtubeUrl || null,
+            soundcloudUrl: data.soundcloudUrl || null,
+            isLive: Boolean(data.isLive),
+            addedAt: data.addedAt || Date.now(),
+            extra: data.extra || null
+        };
+
+        if (data.requesterId) {
+            const cachedMember = this.guild?.members?.cache?.get?.(data.requesterId) || null;
+            track.requestedBy = cachedMember || { id: data.requesterId, tag: data.requesterTag || data.requesterId };
+            track.requesterId = data.requesterId;
+            track.requesterTag = data.requesterTag || null;
+        }
+
+        return track;
+    }
+
+    /**
+     * Emit a queue event to the event store
+     */
+    async _emitEvent(eventType, payload) {
+        if (!this.guild?.id) return;
+        try {
+            await this.eventStore.append(this.guild.id, { type: eventType, payload });
+        } catch (error) {
+            console.error(`[EventStore] Failed to emit ${eventType}:`, error);
+        }
     }
 
     get connection() {
@@ -216,20 +378,28 @@ class PlayerCore {
         return await this.audioEngine.play(trackIndex, seekMs);
     }
 
-    pause(reason = 'manual') {
-        return this.audioEngine.pause(reason);
+pause(reason = 'manual') {
+        const result = this.audioEngine.pause(reason);
+        this._emitEvent('pause', {});
+        return result;
     }
 
     resume(reason = 'manual') {
-        return this.audioEngine.resume(reason);
+        const result = this.audioEngine.resume(reason);
+        this._emitEvent('resume', {});
+        return result;
     }
 
     pauseFor(reason = null) {
-        return this.audioEngine.pauseFor(reason);
+        const result = this.audioEngine.pauseFor(reason);
+        this._emitEvent('pause', {});
+        return result;
     }
 
     resumeFor(reason = null) {
-        return this.audioEngine.resumeFor(reason);
+        const result = this.audioEngine.resumeFor(reason);
+        this._emitEvent('resume', {});
+        return result;
     }
 
     startInactivityTimer() {
@@ -240,24 +410,46 @@ class PlayerCore {
         this.audioEngine.clearInactivityTimer(shouldResume);
     }
 
-    stop() {
+stop() {
         this.audioEngine.stop();
+        this._emitEvent('stop', {});
     }
 
-    skip() {
-        return this.audioEngine.skip();
+skip() {
+        const fromTrack = this.currentTrack;
+        const result = this.audioEngine.skip();
+        const toTrack = this.currentTrack;
+        if (fromTrack || toTrack) {
+            this._emitEvent('skip', {
+                fromTrackId: fromTrack?.id || fromTrack?.url,
+                toTrackId: toTrack?.id || toTrack?.url
+            });
+        }
+        return result;
     }
 
 previous() {
-        return this.audioEngine.previous();
+        const result = this.audioEngine.previous();
+        if (this.currentTrack) {
+            this._emitEvent('play', {
+                track: this._serializeTrack(this.currentTrack),
+                guildId: this.guild.id,
+                requestedBy: this.currentTrack?.requesterId || null
+            });
+        }
+        return result;
     }
 
     async seek(positionMs) {
-        return await this.audioEngine.seek(positionMs);
+        const result = await this.audioEngine.seek(positionMs);
+        this._emitEvent('seek', { positionMs });
+        return result;
     }
 
     setVolume(volume) {
-        return this.audioEngine.setVolume(volume);
+        const result = this.audioEngine.setVolume(volume);
+        this._emitEvent('volume', { volume });
+        return result;
     }
 
     getCurrentTime() {
@@ -276,7 +468,7 @@ previous() {
         return await this.audioEngine.handleError(error, userMessage);
     }
 
-    async handleMusicData(trackData, member, interaction = null) {
+async handleMusicData(trackData, member, interaction = null) {
         // Çakışma önleme (Concurrency lock) can be handled by just queueing things, but we'll adapt _processMusic
         const wasPlayingBefore = this.currentTrack !== null;
         const isPlaylist = trackData.isPlaylist || false;
@@ -299,6 +491,13 @@ previous() {
                         }
                         await this.play();
                         firstTrackResult = await this.ui.createNewMusicEmbed(track, member, interaction);
+                        
+                        // Emit play event
+                        await this._emitEvent('play', {
+                            track: this._serializeTrack(track),
+                            guildId: this.guild.id,
+                            requestedBy: member?.id || null
+                        });
                     } catch (playError) {
                         console.error('Error in play process:', playError);
                         this.currentTrack = null;
@@ -306,6 +505,11 @@ previous() {
                     }
                 } else {
                     this.queue.push(track);
+                    // Emit add event
+                    await this._emitEvent('add', {
+                        track: this._serializeTrack(track),
+                        position: this.queue.length - 1
+                    });
                 }
             }
 
@@ -368,9 +572,10 @@ previous() {
     }
 
 
-    shuffleQueue() {
+shuffleQueue() {
         const shuffled = this.trackManager.shuffle();
         if (shuffled) {
+            this._emitEvent('shuffle', { enabled: true });
             this.scheduleStatePersist('shuffle-queue', 200);
         }
         return shuffled;
@@ -379,25 +584,29 @@ previous() {
     setLoop(mode) {
         // mode: false, 'track', 'queue'
         this.loop = mode;
+        this._emitEvent('loop', { mode });
         this.scheduleStatePersist('loop', 200);
         return this.loop;
     }
 
     setShuffle(enabled) {
         this.shuffle = enabled;
+        this._emitEvent('shuffle', { enabled });
         this.scheduleStatePersist('shuffle-toggle', 200);
         return this.shuffle;
     }
 
-    clear() {
+clear() {
         const cleared = this.trackManager.clear();
+        this._emitEvent('clear', {});
         this.scheduleStatePersist('clear-queue', 0);
         return cleared;
     }
 
-    removeFromQueue(index) {
+removeFromQueue(index) {
         const removed = this.trackManager.removeTrack(index);
         if (removed) {
+            this._emitEvent('remove', { trackId: removed.id || removed.url });
             this.scheduleStatePersist('queue-remove', 200);
         }
         return removed;
@@ -407,6 +616,7 @@ previous() {
         const removed = this.trackManager.removeTrack(index);
         if (removed) {
             console.log(`🗑️ [QUEUE MUTATION] Cleared index ${index}: ${removed.title}`);
+            this._emitEvent('remove', { trackId: removed.id || removed.url });
             this.broadcastStateUpdate(); // Real-time UI refresh anchor
         }
         return this.queue;
@@ -421,6 +631,7 @@ previous() {
         if (from >= 0 && from < this.queue.length && to >= 0 && to < this.queue.length) {
             const track = this.queue.splice(from, 1)[0];
             this.queue.splice(to, 0, track);
+            this._emitEvent('reorder', { trackIds: this.queue.map(t => t.id || t.url) });
             this.scheduleStatePersist('queue-move', 200);
             return true;
         }
@@ -463,7 +674,11 @@ previous() {
         }
     }
 
-    restoreFromState(state) {
+restoreFromState(state) {
+        // First initialize event store and rebuild from events
+        this.initializeEventStore().catch(err => console.error('[EventStore] Init error:', err));
+        
+        // Then restore from legacy state persistence for backward compatibility
         return this.statePersistence.restoreFromState(state);
     }
 
@@ -487,11 +702,16 @@ previous() {
         return this.statePersistence.scheduleStatePersist(reason, delay);
     }
 
-    cleanup(isShutdown = false) {
+cleanup(isShutdown = false) {
         try {
             this.clearInactivityTimer(false);
             this.stopStateSync();
             if (this.statePersistence) this.statePersistence.cleanup();
+            
+            // Stop event store snapshot timer
+            if (this.guild?.id) {
+                this.eventStore.stopSnapshotTimer(this.guild.id);
+            }
 
             // During shutdown, save state before cleanup
             if (isShutdown && this.guild?.id) {

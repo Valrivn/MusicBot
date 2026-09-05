@@ -1,75 +1,25 @@
-const youtubedl = require('youtube-dl-exec');
+const { runYtdlp, runYtdlpWrap, getYtDlpOptions } = require('./resilience/external-calls');
 const config = require('../config');
 const LanguageManager = require('./LanguageManager');
-const YTDlpWrap = require('yt-dlp-wrap').default;
 const path = require('path');
-
-const binaryPath = path.join(__dirname, '..', 'bin', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
-const ytDlpWrap = new YTDlpWrap(binaryPath);
+const { defaultResolver } = require('./services/media-resolver');
+const fs = require('fs');
 
 class YouTube {
-    // yt-dlp için ortak parametreleri döndüren yardımcı fonksiyon
-    static getYtDlpOptions(extraOptions = {}) {
-        const baseOptions = {
-            noCheckCertificates: true,
-            noWarnings: true,
-            retries: 3,
-            fragmentRetries: 3,
-            // User-Agent header ekle
-            addHeader: [
-                'referer:youtube.com',
-                'user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-            ],
-            ...extraOptions
-        };
-
-        // Auth öncelik sırası: PO Token > Browser Cookie > Cookie Dosyası > iOS client (fallback)
-        if (config.ytdl.poToken) {
-            // PO Token varsa web client'ı ile yüksek kaliteli stream
-            baseOptions.extractorArgs = `youtube:po_token=web+${config.ytdl.poToken};player_client=web`;
-        } else if (config.ytdl.cookiesFromBrowser) {
-            baseOptions.cookiesFromBrowser = config.ytdl.cookiesFromBrowser;
-        } else if (config.ytdl.cookiesFile) {
-            baseOptions.cookies = config.ytdl.cookiesFile;
-        } else {
-            // Forces stable web client routing to drop problematic network wrappers
-            baseOptions.extractorArgs = 'youtube:player_client=web';
-        }
-
-        return baseOptions;
-    }
-
-
-
     static async search(query, limit = 10, guildId = null) {
         if (!query || !query.trim()) {
             return [];
         }
 
         const searchCommand = `ytsearch${limit}:${query.trim()}`;
-        const ytDlpOptions = this.getYtDlpOptions();
+        const ytDlpOptions = getYtDlpOptions();
 
         try {
-            const ytDlpEventEmitter = ytDlpWrap.exec([
+            const results = await runYtdlpWrap([
                 searchCommand,
                 '--extractor-args', ytDlpOptions.extractorArgs || 'youtube:player_client=web',
                 '--flat-playlist', '--skip-download', '--dump-json'
             ]);
-
-            let stdoutBuffer = '';
-            ytDlpEventEmitter.ytDlpProcess.stdout.on('data', (data) => { stdoutBuffer += data; });
-
-            const results = await new Promise((resolve, reject) => {
-                ytDlpEventEmitter.on('close', () => {
-                    const lines = stdoutBuffer.split('\n').filter(l => l.trim() !== '');
-                    try {
-                        resolve(lines.map(l => JSON.parse(l)));
-                    } catch (err) {
-                        reject(err);
-                    }
-                });
-                ytDlpEventEmitter.on('error', (err) => reject(err));
-            });
 
             if (!results || results.length === 0) {
                 return [];
@@ -101,7 +51,6 @@ class YouTube {
         }).filter(Boolean);
         const refDurationMs = Number(targetDurationMs);
 
-        // Multiple search strategies for better matching
         const searchStrategies = [
             `${primaryArtist} - ${cleanTitle} Official Audio`.trim(),
             `${primaryArtist} - ${cleanTitle}`.trim(),
@@ -114,29 +63,14 @@ class YouTube {
         for (const searchQuery of searchStrategies) {
             const searchCommand = `ytsearch5:${searchQuery}`;
             try {
-                const ytDlpEventEmitter = ytDlpWrap.exec([
+                const results = await runYtdlpWrap([
                     searchCommand,
                     '--extractor-args', 'youtube:player_client=web',
                     '--flat-playlist', '--skip-download', '--dump-json'
                 ]);
 
-                let stdoutBuffer = '';
-                ytDlpEventEmitter.ytDlpProcess.stdout.on('data', (data) => { stdoutBuffer += data; });
-                
-                const strategyCandidates = await new Promise((resolve, reject) => {
-                    ytDlpEventEmitter.on('close', () => {
-                        const lines = stdoutBuffer.split('\n').filter(l => l.trim() !== '');
-                        try {
-                            resolve(lines.map(l => JSON.parse(l)));
-                        } catch (err) {
-                            reject(err);
-                        }
-                    });
-                    ytDlpEventEmitter.on('error', (err) => reject(err));
-                });
-
-                if (strategyCandidates && strategyCandidates.length > 0) {
-                    candidates = strategyCandidates;
+                if (results && results.length > 0) {
+                    candidates = results;
                     console.log(`[YouTube] Found ${candidates.length} candidates with query: "${searchQuery}"`);
                     break;
                 }
@@ -155,7 +89,6 @@ class YouTube {
         console.log(`================================================================================`);
         console.log(`Evaluating ${candidates.length} search results in real time:\n`);
 
-        // Filter keywords to exclude (per audio download.md - no nightcore, remix, cover, etc.)
         const excludeKeywords = [
             'nightcore', 'remix', 'cover', 'live', 'karaoke', 'instrumental', 
             '8d', 'slowed', 'reverb', 'sped up', 'pitch', 'bass boost', 
@@ -163,7 +96,6 @@ class YouTube {
             'acoustic', 'piano', 'guitar', 'tutorial', 'how to play'
         ];
 
-        // Boost keywords for official sources
         const officialKeywords = ['official audio', 'topic', 'vevo', 'records', 'music'];
 
         const scoredCandidates = candidates.map((candidate, index) => {
@@ -172,32 +104,27 @@ class YouTube {
             const cDurationMs = candidate.durationMs || (candidate.duration * 1000) || 0;
             const deltaSeconds = Math.abs(cDurationMs - refDurationMs) / 1000;
 
-            // Hard filter: Exclude unwanted versions
             const hasExcludedKeyword = excludeKeywords.some(kw => cTitle.includes(kw) || cChannel.includes(kw));
             if (hasExcludedKeyword) {
                 console.log(`[#${index + 1}] ❌ EXCLUDED: "${candidate.title}" - contains filtered keyword`);
                 return null;
             }
 
-            // Stricter duration delta per audio download.md: +/- 3 seconds
             const isDisqualified = deltaSeconds > 3;
 
             let driftPenalty = deltaSeconds * 25000;
             const hasArtist = cleanArtists.some(art => cChannel.includes(art) || cTitle.includes(art));
             
-            // Channel validation & Topic channel rewards
-            let artistWeight = 25000; // Default penalty for random uploader
+            let artistWeight = 25000;
             if (hasArtist) {
-                artistWeight = -50000; // Primary reward for artist name match
+                artistWeight = -50000;
                 
-                // Secondary check: Are they an Official Topic channel? 
                 const isTopicChannel = cChannel.includes('topic');
                 if (isTopicChannel) {
-                    artistWeight -= 20000; // Extra reward for pristine studio quality uploads
+                    artistWeight -= 20000;
                 }
             }
 
-            // Boost for official channels (VEVO, Records, official audio)
             const isOfficialChannel = officialKeywords.some(kw => cChannel.includes(kw) || cTitle.includes(kw));
             if (isOfficialChannel) {
                 artistWeight -= 15000;
@@ -253,9 +180,7 @@ class YouTube {
 
         const validMatches = scoredCandidates.filter(Boolean);
 
-        // Save detailed search candidates & scoring weights to a file so user can inspect it
         try {
-            const fs = require('fs');
             const auditData = {
                 target: {
                     title: targetTitle,
@@ -316,7 +241,6 @@ class YouTube {
             console.error('❌ Failed to save matrix_audit.json:', fileErr.message);
         }
 
-        // Ultimate fallback shield: if every video fails the 3s fence, use native index 0
         if (validMatches.length === 0) {
             console.log(`⚠️ [ENGINE ALERT] 0 candidates passed the strict 3-second fence. Falling back to primary index.`);
             const fallback = candidates[0];
@@ -334,7 +258,6 @@ class YouTube {
             };
         }
 
-        // Sort ascending: The absolute closest timeline track wins
         validMatches.sort((a, b) => a.matrixScore - b.matrixScore);
         const rawWinner = validMatches[0];
 
@@ -346,8 +269,6 @@ class YouTube {
 
         console.log(`🏆 MATRIX LOCK: "${rawWinner.title}" | Drift: ${rawWinner.calculatedDrift}s | Score: ${rawWinner.matrixScore}`);
 
-        // 🛑 THE METADATA OVERRIDE: 
-        // Inject Target Album Cover & Title onto YouTube Audio Object
         return {
             youtubeId: rawWinner.id || rawWinner.youtubeId,
             url: rawWinner.url,
@@ -362,19 +283,58 @@ class YouTube {
         };
     }
 
-
-
     static async getStream(url, guildId = null, startSeconds = 0) {
         try {
-
-
             if (!url) {
                 const errorMsg = guildId ? await LanguageManager.getTranslation(guildId, 'youtube.url_required') : 'URL is required';
                 throw new Error(errorMsg);
             }
 
-            // Get stream URL with simple format
-            const info = await youtubedl(url, this.getYtDlpOptions({
+            const mediaResult = await defaultResolver.resolve(url, { quality: 'high' });
+            
+            if (!mediaResult || !mediaResult.url) {
+                const errorMsg = guildId ? await LanguageManager.getTranslation(guildId, 'youtube.no_stream_url') : 'No stream URL found';
+                throw new Error(errorMsg);
+            }
+
+            const baseUrl = mediaResult.url;
+            const canSeek = /googlevideo\.com/i.test(baseUrl) || mediaResult.source === 'youtube';
+            let finalUrl = baseUrl;
+
+            const seekSeconds = Math.max(0, Number(startSeconds) || 0);
+            if (seekSeconds > 0 && canSeek) {
+                const startMs = Math.floor(seekSeconds * 1000);
+                const separator = baseUrl.includes('?') ? '&' : '?';
+                finalUrl = `${baseUrl}${separator}begin=${startMs}`;
+            }
+
+            return {
+                url: finalUrl,
+                rawUrl: baseUrl,
+                type: 'opus',
+                duration: mediaResult.duration || 0,
+                bitrate: 128000,
+                canSeek,
+                format: 'bestaudio',
+                httpHeaders: {},
+                source: mediaResult.source,
+                probeInfo: mediaResult.probeInfo
+            };
+
+        } catch (error) {
+            console.warn('[YouTube.getStream] MediaResolver failed, falling back to direct yt-dlp:', error.message);
+            return await this._getStreamDirect(url, guildId, startSeconds);
+        }
+    }
+
+    static async _getStreamDirect(url, guildId = null, startSeconds = 0) {
+        try {
+            if (!url) {
+                const errorMsg = guildId ? await LanguageManager.getTranslation(guildId, 'youtube.url_required') : 'URL is required';
+                throw new Error(errorMsg);
+            }
+
+            const info = await runYtdlp(url, getYtDlpOptions({
                 dumpSingleJson: true,
                 format: 'bestaudio/best',
             }));
@@ -411,8 +371,6 @@ class YouTube {
         }
     }
 
-
-
     static isYouTubeURL(url) {
         const patterns = [
             /^https?:\/\/(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/playlist\?list=)/,
@@ -432,7 +390,6 @@ class YouTube {
     static parseDuration(durationString) {
         if (!durationString) return 0;
 
-        // Handle formats like "3:45", "1:23:45", etc.
         const parts = durationString.split(':').reverse();
         let seconds = 0;
 
@@ -446,7 +403,6 @@ class YouTube {
     static formatDuration(seconds) {
         if (!seconds || seconds === 0) return '0:00';
 
-        // Ensure we work with integers to avoid floating point errors
         const totalSeconds = Math.floor(Number(seconds) || 0);
         const hours = Math.floor(totalSeconds / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -458,8 +414,6 @@ class YouTube {
             return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
     }
-
-
 
     static extractVideoId(url) {
         const patterns = [
@@ -495,8 +449,7 @@ class YouTube {
                 return false;
             }
 
-            // Try to get basic info to validate
-            const info = await youtubedl(url, this.getYtDlpOptions({
+            const info = await runYtdlp(url, getYtDlpOptions({
                 dumpSingleJson: true,
                 skipDownload: true,
             }));
@@ -513,7 +466,7 @@ class YouTube {
                 return null;
             }
 
-            const info = await youtubedl(url, this.getYtDlpOptions({
+            const info = await runYtdlp(url, getYtDlpOptions({
                 dumpSingleJson: true,
                 skipDownload: true,
             }));
@@ -540,7 +493,7 @@ class YouTube {
                 return null;
             }
 
-            const info = await youtubedl(url, this.getYtDlpOptions({
+            const info = await runYtdlp(url, getYtDlpOptions({
                 dumpSingleJson: true,
                 skipDownload: true,
             }));
@@ -570,8 +523,6 @@ class YouTube {
     }
 
     static async getTranscript(videoId) {
-        const fs = require('fs');
-        const path = require('path');
         const cacheDir = path.join(__dirname, '..', '..', 'cache', 'lyrics');
         
         if (!fs.existsSync(cacheDir)) {
@@ -595,7 +546,7 @@ class YouTube {
             try {
                 console.log(`[YouTube.getTranscript] Fetching subtitles for ${videoId} (lang: ${lang})`);
                 
-                const ytDlpEventEmitter = ytDlpWrap.exec([
+                const results = await runYtdlpWrap([
                     `https://www.youtube.com/watch?v=${videoId}`,
                     '--skip-download',
                     '--write-auto-sub',
@@ -605,18 +556,9 @@ class YouTube {
                 ]);
 
                 let stdoutBuffer = '';
-                let stderrBuffer = '';
-                
-                ytDlpEventEmitter.ytDlpProcess.stdout.on('data', (data) => { stdoutBuffer += data; });
-                ytDlpEventEmitter.ytDlpProcess.stderr.on('data', (data) => { stderrBuffer += data; });
-
-                await new Promise((resolve, reject) => {
-                    ytDlpEventEmitter.on('close', (code) => {
-                        if (code === 0) resolve();
-                        else reject(new Error(stderrBuffer || `yt-dlp exited with code ${code}`));
-                    });
-                    ytDlpEventEmitter.on('error', (err) => reject(err));
-                });
+                if (results && results.length > 0) {
+                    stdoutBuffer = JSON.stringify(results);
+                }
 
                 if (!stdoutBuffer.trim()) {
                     continue;

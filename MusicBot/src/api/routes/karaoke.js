@@ -4,10 +4,12 @@ const fs = require('fs');
 const chalk = require('chalk');
 const { execFile } = require('child_process');
 const LyricsManager = require('../../LyricsManager');
+const { demucsBreaker, getCachedKaraoke, runDemucsWithFallback } = require('../../resilience/demucs-breaker');
+const { recordKaraokeJobDuration } = require('../../observability/metrics');
 
 const router = express.Router();
 const STEMS_DIR = path.join(__dirname, '..', '..', '..', 'audio_cache', 'stems');
-const karaokeJobs = new Map(); // jobId -> { status, outputDir, error? }
+const karaokeJobs = new Map();
 
 if (!fs.existsSync(STEMS_DIR)) {
     fs.mkdirSync(STEMS_DIR, { recursive: true });
@@ -49,7 +51,9 @@ const getFormattedPitchMap = (outputDir) => {
     return frames;
 };
 
-module.exports = (client, checkPermission) => {
+module.exports = (client, requirePermission) => {
+    const { karaokeLimiter } = require('../../auth/rate-limit');
+
     const extractYtVideoId = (url) => {
         if (!url) return 'unknown';
         const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -72,8 +76,7 @@ module.exports = (client, checkPermission) => {
         return cleaned.trim();
     };
 
-    // POST /music/lyrics
-    router.post('/music/lyrics', async (req, res) => {
+    router.post('/music/lyrics', requirePermission('karaoke', 'read'), async (req, res) => {
         let { title, artist, trackUrl, forceResync } = req.body;
         const videoId = extractYtVideoId(trackUrl || '');
 
@@ -119,7 +122,6 @@ module.exports = (client, checkPermission) => {
                         source: payload.source
                     };
                 }
-                // Broadcast UI state update to notify connected clients of fresh lyrics
                 if (typeof matchedPlayer.broadcastStateUpdate === 'function') {
                     matchedPlayer.broadcastStateUpdate();
                 }
@@ -140,6 +142,7 @@ module.exports = (client, checkPermission) => {
     });
 
     const karaokePrepareHandler = async (req, res) => {
+        const startTime = Date.now();
         try {
             const player = client.players.first();
             const trackUrl = req.body.trackUrl || player?.currentTrack?.url;
@@ -192,54 +195,37 @@ module.exports = (client, checkPermission) => {
 
             console.log(chalk.magenta(`🎤 [KARAOKE] Starting pitch extraction for: ${audioFile}`));
 
-            const child = execFile('python', [pythonScript, audioFile, outputDir], {
-                timeout: 600000 // 10 minute max
-            }, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(chalk.red(`❌ Karaoke worker failed: ${error.message}`));
-                    karaokeJobs.set(trackHash, { status: 'error', outputDir, error: error.message });
-                } else {
-                    console.log(chalk.green(`✅ [KARAOKE] Pitch map generated successfully! (and stems separated) for ${trackHash}`));
-                    karaokeJobs.set(trackHash, { status: 'ready', outputDir });
-                }
-            });
+            // Run Demucs with circuit breaker and fallback
+            const job = { trackHash, audioFile, outputDir, pythonScript };
+            const result = await runDemucsWithFallback(job);
 
-            child.stdout.on('data', (data) => {
-                const lines = data.toString().split('\n');
-                for (const line of lines) {
-                    if (line.trim()) {
-                        console.log(chalk.gray(`🐍 [KARAOKE WORKER] ${line.trim()}`));
-                    }
-                }
-            });
+            const duration = (Date.now() - startTime) / 1000;
+            recordKaraokeJobDuration(duration);
 
-            child.stderr.on('data', (data) => {
-                const lines = data.toString().split('\n');
-                for (const line of lines) {
-                    if (line.trim()) {
-                        console.error(chalk.red(`🐍 [KARAOKE WORKER ERR] ${line.trim()}`));
-                    }
-                }
-            });
+            if (result.status === 'ready') {
+                karaokeJobs.set(trackHash, { status: 'ready', outputDir: result.outputDir });
+                console.log(chalk.green(`✅ [KARAOKE] Pitch map generated successfully! (and stems separated) for ${trackHash}`));
+            } else if (result.status === 'error') {
+                karaokeJobs.set(trackHash, { status: 'error', outputDir, error: result.error });
+                console.error(chalk.red(`❌ Karaoke worker failed: ${result.error}`));
+            }
 
-            child.unref?.();
-
-            res.json({ status: 'processing', jobId: trackHash });
+            res.json(result);
 
         } catch (error) {
+            const duration = (Date.now() - startTime) / 1000;
+            recordKaraokeJobDuration(duration);
+            
             console.error(chalk.red('❌ Karaoke prepare error:'), error.message);
             res.status(500).json({ error: error.message });
         }
     };
 
-    // POST /karaoke/prepare
-    router.post('/karaoke/prepare', karaokePrepareHandler);
+    router.post('/karaoke/prepare', karaokeLimiter, requirePermission('karaoke', 'write'), karaokePrepareHandler);
 
-    // POST /music/karaoke
-    router.post('/music/karaoke', checkPermission(0), karaokePrepareHandler);
+    router.post('/music/karaoke', karaokeLimiter, requirePermission('karaoke', 'write'), karaokePrepareHandler);
 
-    // GET /karaoke/status/:jobId
-    router.get('/karaoke/status/:jobId', (req, res) => {
+    router.get('/karaoke/status/:jobId', requirePermission('karaoke', 'read'), (req, res) => {
         const { jobId } = req.params;
         const job = karaokeJobs.get(jobId);
 
@@ -286,8 +272,7 @@ module.exports = (client, checkPermission) => {
         res.json({ status: 'processing', jobId });
     });
 
-    // GET /music/karaoke/pitch-data
-    router.get('/music/karaoke/pitch-data', (req, res) => {
+    router.get('/music/karaoke/pitch-data', requirePermission('karaoke', 'read'), (req, res) => {
         const player = client.players.first();
         if (!player) return res.json([]);
 
@@ -329,7 +314,6 @@ module.exports = (client, checkPermission) => {
         return res.json(frames);
     });
 
-    // Serve stem files statically
     router.use('/karaoke/stems', express.static(STEMS_DIR));
 
     return router;

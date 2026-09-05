@@ -8,8 +8,30 @@ const { cleanupAudioCache } = require('../../SessionManager');
 
 const router = express.Router();
 
-module.exports = (client, checkPermission) => {
-    // GET /bot/status
+module.exports = (client, requirePermission) => {
+    router.get('/health/live', (req, res) => {
+        res.status(200).json({ status: 'alive', timestamp: new Date().toISOString() });
+    });
+
+    router.get('/health/ready', async (req, res) => {
+        let redisStatus = 'unknown';
+        try {
+            const { redisConnection } = require('../../queue/karaoke-queue');
+            redisStatus = redisConnection.status;
+        } catch (e) {
+            redisStatus = 'error';
+        }
+        const isReady = redisStatus === 'ready' && client?.ws?.ping !== undefined;
+        res.status(isReady ? 200 : 503).json({
+            status: isReady ? 'ready' : 'not_ready',
+            checks: {
+                redis: redisStatus,
+                discord: client?.ws?.ping !== undefined ? 'connected' : 'disconnected',
+            },
+            timestamp: new Date().toISOString(),
+        });
+    });
+
     router.get('/bot/status', (req, res) => {
         res.json({
             activeShard: client.shard?.ids[0] ?? 0,
@@ -19,13 +41,11 @@ module.exports = (client, checkPermission) => {
         });
     });
 
-    // GET /system/settings
     router.get('/system/settings', (req, res) => {
         res.json({ sessionRestoreEnabled: config.sessionRestore?.enabled !== false });
     });
 
-    // GET /system/audio-cache
-    router.get('/system/audio-cache', async (req, res) => {
+    router.get('/system/audio-cache', requirePermission('settings', 'read'), async (req, res) => {
         const cacheDir = path.join(__dirname, '..', '..', '..', 'audio_cache');
         let totalSize = 0;
         try {
@@ -43,8 +63,7 @@ module.exports = (client, checkPermission) => {
         res.json({ sizeMb: Number(sizeMb.toFixed(2)) });
     });
 
-    // POST /api/cache/clean
-    router.post('/api/cache/clean', checkPermission(2), async (req, res) => {
+    router.post('/api/cache/clean', requirePermission('settings', 'write'), async (req, res) => {
         try {
             await cleanupAudioCache();
             res.json({ success: true, message: 'Audio cache cleaned successfully.' });
@@ -53,8 +72,7 @@ module.exports = (client, checkPermission) => {
         }
     });
 
-    // POST /api/settings/session-restore
-    router.post('/api/settings/session-restore', checkPermission(3), (req, res) => {
+    router.post('/api/settings/session-restore', requirePermission('settings', 'write'), (req, res) => {
         const { enabled } = req.body;
         if (typeof enabled === 'boolean') {
             config.sessionRestore.enabled = enabled;

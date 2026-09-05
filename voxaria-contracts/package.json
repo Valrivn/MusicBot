@@ -1,0 +1,43 @@
+{
+  "name": "@voxaria/contracts",
+  "version": "1.0.0",
+  "description": "Shared tRPC + Zod contracts for Voxaria",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./schemas": {
+      "import": "./dist/schemas.mjs",
+      "require": "./dist/schemas.js",
+      "types": "./dist/schemas.d.ts"
+    },
+    "./router": {
+      "import": "./dist/router.mjs",
+      "require": "./dist/router.js",
+      "types": "./dist/router.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -w -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@trpc/server": "^11.18.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

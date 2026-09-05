@@ -7,6 +7,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Environment files
+.env
+.env.*
+!.env.production.example
+.env.*.local
+
+# TypeScript build cache
+*.tsbuildinfo
+
 node_modules
 dist
 dist-ssr

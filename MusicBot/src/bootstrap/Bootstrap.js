@@ -71,7 +71,7 @@ async function startBot() {
         loadCommands(client);
 
         // 5. Setup API Bridge
-        const apiServer = startServer(client);
+        const apiServer = await startServer(client);
         apiServer.on('error', (error) => {
             if (error.code === 'EADDRINUSE') {
                 console.error(chalk.red(`❌ API Bridge port ${process.env.MUSIC_API_PORT || 3002} in use - dashboard features unavailable`));
