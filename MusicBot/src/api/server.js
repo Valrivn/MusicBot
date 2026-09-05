@@ -51,11 +51,18 @@ async function startServer(client) {
     const app = express();
     app.set('sessionStore', new Map());
 
+    const extraOrigins = (process.env.CORS_ORIGINS || '')
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
+
     const corsOptions = {
         origin: [
             'https://voxaria.lovable.app',
             'http://localhost:3000',
-            'http://localhost:5173'
+            'http://localhost:5173',
+            'http://localhost:8080',
+            ...extraOrigins
         ],
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -106,7 +113,7 @@ async function startServer(client) {
             endpoint: '/api/trpc',
             req,
             router: appRouter,
-            createContext: () => createContext({ req, client }),
+            createContext: typeof createContext === 'function' ? () => createContext({ req, client }) : () => ({}),
             onError: ({ path, error }) => {
                 console.error(`❌ tRPC error on ${path}:`, error);
             },
@@ -167,7 +174,7 @@ async function startServer(client) {
             res.cookie('refresh_token', newRefreshToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 path: '/'
             });
@@ -195,7 +202,7 @@ async function startServer(client) {
         res.clearCookie('refresh_token', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             path: '/'
         });
 
@@ -402,7 +409,7 @@ async function startServer(client) {
             res.cookie('refresh_token', refreshToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 path: '/'
             });
@@ -417,6 +424,105 @@ async function startServer(client) {
         } catch (error) {
             console.error('OAuth2 Error:', error);
             res.status(500).json({ error: 'Internal server error during authentication' });
+        }
+    });
+
+    // --- DISCORD OAUTH GET FLOW (browser redirect) ---
+    const DISCORD_SCOPES = 'identify guilds guilds.members.read email';
+
+    async function exchangeDiscordCode(code, redirectUri) {
+        const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                client_id: config.discord.clientId,
+                client_secret: config.discord.clientSecret,
+                grant_type: 'authorization_code',
+                code,
+                redirect_uri: redirectUri
+            })
+        });
+        if (!tokenResponse.ok) {
+            const errText = await tokenResponse.text();
+            console.error('Discord Token Error:', errText);
+            const error = new Error('Failed to exchange code for token');
+            error.status = 400;
+            throw error;
+        }
+        const tokenData = await tokenResponse.json();
+
+        const userResponse = await fetch('https://discord.com/api/users/@me', {
+            headers: { authorization: `${tokenData.token_type} ${tokenData.access_token}` }
+        });
+        if (!userResponse.ok) throw new Error('Failed to fetch user profile');
+        const userData = await userResponse.json();
+
+        const guildsResponse = await fetch('https://discord.com/api/users/@me/guilds', {
+            headers: { authorization: `${tokenData.token_type} ${tokenData.access_token}` }
+        });
+        let guildId = null;
+        if (guildsResponse.ok) {
+            const guilds = await guildsResponse.json();
+            if (guilds.length > 0) guildId = guilds[0].id;
+        }
+        return { userData, guildId };
+    }
+
+    function buildFrontendUserPayload(userData, role) {
+        return {
+            id: userData.id,
+            name: userData.username || userData.global_name || userData.id,
+            username: userData.username,
+            discordId: userData.id,
+            avatar: userData.avatar,
+            roleLevel: role,
+            permissions: { dj: role >= 1, staff: role >= 2 }
+        };
+    }
+
+    app.get('/auth/discord', (req, res) => {
+        if (!config.discord.clientId || !config.discord.clientSecret) {
+            return res.status(500).json({ error: 'Backend is missing DISCORD_CLIENT_ID or DISCORD_CLIENT_SECRET in config' });
+        }
+        const redirectUri = `${req.protocol}://${req.get('host')}/auth/discord/callback`;
+        const authorizeUrl =
+            'https://discord.com/oauth2/authorize' +
+            '?client_id=' + encodeURIComponent(config.discord.clientId) +
+            '&response_type=code' +
+            '&redirect_uri=' + encodeURIComponent(redirectUri) +
+            '&scope=' + encodeURIComponent(DISCORD_SCOPES) +
+            '&prompt=consent';
+        res.redirect(authorizeUrl);
+    });
+
+    app.get('/auth/discord/callback', async (req, res) => {
+        const { code, error } = req.query;
+        const frontendUrl = process.env.FRONTEND_URL || 'https://voxaria.lovable.app';
+        if (error || !code) {
+            return res.redirect(`${frontendUrl}?login_status=failed`);
+        }
+        const redirectUri = `${req.protocol}://${req.get('host')}/auth/discord/callback`;
+        try {
+            const { userData, guildId } = await exchangeDiscordCode(code, redirectUri);
+            const role = getUserRole(userData.id);
+            const roles = role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [];
+
+            const accessToken = await createAccessToken({ id: userData.id, username: userData.username, roles, guildId });
+            const refreshToken = await createRefreshToken({ id: userData.id, username: userData.username, roles, guildId }, req.headers['user-agent'], req.ip);
+
+            res.cookie('refresh_token', refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+                path: '/'
+            });
+
+            const userPayload = buildFrontendUserPayload(userData, role);
+            res.redirect(`${frontendUrl}?login_status=success&user=${encodeURIComponent(JSON.stringify(userPayload))}`);
+        } catch (err) {
+            console.error('OAuth callback error:', err.message);
+            res.redirect(`${frontendUrl}?login_status=failed`);
         }
     });
 
@@ -471,6 +577,29 @@ async function startServer(client) {
             return res.json({ ok: true, channel: member.voice.channel.name });
         } catch (e) {
             console.error("❌ ERROR in Summon Route:", e.message);
+            return res.status(500).json({ error: e.message });
+        }
+    });
+
+    const { getVoiceConnection } = require('@discordjs/voice');
+
+    app.post('/discord/leave', async (req, res) => {
+        try {
+            if (client.players && typeof client.players.forEach === 'function') {
+                for (const player of client.players.values()) {
+                    try {
+                        if (typeof player.stop === 'function') player.stop();
+                        const connection = getVoiceConnection(player.guild?.id);
+                        if (connection) connection.destroy();
+                    } catch (e) {
+                        console.error('Leave: error stopping player:', e.message);
+                    }
+                }
+                client.players.clear();
+            }
+            return res.json({ ok: true });
+        } catch (e) {
+            console.error('❌ ERROR in Leave Route:', e.message);
             return res.status(500).json({ error: e.message });
         }
     });

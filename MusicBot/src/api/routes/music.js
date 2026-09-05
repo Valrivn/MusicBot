@@ -128,6 +128,17 @@ module.exports = (client, requirePermission) => {
         res.json({ success: true });
     });
 
+    router.post('/music/queue/clear', requirePermission('queue', 'write'), (req, res) => {
+        const player = client.players.first();
+        if (!player) return res.status(404).json({ error: 'No active player' });
+        if (Array.isArray(player.queue)) {
+            player.queue.length = 0;
+        }
+        player.currentTrack = null;
+        if (typeof player.stop === 'function') player.stop();
+        res.json({ ok: true });
+    });
+
     router.post('/music/volume', requirePermission('queue', 'write'), (req, res) => {
         const { volume } = req.body;
         if (typeof volume !== 'number' || volume < 0 || volume > 100) {

@@ -136,7 +136,9 @@ type PlaybackAction = "previous" | "play_pause" | "next" | "stop";
 import { getAccessToken, getAuthHeaders, fetchWithAuth } from './auth';
 
 export const BASE_URL =
-  import.meta.env.VITE_VOXARIA_API_BASE_URL?.trim() || "https://unhitched-shrink-dorsal.ngrok-free.dev";
+  import.meta.env.VITE_VOXARIA_API_BASE_URL?.trim() ||
+  import.meta.env.VITE_API_URL?.trim() ||
+  "http://localhost:3002";
 const OWNER_USER_ID = "owner";
 const OWNER_API_KEY = "owner";
 const DEFAULT_GUILD_ID = import.meta.env.VITE_VOXARIA_GUILD_ID?.trim() || "owner";
@@ -181,7 +183,7 @@ const ENDPOINTS = {
   presetsLoad: "/presets/load",
   presetsCreate: "/presets/create",
   presetsDelete: "/presets/delete",
-  searchOnly: "/music/search-only",
+  searchOnly: "/playlist/search",
   pitchMap: "/music/pitch-map",
   searchResults: "/music/search/results",
   audit: "/api/audit",

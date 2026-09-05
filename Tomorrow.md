@@ -65,6 +65,20 @@
 | 13 | **Metrics bug fix** | `src/observability/metrics.js` | `recordFfmpegCall` was counting successes as errors → fixed to `success ? 'success' : 'error'` |
 | 14 | **Rate limit metric** | `src/observability/metrics.js` | `voxaria_rate_limit_rejections_total` gauge + alert in prometheus-alerts.yml |
 
+### Frontend ↔ Backend Connectivity Fixes (Sept 5 — AUDIT + FIXED)
+| # | Blockers Found in Audit | Fix | Files |
+|---|------------------------|-----|-------|
+| 15 | `VITE_VOXARIA_API_BASE_URL` never defined (both `.env` files used `VITE_API_URL`); prod fell back to dead ngrok URL (404) | Added `VITE_VOXARIA_API_BASE_URL` + `VITE_VOXARIA_GUILD_ID` to `.env` + `.env.production.example`; removed ngrok fallback, now prefers `VITE_API_URL` then localhost:3002 | `Voxaria-Web/.env`, `.env.production.example`, `src/lib/voxaria-api.ts`, `src/lib/auth.ts` |
+| 16 | `config.js` read `DISCORD_TOKEN`/`CLIENT_ID` but `.env` defines `DISCORD_BOT_TOKEN`/`DISCORD_CLIENT_ID`; no `clientSecret` → `/auth/discord` 500 | Discord block now maps `DISCORD_BOT_TOKEN`/`DISCORD_CLIENT_ID` with legacy fallbacks + added `clientSecret` | `MusicBot/config.js` |
+| 17 | Missing routes: `/music/queue/clear`, `/discord/leave`, `/system/audio-cache/clean`, `/presets/create`, `/presets/delete`, `/music/playlist/add-track`, `/presets/:id/remove/:trackIndex`, `/presets/:id/import` | All 8 routes added (presets ops run against `presets.json` via existing read/write helpers) | `MusicBot/src/api/routes/music.js`, `system.js`, `presets.js`, `server.js` |
+| 18 | `searchOnly` posted to `/music/search-only` (didn't exist) | Rewired `ENDPOINTS.searchOnly` → `/playlist/search` (returns `{results, count}`, normalizer already handles it) | `Voxaria-Web/src/lib/voxaria-api.ts` |
+| 19 | Login button hit `GET /auth/discord` (backend only had POST) | Full browser OAuth flow: `GET /auth/discord` redirects to Discord → `GET /auth/discord/callback` exchanges code, sets HttpOnly refresh cookie, redirects to `FRONTEND_URL?login_status=success&user=` (frontend already parses this) | `MusicBot/src/api/server.js` |
+| 20 | Logout posted `/auth/logout` (backend serves `/api/auth/logout`) | Fixed path + SameSite cookie `strict`→`none`(prod)/`lax`(dev) so cross-site Lovable↔ngrok/Railway auth works | `Voxaria-Web/src/pages/Index.tsx`, `MusicBot/src/api/server.js` |
+| 21 | tRPC client used relative `/api/trpc` (resolved to Lovable domain); backend `createContext` import was undefined → crash on request | Client URL now `${BASE_URL}/api/trpc`; server guards `typeof createContext === 'function'` | `Voxaria-Web/src/lib/trpc/client.tsx`, `MusicBot/src/api/server.js` |
+| 22 | CORS missing `localhost:8080`, hardcoded origins | Added `:8080` + env-driven `CORS_ORIGINS` | `MusicBot/src/api/server.js` |
+
+**Verification:** `node --check` passes on all modified backend files; `voxaria-contracts` tsc build passes; `Voxaria-Web npm run build` passes. Full REST contract re-audit clean — every live frontend endpoint now maps to a real backend route.
+
 ---
 
 ## What's Left To Do Next Session

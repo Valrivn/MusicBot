@@ -72,6 +72,15 @@ module.exports = (client, requirePermission) => {
         }
     });
 
+    router.post('/system/audio-cache/clean', requirePermission('settings', 'write'), async (req, res) => {
+        try {
+            await cleanupAudioCache();
+            res.json({ ok: true });
+        } catch (error) {
+            res.status(500).json({ ok: false, error: error.message });
+        }
+    });
+
     router.post('/api/settings/session-restore', requirePermission('settings', 'write'), (req, res) => {
         const { enabled } = req.body;
         if (typeof enabled === 'boolean') {

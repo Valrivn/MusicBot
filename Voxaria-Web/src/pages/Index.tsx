@@ -1132,7 +1132,7 @@ const Index = () => {
 
   const logoutDiscord = async () => {
     try {
-      await fetch(`${API_BASE_URL}/auth/logout`, {
+      await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: "POST",
         headers: { "ngrok-skip-browser-warning": "true" },
         credentials: "include"

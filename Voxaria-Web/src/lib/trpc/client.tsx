@@ -1,5 +1,6 @@
 import { createTRPCReact, httpBatchLink } from '@trpc/react-query';
 import type { AppRouter } from '@voxaria/contracts';
+import { BASE_URL } from '../voxaria-api';
 
 export const trpc = createTRPCReact<AppRouter>();
 
@@ -7,7 +8,7 @@ export function createTRPCClient() {
   return trpc.createClient({
     links: [
       httpBatchLink({
-        url: '/api/trpc',
+        url: `${BASE_URL}/api/trpc`,
         headers() {
           const headers: Record<string, string> = {
             'ngrok-skip-browser-warning': 'true',

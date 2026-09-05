@@ -4,9 +4,10 @@ require('dotenv').config();
 module.exports = {
     // Discord Bot Settings
     discord: {
-        token: process.env.DISCORD_TOKEN || 'YOUR_DISCORD_BOT_TOKEN_HERE',
-        clientId: process.env.CLIENT_ID || 'YOUR_CLIENT_ID_HERE',
-        guildId: process.env.GUILD_ID || null, // Leave null for global commands
+        token: process.env.DISCORD_BOT_TOKEN || process.env.DISCORD_TOKEN || 'YOUR_DISCORD_BOT_TOKEN_HERE',
+        clientId: process.env.DISCORD_CLIENT_ID || process.env.CLIENT_ID || 'YOUR_CLIENT_ID_HERE',
+        clientSecret: process.env.DISCORD_CLIENT_SECRET || '',
+        guildId: process.env.DISCORD_GUILD_ID || process.env.GUILD_ID || null, // Leave null for global commands
     },
 
     // Genius API Settings
@@ -24,7 +25,7 @@ module.exports = {
         embedColor: process.env.EMBED_COLOR || '#FF6B6B',
         supportServer: process.env.SUPPORT_SERVER || 'https://discord.gg/ACJQzJuckW',
         website: process.env.WEBSITE || 'https://beatra.app',
-        invite: 'https://discord.com/oauth2/authorize?client_id=' + process.env.CLIENT_ID + '&permissions=8&scope=bot%20applications.commands',
+        invite: 'https://discord.com/oauth2/authorize?client_id=' + (process.env.DISCORD_CLIENT_ID || process.env.CLIENT_ID) + '&permissions=8&scope=bot%20applications.commands',
     },
 
     // Audio Settings

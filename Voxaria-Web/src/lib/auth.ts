@@ -27,7 +27,7 @@ let currentUser: AuthUser | null = null;
 let refreshPromise: Promise<RefreshResponse> | null = null;
 let authListeners: Set<(user: AuthUser | null) => void> = new Set();
 
-const BASE_URL = import.meta.env.VITE_VOXARIA_API_BASE_URL?.trim() || 'https://unhitched-shrink-dorsal.ngrok-free.dev';
+const BASE_URL = import.meta.env.VITE_VOXARIA_API_BASE_URL?.trim() || import.meta.env.VITE_API_URL?.trim() || 'http://localhost:3002';
 
 function notifyListeners() {
   authListeners.forEach(listener => listener(currentUser));

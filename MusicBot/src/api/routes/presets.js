@@ -587,5 +587,132 @@ module.exports = (client, requirePermission) => {
         }
     });
 
+    router.post('/presets/create', requirePermission('playlist', 'create'), (req, res) => {
+        const { name } = req.body;
+        if (!name || typeof name !== 'string' || name.trim().length === 0) {
+            return res.status(400).json({ error: 'Preset name is required' });
+        }
+        const presets = readPresets();
+        if (presets[name.trim()]) {
+            return res.status(409).json({ error: 'A preset with this name already exists' });
+        }
+        presets[name.trim()] = { tracks: [], savedAt: new Date().toISOString() };
+        const success = writePresets(presets);
+        if (!success) return res.status(500).json({ error: 'Failed to write presets file' });
+        res.json({ ok: true, preset: { name: name.trim(), tracks: [], trackCount: 0 } });
+    });
+
+    router.delete('/presets/delete', requirePermission('playlist', 'delete'), (req, res) => {
+        const { presetId } = req.body;
+        if (!presetId || typeof presetId !== 'string') {
+            return res.status(400).json({ error: 'presetId is required' });
+        }
+        const presets = readPresets();
+        if (!presets[presetId]) {
+            return res.status(404).json({ error: `Preset "${presetId}" not found` });
+        }
+        delete presets[presetId];
+        const success = writePresets(presets);
+        if (!success) return res.status(500).json({ error: 'Failed to write presets file' });
+        res.json({ ok: true, deleted: presetId });
+    });
+
+    router.post('/music/playlist/add-track', requirePermission('playlist', 'write'), (req, res) => {
+        const { playlistId, track } = req.body;
+        if (!playlistId || typeof playlistId !== 'string') {
+            return res.status(400).json({ error: 'playlistId is required' });
+        }
+        if (!track || !track.title) {
+            return res.status(400).json({ error: 'Track object with at least a title is required' });
+        }
+        const presets = readPresets();
+        if (!presets[playlistId]) {
+            return res.status(404).json({ error: `Preset "${playlistId}" not found` });
+        }
+        const sanitizedTrack = {
+            title: track.title,
+            artist: track.artist || 'Unknown',
+            url: track.url || null,
+            duration: track.duration || 0,
+            thumbnail: track.thumbnail || null,
+            platform: track.platform || 'youtube'
+        };
+        if (!Array.isArray(presets[playlistId].tracks)) {
+            presets[playlistId].tracks = [];
+        }
+        const isDuplicate = sanitizedTrack.url && presets[playlistId].tracks.some(t => t.url === sanitizedTrack.url);
+        if (isDuplicate) {
+            return res.status(409).json({ error: 'Track already exists in this playlist' });
+        }
+        presets[playlistId].tracks.push(sanitizedTrack);
+        presets[playlistId].savedAt = new Date().toISOString();
+        const success = writePresets(presets);
+        if (!success) return res.status(500).json({ error: 'Failed to write presets file' });
+        res.json({ ok: true, trackCount: presets[playlistId].tracks.length });
+    });
+
+    router.delete('/presets/:id/remove/:trackIndex', requirePermission('playlist', 'write'), (req, res) => {
+        const { id, trackIndex } = req.params;
+        const index = Number(trackIndex);
+        const presets = readPresets();
+        if (!presets[id]) {
+            return res.status(404).json({ error: `Preset "${id}" not found` });
+        }
+        if (!Array.isArray(presets[id].tracks) || !Number.isInteger(index) || index < 0 || index >= presets[id].tracks.length) {
+            return res.status(400).json({ error: 'Invalid track index' });
+        }
+        presets[id].tracks.splice(index, 1);
+        presets[id].savedAt = new Date().toISOString();
+        const success = writePresets(presets);
+        if (!success) return res.status(500).json({ error: 'Failed to write presets file' });
+        res.json({ ok: true, trackCount: presets[id].tracks.length });
+    });
+
+    router.post('/presets/:id/import', requirePermission('playlist', 'write'), async (req, res) => {
+        const { id } = req.params;
+        const { url } = req.body;
+        if (!url || typeof url !== 'string') {
+            return res.status(400).json({ error: 'Playlist URL is required' });
+        }
+        const presets = readPresets();
+        if (!presets[id]) {
+            return res.status(404).json({ error: `Preset "${id}" not found` });
+        }
+        try {
+            const { runYtdlpWrap } = require('../resilience/external-calls');
+            const entries = await runYtdlpWrap([url, '--flat-playlist', '--skip-download', '--dump-json']);
+            const tracks = Array.isArray(entries) ? entries : [];
+            if (tracks.length === 0) {
+                return res.status(400).json({ error: 'No tracks resolved from that URL' });
+            }
+            if (!Array.isArray(presets[id].tracks)) {
+                presets[id].tracks = [];
+            }
+            let added = 0;
+            for (const entry of tracks) {
+                const trackUrl = entry.webpage_url || entry.url || (entry.id ? `https://www.youtube.com/watch?v=${entry.id}` : null);
+                if (!trackUrl) continue;
+                const already = presets[id].tracks.some(t => t.url === trackUrl);
+                if (already) continue;
+                presets[id].tracks.push({
+                    title: entry.title || entry.fulltitle || 'Unknown Title',
+                    artist: entry.channel || entry.uploader || 'Unknown Artist',
+                    url: trackUrl,
+                    duration: entry.duration || 0,
+                    thumbnail: entry.thumbnail || null,
+                    platform: (entry.webpage_url && entry.webpage_url.includes('soundcloud')) ? 'soundcloud' : 'youtube'
+                });
+                added++;
+            }
+            presets[id].savedAt = new Date().toISOString();
+            const success = writePresets(presets);
+            if (!success) return res.status(500).json({ error: 'Failed to write presets file' });
+            res.json({ ok: true, added, trackCount: presets[id].tracks.length });
+        } catch (err) {
+            console.error('Preset import failed:', err.message);
+            res.status(500).json({ error: 'Failed to import playlist: ' + err.message });
+        }
+    });
+
     return router;
 };
