@@ -418,6 +418,7 @@ async function startServer(client) {
                 access_token: accessToken,
                 token_type: 'Bearer',
                 expires_in: 900,
+                refresh_token: refreshToken,
                 user: userInfo
             });
 
