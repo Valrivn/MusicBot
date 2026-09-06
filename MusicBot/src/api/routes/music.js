@@ -18,7 +18,7 @@ const isYouTubeUrl = (url) => {
 };
 
 module.exports = (client, requirePermission) => {
-    router.get('/music/player', optionalAuth, (req, res) => {
+    router.get('/music/player', optionalAuth(), (req, res) => {
         const player = client.players.first();
         if (!player) return res.json(null);
 
@@ -55,7 +55,7 @@ module.exports = (client, requirePermission) => {
         });
     });
 
-    router.get('/music/queue', optionalAuth, (req, res) => {
+    router.get('/music/queue', optionalAuth(), (req, res) => {
         const player = client.players.first();
         if (!player || !player.queue) return res.json([]);
 
@@ -173,7 +173,7 @@ module.exports = (client, requirePermission) => {
         }
     });
 
-    router.get('/music/history', optionalAuth, (req, res) => {
+    router.get('/music/history', optionalAuth(), (req, res) => {
         const player = client.players.first();
         if (!player || !player.previousTracks) return res.json([]);
 
@@ -394,7 +394,7 @@ module.exports = (client, requirePermission) => {
         }
     });
 
-    router.delete('/queue/:index', optionalAuth, (req, res) => {
+    router.delete('/queue/:index', optionalAuth(), (req, res) => {
         const player = client.players.first();
         if (!player) return res.status(404).json({ error: 'No active player' });
 
@@ -480,7 +480,7 @@ module.exports = (client, requirePermission) => {
         }
     });
 
-    router.get('/library/search', optionalAuth, async (req, res) => {
+    router.get('/library/search', optionalAuth(), async (req, res) => {
         const query = req.query.q;
         if (!query || typeof query !== 'string' || query.trim().length === 0) {
             return res.status(400).json({ error: 'Query parameter "q" is required' });

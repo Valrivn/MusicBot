@@ -913,7 +913,7 @@ const Index = () => {
   const queueUnavailable = queue.isError;
   const lyricsServiceUnavailable = false;
   const isKaraokeActive = karaokeEnabled;
-  const canManageQueue = Boolean(currentUser?.permissions.dj || currentUser?.permissions.staff);
+  const canManageQueue = Boolean(currentUser?.permissions?.dj || currentUser?.permissions?.staff);
   const canViewStaffTab = (currentUser?.roleLevel ?? 0) >= 2;
   const manageableUsers = useMemo(
     () => sessionUsers.filter((user) => user.id !== currentUser?.id),
@@ -1044,8 +1044,15 @@ const Index = () => {
   };
 
   const loginWithDiscord = () => {
-    // Redirect to backend OAuth2 passport mount
-    window.location.href = `${API_BASE_URL}/auth/discord`;
+    const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
+    const redirectUri = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+    const scopes = import.meta.env.VITE_DISCORD_SCOPES || 'identify guilds';
+    if (!clientId || !redirectUri) {
+      toast({ title: "Config error", description: "Discord OAuth not configured", variant: "destructive" });
+      return;
+    }
+    const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scopes)}`;
+    window.location.href = discordAuthUrl;
   };
 
   const fetchSession = useCallback(async () => {
@@ -1090,6 +1097,36 @@ const Index = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const hasLoginSuccess = urlParams.get('login_status') === 'success';
     const userParam = urlParams.get('user');
+    const code = urlParams.get('code');
+
+    const handleOAuthCallback = async () => {
+      if (!code) return;
+      const redirectUri = import.meta.env.VITE_DISCORD_REDIRECT_URI;
+      try {
+        const res = await fetch(`${API_BASE_URL}/auth/discord`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+          },
+          credentials: 'include',
+          body: JSON.stringify({ code, redirectUri })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.user) {
+            setCurrentUser(data.user);
+            localStorage.setItem('vx_user_fallback', JSON.stringify(data.user));
+          }
+        } else {
+          console.error('OAuth token exchange failed:', await res.text());
+        }
+      } catch (err) {
+        console.error('OAuth callback error:', err);
+      } finally {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    };
 
     if (hasLoginSuccess) {
       if (userParam) {
@@ -1103,10 +1140,10 @@ const Index = () => {
           console.error("Failed to parse fallback user from URL:", e);
         }
       }
-      // Clean up the URL bar cleanly so the parameter disappears from view
       window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (code) {
+      handleOAuthCallback();
     } else {
-      // Check if we have a cached fallback user in localStorage
       const cachedUser = localStorage.getItem('vx_user_fallback');
       if (cachedUser) {
         try {
@@ -1121,7 +1158,7 @@ const Index = () => {
     }
 
     void fetchSession().then((success) => {
-      if (hasLoginSuccess && success) {
+      if ((hasLoginSuccess || code) && success) {
         toast({
           title: "Welcome back!",
           description: "Successfully authenticated with Discord.",
@@ -2704,7 +2741,7 @@ const Index = () => {
                         <div className="flex items-center justify-between rounded-md border border-border/70 px-2 py-1.5">
                           <span className="text-xs text-muted-foreground">DJ</span>
                           <Switch
-                            checked={user.permissions.dj}
+                            checked={user.permissions?.dj}
                             onCheckedChange={() => toggleUserPermission(user.id, "dj")}
                           />
                         </div>
