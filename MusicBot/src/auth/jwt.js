@@ -45,6 +45,8 @@ function initKeys() {
 
 function initDatabase() {
     db = new Database(DB_PATH);
+    db.pragma('journal_mode = WAL');
+    db.pragma('synchronous = NORMAL');
     db.exec(`
         CREATE TABLE IF NOT EXISTS refresh_tokens (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -158,23 +160,54 @@ async function revokeAllUserRefreshTokens(userId) {
 }
 
 async function rotateRefreshToken(oldToken, user, userAgent = null, ipAddress = null) {
-    const tokenHash = await hashToken(oldToken);
+    // Hash tokens BEFORE opening the transaction, since hashToken is async and
+    // better-sqlite3 transactions must be fully synchronous.
+    const oldTokenHash = await hashToken(oldToken);
+    const newToken = crypto.randomBytes(32).toString('hex');
+    const newTokenHash = await hashToken(newToken);
+    const expiresAt = Date.now() + REFRESH_TOKEN_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+
     const database = getDb();
-    
-    // CHECK FOR REUSE - if token already revoked, it's a reuse attack
-    const existing = database.prepare(`
-        SELECT * FROM refresh_tokens WHERE token_hash = ?
-    `).get(tokenHash);
-    
-    if (existing && existing.revoked_at) {
-        // REUSE DETECTED - revoke ALL user tokens
+
+    // All DB mutations for check-reuse + revoke + create run inside ONE
+    // synchronous transaction so concurrent reuse attacks cannot interleave.
+    const rotateTxn = database.transaction(() => {
+        // CHECK FOR REUSE - if token already revoked, it's a reuse attack
+        const existing = database.prepare(`
+            SELECT * FROM refresh_tokens WHERE token_hash = ?
+        `).get(oldTokenHash);
+
+        if (existing && existing.revoked_at) {
+            // REUSE DETECTED - revoke ALL user tokens
+            database.prepare(`
+                UPDATE refresh_tokens SET revoked_at = ?
+                WHERE user_id = ? AND revoked_at IS NULL
+            `).run(Date.now(), user.id);
+            return { reuse: true };
+        }
+
+        // Revoke the old token
+        database.prepare(`
+            UPDATE refresh_tokens SET revoked_at = ? WHERE token_hash = ?
+        `).run(Date.now(), oldTokenHash);
+
+        // Create the new token (hash already computed synchronously above)
+        database.prepare(`
+            INSERT INTO refresh_tokens (user_id, token_hash, expires_at, user_agent, ip_address)
+            VALUES (?, ?, ?, ?, ?)
+        `).run(user.id, newTokenHash, expiresAt, userAgent, ipAddress);
+
+        return { reuse: false };
+    });
+
+    const result = rotateTxn.immediate();
+
+    if (result.reuse) {
         console.error(`[SECURITY] Refresh token reuse detected for user ${user.id} from IP ${ipAddress}`);
-        await revokeAllUserRefreshTokens(user.id);
         throw new Error('Token reuse detected - all sessions revoked');
     }
-    
-    await revokeRefreshToken(oldToken);
-    return await createRefreshToken(user, userAgent, ipAddress);
+
+    return newToken;
 }
 
 async function getJWKS() {

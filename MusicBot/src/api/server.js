@@ -31,7 +31,7 @@ const { addPolicy, removePolicy, getAllPolicies, addGroupingPolicy, removeGroupi
 const { apiLimiter, truncLimiter, authLimiter, createRateLimiter } = require('../auth/rate-limit');
 
 const ROLES_FILE = path.join(__dirname, '..', '..', 'roles.json');
-const OWNER_ID = '895441968241459271';
+const OWNER_ID = process.env.DISCORD_OWNER_ID || '895441968241459271';
 
 function getUserRole(discordId) {
     if (discordId === OWNER_ID) return 3;
@@ -84,6 +84,30 @@ async function startServer(client) {
         ]
     };
 
+    // --- CSRF defense-in-depth: explicit origin allowlist ---
+    const ALLOWED_ORIGINS = [
+        'https://voxaria.lovable.app',
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://localhost:8080',
+        ...extraOrigins
+    ];
+
+    function isAllowedOrigin(req) {
+        const origin = req.headers.origin;
+        const referer = req.headers.referer;
+        // If no browser origin/referer header at all, allow (non-browser clients like curl).
+        if (!origin && !referer) return true;
+        if (origin && ALLOWED_ORIGINS.includes(origin)) return true;
+        if (referer) {
+            try {
+                const refOrigin = new URL(referer).origin;
+                if (ALLOWED_ORIGINS.includes(refOrigin)) return true;
+            } catch { /* invalid referer URL — reject */ }
+        }
+        return false;
+    }
+
     app.options('*path', cors(corsOptions));
     app.use(cors(corsOptions));
     app.use(cookieParser());
@@ -117,13 +141,9 @@ async function startServer(client) {
     }
     app.use(auditMiddleware);
 
+    // ngrok header (CORS handled by cors() middleware above — do NOT re-set ACAO/ACAC here)
     app.use((req, res, next) => {
         res.setHeader('ngrok-skip-browser-warning', 'true');
-        const origin = req.headers.origin;
-        if (corsOptions.origin.includes(origin)) {
-            res.setHeader('Access-Control-Allow-Origin', origin);
-            res.setHeader('Access-Control-Allow-Credentials', 'true');
-        }
         next();
     });
 
@@ -169,6 +189,11 @@ async function startServer(client) {
     app.post('/api/auth/refresh', authLimiter, async (req, res) => {
         console.log(`[AUDIT] ${req.method} ${req.path} - IP: ${req.ip} - Origin: ${req.headers.origin} - UA: ${req.headers['user-agent']?.substring(0,50)}`);
         
+        if (!isAllowedOrigin(req)) {
+            console.warn(`[CSRF] Refresh rejected — origin: ${req.headers.origin}, referer: ${req.headers.referer}`);
+            return res.status(403).json({ error: 'Forbidden: request origin not allowed' });
+        }
+
         const refreshToken = req.body?.refresh_token || req.cookies?.refresh_token;
 
         if (!refreshToken) {
@@ -188,7 +213,7 @@ async function startServer(client) {
                 id: refreshData.userId,
                 roles: role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [],
                 guildId: req.headers['x-guild-id'] || null,
-                username: req.headers['x-user-username'] || null
+                username: null
             }, req.ip);
 
             const userAgent = req.headers['user-agent'] || null;
@@ -197,7 +222,7 @@ async function startServer(client) {
                 id: refreshData.userId,
                 roles: role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [],
                 guildId: req.headers['x-guild-id'] || null,
-                username: req.headers['x-user-username'] || null
+                username: null
             }, userAgent, ipAddress);
 
             res.cookie('refresh_token', newRefreshToken, {
@@ -362,6 +387,11 @@ async function startServer(client) {
     app.post('/auth/discord', authLimiter, async (req, res) => {
         console.log(`[AUDIT] ${req.method} ${req.path} - IP: ${req.ip} - Origin: ${req.headers.origin} - UA: ${req.headers['user-agent']?.substring(0,50)}`);
         
+        if (!isAllowedOrigin(req)) {
+            console.warn(`[CSRF] OAuth rejected — origin: ${req.headers.origin}, referer: ${req.headers.referer}`);
+            return res.status(403).json({ error: 'Forbidden: request origin not allowed' });
+        }
+
         const { code, redirectUri } = req.body;
         if (!code || !redirectUri) {
             return res.status(400).json({ error: 'Missing code or redirectUri' });
@@ -447,13 +477,19 @@ async function startServer(client) {
                 path: '/'
             });
 
-            res.json({
+            const responseBody = {
                 access_token: accessToken,
                 token_type: 'Bearer',
                 expires_in: 900,
-                refresh_token: refreshToken,
                 user: userInfo
-            });
+            };
+            // Dev convenience only: expose the refresh token in the JSON body.
+            // In production the client must rely on the httpOnly refresh_token
+            // cookie (refresh_token is never exposed to client JS there).
+            if (process.env.NODE_ENV !== 'production') {
+                responseBody.refresh_token = refreshToken;
+            }
+            res.json(responseBody);
 
         } catch (error) {
             console.error('OAuth2 Error:', error);
@@ -587,7 +623,7 @@ async function startServer(client) {
     app.post('/discord/join', async (req, res) => {
         console.log("🚀 SUMMON: Request received from dashboard.");
         try {
-            const targetUserId = req.body?.userId || "895441968241459271";
+            const targetUserId = req.body?.userId || (process.env.DISCORD_OWNER_ID || "895441968241459271");
             console.log("🔍 SUMMON: Searching for User ID: " + targetUserId);
             let member = null;
 

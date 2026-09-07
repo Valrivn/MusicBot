@@ -140,7 +140,6 @@ export const BASE_URL =
   import.meta.env.VITE_API_URL?.trim() ||
   "http://localhost:3002";
 const OWNER_USER_ID = "owner";
-const OWNER_API_KEY = "owner";
 const DEFAULT_GUILD_ID = import.meta.env.VITE_VOXARIA_GUILD_ID?.trim() || "owner";
 
 type ApiAuthContext = {
@@ -229,7 +228,6 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
       "ngrok-skip-browser-warning": "true",
       "x-user-id": activeUserId,
       "x-guild-id": activeGuildId,
-      "x-api-key": OWNER_API_KEY,
     };
 
     const headers = {
@@ -506,7 +504,6 @@ async function postJson<TResponse, TBody extends Record<string, unknown>>(
       headers: {
         "x-user-id": activeUserId,
         "x-guild-id": activeGuildId,
-        "x-api-key": OWNER_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -586,7 +583,6 @@ export const voxariaApi = {
         headers: {
           "x-user-id": activeUserId,
           "x-guild-id": activeGuildId,
-          "x-api-key": OWNER_API_KEY,
         },
         body: JSON.stringify({ title: normalizedTitle, artist: normalizedArtist }),
       }).then(normalizeLyricsPayload);
@@ -607,7 +603,6 @@ export const voxariaApi = {
         headers: {
           "x-user-id": activeUserId,
           "x-guild-id": activeGuildId,
-          "x-api-key": OWNER_API_KEY,
         },
         body: JSON.stringify({ guildId: activeGuildId, trackUrl: trackUrl.trim() }),
       });

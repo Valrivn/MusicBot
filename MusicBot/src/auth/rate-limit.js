@@ -66,10 +66,14 @@ function checkMemory(key, limit, windowMs) {
 }
 
 function getClientKey(req) {
-    // Use x-user-id if provided (authenticated), else IP
-    const userId = req.headers['x-user-id'] || req.headers['X-User-Id'];
-    if (userId) return `rl:user:${userId}`;
-    
+    // Only trust an identity that was established by the auth middleware.
+    // Client-supplied x-user-id headers are spoofable — a caller could rotate
+    // its own rate-limit keys or, worse, collide with another user's bucket.
+    const authenticatedUserId = req.user?.id;
+    if (authenticatedUserId && authenticatedUserId !== 'guest') {
+        return `rl:user:${authenticatedUserId}`;
+    }
+
     const ip = req.ip || req.connection?.remoteAddress || 'unknown';
     return `rl:ip:${ip}`;
 }

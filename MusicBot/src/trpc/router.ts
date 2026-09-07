@@ -38,12 +38,10 @@ export function createContext({
     }
   }
 
+  // Neutral, non-spoofable guest identity. Client-supplied x-user-id /
+  // x-user-username headers are never trusted for identity decisions.
   if (!user) {
-    user = {
-      id: req.headers['x-user-id'] as string || 'guest',
-      username: req.headers['x-user-username'] as string || 'Guest',
-      role: 0,
-    };
+    user = { id: 'guest', username: 'Guest', role: 0 };
   }
 
   return {
@@ -202,7 +200,11 @@ export const appRouter = router({
       .mutation(async ({ ctx }) => {
         const player = ctx.client.players.first();
         if (!player) throw new TRPCError({ code: 'NOT_FOUND', message: 'No active player' });
-        player.queue = [];
+        if (typeof player.clear === 'function') {
+          player.clear();
+        } else {
+          player.queue = [];
+        }
         return { success: true };
       }),
   }),
@@ -292,8 +294,15 @@ export const appRouter = router({
         const player = ctx.client.players.first();
         if (!player) throw new TRPCError({ code: 'NOT_FOUND', message: 'No active player' });
         if (typeof player.seek === 'function') {
-          player.seek(input.positionMs);
-          return { success: true, positionMs: input.positionMs };
+          try {
+            await player.seek(input.positionMs);
+            return { success: true, positionMs: input.positionMs };
+          } catch (err: any) {
+            throw new TRPCError({
+              code: 'INTERNAL_SERVER_ERROR',
+              message: err?.message || 'Failed to seek position',
+            });
+          }
         }
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Seek not supported' });
       }),
@@ -627,7 +636,7 @@ export const appRouter = router({
     join: protectedProcedure
       .input(z.object({ userId: z.string().optional() }))
       .mutation(async ({ input, ctx }) => {
-        const targetUserId = input.userId || '895441968241459271';
+        const targetUserId = input.userId || process.env.DISCORD_OWNER_ID || '895441968241459271';
         let member = null;
 
         for (const guild of ctx.client.guilds.cache.values()) {

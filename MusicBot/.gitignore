@@ -7,6 +7,7 @@ node_modules/
 audio-cache/
 
 cookies.txt
+presets.json
 
 bin/
 tmp/
@@ -14,6 +15,10 @@ tmp/
 database/audit_log.json
 database/playlists.json
 database/auth.db
+database/presets.json
+database/languages.json
+database/playerState.json
+database/playerState.json.txt
 
 voxaria.db
 voxaria.db-shm

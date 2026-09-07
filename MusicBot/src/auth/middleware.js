@@ -97,7 +97,7 @@ function requirePermission(resource, action) {
 }
 
 async function getUserRoleLevel(userId, guildId = null) {
-    if (userId === '895441968241459271') return 3;
+    if (userId === (process.env.DISCORD_OWNER_ID || '895441968241459271')) return 3;
     
     const ROLES_FILE = require('path').join(__dirname, '..', '..', 'roles.json');
     const fs = require('fs');
@@ -129,11 +129,11 @@ function optionalAuth() {
         }
         
         if (!req.user) {
-            req.user = { 
-                id: req.headers['x-user-id'] || 'guest', 
-                username: req.headers['x-user-username'] || 'Guest', 
-                role: 0 
-            };
+            // Neutral guest identity. NEVER trust client-supplied
+            // x-user-id / x-user-username headers here — they are trivially
+            // spoofable and would allow arbitrary impersonation. Unauthenticated
+            // callers get this fixed synthetic guest identity instead.
+            req.user = { id: 'guest', username: 'Guest', role: 0 };
         }
         next();
     };

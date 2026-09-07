@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const { optionalAuth } = require('../../auth/middleware');
 
 const router = express.Router();
 const PRESETS_PATH = path.join(__dirname, '..', '..', '..', 'presets.json');
@@ -127,7 +128,7 @@ module.exports = (client, requirePermission) => {
         let player = client.players.first();
 
         if (!player) {
-            const targetUserId = '895441968241459271';
+            const targetUserId = process.env.DISCORD_OWNER_ID || '895441968241459271';
             let voiceChannel = null;
             let guild = null;
 
@@ -369,7 +370,7 @@ module.exports = (client, requirePermission) => {
 
     router.post('/playlist/create', requirePermission('playlist', 'create'), (req, res) => {
         const { name, isPublic = true, description = '' } = req.body;
-        const ownerId = req.user?.id || req.headers['x-user-id'] || 'unknown';
+        const ownerId = req.user?.id || 'guest';
 
         if (!name || typeof name !== 'string' || name.trim().length === 0) {
             return res.status(400).json({ error: 'Playlist name is required' });
@@ -406,7 +407,7 @@ module.exports = (client, requirePermission) => {
 
     router.post('/playlist/add', requirePermission('playlist', 'write'), (req, res) => {
         const { playlistId, track } = req.body;
-        const userId = req.user?.id || req.headers['x-user-id'];
+        const userId = req.user?.id || 'guest';
 
         if (!playlistId || typeof playlistId !== 'string') {
             return res.status(400).json({ error: 'Playlist ID is required' });
@@ -471,7 +472,7 @@ module.exports = (client, requirePermission) => {
         }
     });
 
-    router.get('/playlist/:id', (req, res) => {
+    router.get('/playlist/:id', optionalAuth(), (req, res) => {
         const { id } = req.params;
         const playlists = readPlaylists();
         const playlist = playlists.find(p => p.id === id);
@@ -481,7 +482,7 @@ module.exports = (client, requirePermission) => {
         }
 
         if (playlist.isPublic === false || playlist.isPublic === undefined) {
-            const userId = req.user?.id || req.headers['x-user-id'];
+            const userId = req.user?.id || 'guest';
             const userRole = req.user?.role || 0;
             const isOwner = playlist.ownerId === userId;
             const isStaff = userRole >= 2;
@@ -507,7 +508,7 @@ module.exports = (client, requirePermission) => {
 
     router.delete('/playlist/:id', requirePermission('playlist', 'delete'), (req, res) => {
         const { id } = req.params;
-        const userId = req.user?.id || req.headers['x-user-id'];
+        const userId = req.user?.id || 'guest';
         const userRole = req.user?.role || 0;
 
         let playlists = readPlaylists();
@@ -536,7 +537,7 @@ module.exports = (client, requirePermission) => {
     });
 
     router.get('/playlists/my', requirePermission('playlist', 'read'), (req, res) => {
-        const userId = req.user?.id || req.headers['x-user-id'];
+        const userId = req.user?.id || 'guest';
         const playlists = readPlaylists();
         const userPlaylists = playlists
             .filter(p => p.ownerId === userId)

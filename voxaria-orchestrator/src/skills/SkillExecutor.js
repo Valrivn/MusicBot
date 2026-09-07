@@ -1,8 +1,10 @@
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
 import { SKILLS_REGISTRY } from '../config/models.js';
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
+
+const SAFE_SOURCE_REGEX = /^([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+|https?:\/\/[a-zA-Z0-9_.-]+(?::\d+)?\/[a-zA-Z0-9_.\/-]+)$/;
 
 export class SkillExecutor {
   constructor() {
@@ -11,7 +13,12 @@ export class SkillExecutor {
   }
 
   async installSkill(source) {
-    const { stdout, stderr } = await execAsync(`npx skills add ${source} -y`);
+    if (typeof source !== 'string' || !SAFE_SOURCE_REGEX.test(source) || /[`$;&|<>]/.test(source)) {
+      throw new Error(`Invalid or untrusted skill source: ${source}`);
+    }
+
+    const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+    const { stdout, stderr } = await execFileAsync(npxCmd, ['skills', 'add', source, '-y']);
     return {
       source,
       installed: !stderr.includes('error'),

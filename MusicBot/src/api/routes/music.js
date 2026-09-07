@@ -152,7 +152,7 @@ module.exports = (client, requirePermission) => {
         res.json({ success: true, volume });
     });
 
-    router.post('/music/seek', requirePermission('queue', 'write'), (req, res) => {
+    router.post('/music/seek', requirePermission('queue', 'write'), async (req, res) => {
         const { positionMs } = req.body;
         if (typeof positionMs !== 'number' || positionMs < 0) {
             return res.status(400).json({ error: 'Invalid positionMs (must be non-negative number)' });
@@ -163,10 +163,10 @@ module.exports = (client, requirePermission) => {
 
         if (typeof player.seek === 'function') {
             try {
-                player.seek(positionMs);
+                await player.seek(positionMs);
                 res.json({ success: true, positionMs });
             } catch (error) {
-                res.status(400).json({ error: error.message });
+                res.status(500).json({ error: error.message });
             }
         } else {
             res.status(500).json({ error: 'Seek not supported by player' });

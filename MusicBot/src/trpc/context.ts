@@ -38,12 +38,10 @@ export function createContext({
     }
   }
 
+  // Neutral, non-spoofable guest identity. Client-supplied x-user-id /
+  // x-user-username headers are never trusted for identity decisions.
   if (!user) {
-    user = {
-      id: req.headers['x-user-id'] as string || 'guest',
-      username: req.headers['x-user-username'] as string || 'Guest',
-      role: 0,
-    };
+    user = { id: 'guest', username: 'Guest', role: 0 };
   }
 
   return {

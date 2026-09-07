@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROLES_FILE = path.join(__dirname, '..', '..', 'roles.json');
-const OWNER_ID = '895441968241459271';
+const OWNER_ID = process.env.DISCORD_OWNER_ID || '895441968241459271';
 
 const DISCORD_ROLE_MAP = {
     'Admin': 'role:admin',
