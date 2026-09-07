@@ -8,6 +8,10 @@ module.exports = {
         clientId: process.env.DISCORD_CLIENT_ID || process.env.CLIENT_ID || 'YOUR_CLIENT_ID_HERE',
         clientSecret: process.env.DISCORD_CLIENT_SECRET || '',
         guildId: process.env.DISCORD_GUILD_ID || process.env.GUILD_ID || null, // Leave null for global commands
+        // Website-only mode: slash commands are NOT deployed, playback is
+        // controlled exclusively through the web dashboard. Set to 'true' to
+        // re-enable /play, /search etc.
+        commandsEnabled: process.env.DISCORD_COMMANDS_ENABLED === 'true',
     },
 
     // Genius API Settings

@@ -26,6 +26,20 @@ const rest = new REST().setToken(config.discord.token);
 // Deploy commands
 (async () => {
     try {
+        if (!config.discord.commandsEnabled) {
+            console.log('\n🌐 Website-only mode: slash commands disabled (DISCORD_COMMANDS_ENABLED=false).');
+
+            // Clear any previously registered commands so /play etc. disappear from Discord
+            const clearResult = await rest.put(
+                config.discord.guildId
+                    ? Routes.applicationGuildCommands(config.discord.clientId, config.discord.guildId)
+                    : Routes.applicationCommands(config.discord.clientId),
+                { body: [] }
+            );
+            console.log(`✅ Cleared ${clearResult.length} previously registered application (/) commands.`);
+            return;
+        }
+
         console.log(`\n🚀 Started refreshing ${commands.length} application (/) commands.`);
 
         let data;

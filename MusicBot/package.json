@@ -15,7 +15,14 @@
     "deploy:railway:worker": "railway up --service karaoke-worker",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "health": "node -e \"require('http').get('http://localhost:3002/health/ready', (r) => { r.on('data', d => console.log(d.toString())); process.exit(r.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))\""
+    "health": "node -e \"require('http').get('http://localhost:3002/health/ready', (r) => { r.on('data', d => console.log(d.toString())); process.exit(r.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))\"",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop all",
+    "pm2:restart": "pm2 restart all",
+    "pm2:logs": "pm2 logs",
+    "pm2:monit": "pm2 monit",
+    "pm2:delete": "pm2 delete all",
+    "start:prod": "NODE_ENV=production pm2 start ecosystem.config.js --env production"
   },
   "keywords": [
     "discord",

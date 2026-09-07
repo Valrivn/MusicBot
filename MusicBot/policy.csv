@@ -24,8 +24,12 @@ p, role:vip, playlist, write
 p, role:vip, queue, read
 p, role:vip, karaoke, write
 
+p, role:user, playlist, create
 p, role:user, playlist, read
+p, role:user, playlist, write
+p, role:user, queue, write
 p, role:user, queue, read
+p, role:user, karaoke, write
 p, role:user, karaoke, read
 
 g, role:owner, role:admin

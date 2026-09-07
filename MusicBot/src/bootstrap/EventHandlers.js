@@ -131,6 +131,18 @@ function setupEventHandlers(client) {
 
     // Handle interactions (slash commands, context menus, autocomplete)
     client.on(Events.InteractionCreate, async interaction => {
+        // Website-only mode: block all slash interactions
+        if (!config.discord.commandsEnabled && (interaction.isCommand() || interaction.isAutocomplete())) {
+            if (interaction.isCommand()) {
+                try {
+                    await interaction.reply({ content: '🎵 Playback is controlled from the web dashboard.', ephemeral: true });
+                } catch (e) {
+                    // Ignore reply failures (already replied/expired)
+                }
+            }
+            return;
+        }
+
         // Handle autocomplete interactions
         if (interaction.isAutocomplete()) {
             const command = client.commands.get(interaction.commandName);

@@ -80,13 +80,20 @@ function getDb() {
     return db;
 }
 
-async function createAccessToken(user) {
+function hashIP(ip) {
+    if (!ip) return null;
+    return crypto.createHash('sha256').update(ip).digest('hex').substring(0, 16);
+}
+
+async function createAccessToken(user, requestIP = null) {
     const key = await getPrivateKey();
+    const ipHash = hashIP(requestIP);
     return new SignJWT({
         sub: user.id,
         roles: user.roles || [],
         guildId: user.guildId || null,
-        username: user.username || null
+        username: user.username || null,
+        ipHash
     })
         .setProtectedHeader({ alg: 'RS256', typ: 'JWT' })
         .setIssuedAt()
@@ -151,6 +158,21 @@ async function revokeAllUserRefreshTokens(userId) {
 }
 
 async function rotateRefreshToken(oldToken, user, userAgent = null, ipAddress = null) {
+    const tokenHash = await hashToken(oldToken);
+    const database = getDb();
+    
+    // CHECK FOR REUSE - if token already revoked, it's a reuse attack
+    const existing = database.prepare(`
+        SELECT * FROM refresh_tokens WHERE token_hash = ?
+    `).get(tokenHash);
+    
+    if (existing && existing.revoked_at) {
+        // REUSE DETECTED - revoke ALL user tokens
+        console.error(`[SECURITY] Refresh token reuse detected for user ${user.id} from IP ${ipAddress}`);
+        await revokeAllUserRefreshTokens(user.id);
+        throw new Error('Token reuse detected - all sessions revoked');
+    }
+    
     await revokeRefreshToken(oldToken);
     return await createRefreshToken(user, userAgent, ipAddress);
 }

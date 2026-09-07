@@ -1,4 +1,5 @@
 const { PermissionService } = require('./permission-service');
+const { verifyAccessToken } = require('./jwt');
 
 let permissionService = null;
 
@@ -9,6 +10,55 @@ function initPermissionService(client) {
 
 function getPermissionService() {
     return permissionService;
+}
+
+function hashIP(ip) {
+    if (!ip) return null;
+    const crypto = require('crypto');
+    return crypto.createHash('sha256').update(ip).digest('hex').substring(0, 16);
+}
+
+// Resolve the caller identity from either a stored session token or a signed JWT
+// access token. The web dashboard sends a JWT via the Authorization header.
+async function resolveUser(authHeader, sessionStore, req = null) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) return null;
+
+    const token = authHeader.split(' ')[1];
+    if (!token) return null;
+
+    // 1. Try session store (legacy Map-based sessions)
+    if (sessionStore) {
+        const sessionUser = sessionStore.get(token);
+        if (sessionUser) return sessionUser;
+    }
+
+    // 2. Try verifying as a signed JWT access token
+    try {
+        const payload = await verifyAccessToken(token);
+        if (payload && payload.sub) {
+            // SOFT BINDING: Log mismatch but don't reject
+            if (req) {
+                const requestUA = req.headers['user-agent'];
+                const requestIP = req.ip;
+                if (payload.userAgent && payload.userAgent !== requestUA) {
+                    console.warn(`[SECURITY] UA mismatch for user ${payload.sub}: token=${payload.userAgent?.substring(0,30)}... request=${requestUA?.substring(0,30)}...`);
+                }
+                if (payload.ipHash && payload.ipHash !== hashIP(requestIP)) {
+                    console.warn(`[SECURITY] IP mismatch for user ${payload.sub}: token=${payload.ipHash} request=${hashIP(requestIP)}`);
+                }
+            }
+            return {
+                id: payload.sub,
+                username: payload.username || null,
+                roles: payload.roles || [],
+                guildId: payload.guildId || null
+            };
+        }
+    } catch (e) {
+        // Not a valid JWT — fall through
+    }
+
+    return null;
 }
 
 function requirePermission(resource, action) {
@@ -22,14 +72,9 @@ function requirePermission(resource, action) {
             return res.status(401).json({ error: 'Missing or invalid Authorization header' });
         }
 
-        const token = authHeader.split(' ')[1];
         const sessionStore = req.app.get('sessionStore');
-        
-        if (!sessionStore) {
-            return res.status(500).json({ error: 'Session store not available' });
-        }
 
-        const user = sessionStore.get(token);
+        const user = await resolveUser(authHeader, sessionStore, req);
         if (!user) {
             return res.status(401).json({ error: 'Invalid or expired session' });
         }
@@ -73,13 +118,12 @@ function optionalAuth() {
         const authHeader = req.headers.authorization;
         const sessionStore = req.app.get('sessionStore');
         
-        if (authHeader && authHeader.startsWith('Bearer ') && sessionStore) {
-            const token = authHeader.split(' ')[1];
-            const user = sessionStore.get(token);
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            const user = await resolveUser(authHeader, sessionStore, req);
             if (user) {
                 req.user = { 
                     ...user, 
-                    role: await getUserRoleLevel(user.id) 
+                    role: await getUserRoleLevel(user.id)
                 };
             }
         }

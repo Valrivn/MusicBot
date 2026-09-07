@@ -11,6 +11,8 @@ const router = express.Router();
 const STEMS_DIR = path.join(__dirname, '..', '..', '..', 'audio_cache', 'stems');
 const karaokeJobs = new Map();
 
+const { optionalAuth } = require('../../auth/middleware');
+
 if (!fs.existsSync(STEMS_DIR)) {
     fs.mkdirSync(STEMS_DIR, { recursive: true });
 }
@@ -314,7 +316,9 @@ module.exports = (client, requirePermission) => {
         return res.json(frames);
     });
 
-    router.use('/karaoke/stems', express.static(STEMS_DIR));
+    router.use('/karaoke/stems', optionalAuth(), (req, res, next) => {
+        next();
+    }, express.static(STEMS_DIR));
 
     return router;
 };

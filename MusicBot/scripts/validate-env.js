@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const Redis = require('ioredis');
-const { REST, Routes } = require('discord-api-types/v10');
+const { REST, Routes } = require('discord.js');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 
@@ -47,30 +47,26 @@ function loadEnv() {
 const REQUIRED_VARS = [
   'DISCORD_BOT_TOKEN',
   'DISCORD_CLIENT_ID',
-  'DISCORD_CLIENT_SECRET',
-  'DISCORD_OWNER_ID',
   'PORT',
   'NODE_ENV',
   'FRONTEND_URL',
-  'REDIS_HOST',
-  'REDIS_PORT',
   'DATABASE_PATH',
   'JWT_PRIVATE_KEY_PATH',
   'JWT_PUBLIC_KEY_PATH',
   'JWT_ISSUER',
   'JWT_AUDIENCE',
-  'SPOTIFY_CLIENT_ID',
-  'SPOTIFY_CLIENT_SECRET',
-  'GENIUS_CLIENT_ID',
-  'GENIUS_CLIENT_SECRET',
   'LOG_LEVEL',
-  'DEMUCS_MODEL',
-  'KARAOKE_CONCURRENCY',
 ];
 
-// Optional but recommended variables
+// Optional variables — NOT required. Playback needs no paid API keys:
+//   - YouTube/SoundCloud work through yt-dlp (no API key).
+//   - Spotify links are resolved to YouTube via yt-dlp (no API key).
+//   - Lyrics come from LRCLIB (https://lrclib.net/api) which needs no key;
+//     Genius is an optional bonus source.
+//   - DISCORD_OWNER_ID is only used for owner-exclusive permissions; the bot
+//     runs fine without it (everyone is treated as role:user / web-owner).
 const RECOMMENDED_VARS = [
-  'YOUTUBE_API_KEY',
+  'DISCORD_OWNER_ID',
   'INVIDIOUS_INSTANCES',
   'PIPED_INSTANCES',
   'COOKIES_FILE',
@@ -193,7 +189,7 @@ async function validateDiscordApi() {
 
   try {
     // Test bot token validity
-    const app = await rest.get(Routes.application(clientId));
+    const app = await rest.get(Routes.oauth2CurrentApplication());
     console.log(`✅ Discord API: Connected as ${app.name} (${app.id})`);
 
     // Test bot user
@@ -235,7 +231,8 @@ function validateDatabase() {
 function validateCookiesFile() {
   console.log('\n🍪 Validating Cookies File...\n');
 
-  const cookiesPath = path.join(ROOT_DIR, process.env.COOKIES_FILE || './cookies.txt');
+  const cookiesFile = process.env.COOKIES_FILE || './cookies.txt';
+  const cookiesPath = path.isAbsolute(cookiesFile) ? cookiesFile : path.join(ROOT_DIR, cookiesFile);
 
   if (!fs.existsSync(cookiesPath)) {
     console.warn(`⚠️  Cookies file not found: ${cookiesPath}`);

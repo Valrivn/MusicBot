@@ -2,7 +2,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '..', '.e
 
 const path = require('path');
 const chalk = require('chalk');
-const { karaokeQueue } = require('./queue/karaoke-queue');
+const { karaokeQueue } = require('../queue/karaoke-queue');
 require('./karaoke-worker');
 
 console.log(chalk.blue('🎤 Starting Karaoke Worker Process...'));

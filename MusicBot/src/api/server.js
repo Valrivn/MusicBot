@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const chalk = require('chalk');
+const helmet = require('helmet');
 const { createServer } = require('http');
 const { fetchRequestHandler } = require('@trpc/server/adapters/fetch');
 const config = require('../../config');
@@ -90,6 +91,32 @@ async function startServer(client) {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.static(path.join(__dirname, '..', '..', 'public')));
 
+    // --- SECURITY HEADERS (Helmet) ---
+    app.use(helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: ["'self'", "'unsafe-inline'"],
+                styleSrc: ["'self'", "'unsafe-inline'"],
+                connectSrc: ["'self'", "https://unhitched-shrink-dorsal.ngrok-free.dev", "wss://unhitched-shrink-dorsal.ngrok-free.dev"],
+                imgSrc: ["'self'", "data:", "https:"],
+                fontSrc: ["'self'", "data:"]
+            }
+        },
+        crossOriginEmbedderPolicy: false,
+        hsts: { maxAge: 31536000, includeSubDomains: true }
+    }));
+
+    // --- AUDIT TRAIL MIDDLEWARE ---
+    function auditMiddleware(req, res, next) {
+        const sensitivePaths = ['/auth/discord', '/api/auth/refresh', '/api/auth/logout', '/discord/join'];
+        if (sensitivePaths.some(p => req.path.startsWith(p))) {
+            console.log(`[AUDIT] ${req.method} ${req.path} - User: ${req.user?.id || 'anon'} - IP: ${req.ip} - UA: ${req.headers['user-agent']?.substring(0,50)}`);
+        }
+        next();
+    }
+    app.use(auditMiddleware);
+
     app.use((req, res, next) => {
         res.setHeader('ngrok-skip-browser-warning', 'true');
         const origin = req.headers.origin;
@@ -140,7 +167,9 @@ async function startServer(client) {
 
     // --- REFRESH TOKEN ENDPOINT ---
     app.post('/api/auth/refresh', authLimiter, async (req, res) => {
-        const refreshToken = req.cookies?.refresh_token || req.body?.refresh_token;
+        console.log(`[AUDIT] ${req.method} ${req.path} - IP: ${req.ip} - Origin: ${req.headers.origin} - UA: ${req.headers['user-agent']?.substring(0,50)}`);
+        
+        const refreshToken = req.body?.refresh_token || req.cookies?.refresh_token;
 
         if (!refreshToken) {
             return res.status(401).json({ error: 'Refresh token required', code: 'MISSING_REFRESH_TOKEN' });
@@ -160,7 +189,7 @@ async function startServer(client) {
                 roles: role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [],
                 guildId: req.headers['x-guild-id'] || null,
                 username: req.headers['x-user-username'] || null
-            });
+            }, req.ip);
 
             const userAgent = req.headers['user-agent'] || null;
             const ipAddress = req.ip || req.connection?.remoteAddress || null;
@@ -193,6 +222,8 @@ async function startServer(client) {
 
     // --- LOGOUT ENDPOINT ---
     app.post('/api/auth/logout', authLimiter, async (req, res) => {
+        console.log(`[AUDIT] ${req.method} ${req.path} - IP: ${req.ip} - Origin: ${req.headers.origin} - UA: ${req.headers['user-agent']?.substring(0,50)}`);
+        
         const refreshToken = req.cookies?.refresh_token || req.body?.refresh_token;
 
         if (refreshToken) {
@@ -329,6 +360,8 @@ async function startServer(client) {
 
     // --- DISCORD OAUTH ENDPOINTS ---
     app.post('/auth/discord', authLimiter, async (req, res) => {
+        console.log(`[AUDIT] ${req.method} ${req.path} - IP: ${req.ip} - Origin: ${req.headers.origin} - UA: ${req.headers['user-agent']?.substring(0,50)}`);
+        
         const { code, redirectUri } = req.body;
         if (!code || !redirectUri) {
             return res.status(400).json({ error: 'Missing code or redirectUri' });
@@ -389,7 +422,7 @@ async function startServer(client) {
                 username: userData.username,
                 roles,
                 guildId
-            });
+            }, req.ip);
 
             const refreshToken = await createRefreshToken({
                 id: userData.id,
@@ -508,7 +541,7 @@ async function startServer(client) {
             const role = getUserRole(userData.id);
             const roles = role >= 2 ? ['staff'] : role >= 1 ? ['dj'] : [];
 
-            const accessToken = await createAccessToken({ id: userData.id, username: userData.username, roles, guildId });
+            const accessToken = await createAccessToken({ id: userData.id, username: userData.username, roles, guildId }, req.ip);
             const refreshToken = await createRefreshToken({ id: userData.id, username: userData.username, roles, guildId }, req.headers['user-agent'], req.ip);
 
             res.cookie('refresh_token', refreshToken, {
@@ -528,7 +561,9 @@ async function startServer(client) {
     });
 
     // --- SESSION VALIDATION (for backward compatibility) ---
-    app.get('/auth/session', optionalAuth(), (req, res) => {
+    app.options('/auth/session', cors(corsOptions));
+    app.get('/auth/session', cors(corsOptions), optionalAuth(), (req, res) => {
+        console.log(`[AUDIT] ${req.method} ${req.path} - IP: ${req.ip} - Origin: ${req.headers.origin} - UA: ${req.headers['user-agent']?.substring(0,50)}`);
         res.json({ user: req.user });
     });
 

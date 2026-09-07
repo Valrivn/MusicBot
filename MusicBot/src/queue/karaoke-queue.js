@@ -11,7 +11,7 @@ function initKaraokeQueue() {
         host: process.env.REDIS_HOST || 'localhost',
         port: process.env.REDIS_PORT || 6379,
         password: process.env.REDIS_PASSWORD || undefined,
-        maxRetriesPerRequest: 3,
+        maxRetriesPerRequest: null,
         retryStrategy: (times) => Math.min(times * 200, 2000),
         enableReadyCheck: true,
         lazyConnect: true,
