@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const chalk = require('chalk');
 const helmet = require('helmet');
 const { createServer } = require('http');
-const { fetchRequestHandler } = require('@trpc/server/adapters/fetch');
+const { createExpressMiddleware } = require('@trpc/server/adapters/express');
 const config = require('../../config');
 const AuditLog = require('../AuditLog');
 const { createAccessToken, createRefreshToken, verifyAccessToken, verifyRefreshToken, revokeRefreshToken, revokeAllUserRefreshTokens, getJWKS, rotateRefreshToken } = require('../auth/jwt');
@@ -44,6 +44,24 @@ function getUserRole(discordId) {
         console.error('❌ Failed to read roles.json:', e.message);
     }
     return 0;
+}
+
+/**
+ * Verify a raw Bearer token and return a user identity for tRPC context.
+ * Returns { id, username, role } on success, or null on any failure.
+ */
+async function verifyToken(token) {
+    try {
+        const payload = await verifyAccessToken(token);
+        if (!payload || !payload.sub) return null;
+        return {
+            id: payload.sub,
+            username: payload.username || null,
+            role: getUserRole(payload.sub),
+        };
+    } catch {
+        return null;
+    }
 }
 
 async function startServer(client) {
@@ -155,24 +173,30 @@ async function startServer(client) {
     });
 
     // --- tRPC ENDPOINT ---
-    app.use('/api/trpc', truncLimiter, async (req, res) => {
-        const response = await fetchRequestHandler({
-            endpoint: '/api/trpc',
-            req,
-            router: appRouter,
-            createContext: typeof createContext === 'function' ? () => createContext({ req, client }) : () => ({}),
-            onError: ({ path, error }) => {
-                console.error(`❌ tRPC error on ${path}:`, error);
-            },
-        });
-        
-        res.status(response.status);
-        for (const [key, value] of response.headers.entries()) {
-            res.setHeader(key, value);
-        }
-        const body = await response.text();
-        res.send(body);
-    });
+    app.use('/api/trpc', truncLimiter, createExpressMiddleware({
+        createContext: ({ req }) => {
+            // `client` comes from the startServer(client) closure
+            return typeof createContext === 'function'
+                ? createContext({ req, client, verifyToken, sessionStore: req.app.get('sessionStore') })
+                : (async () => {
+                    const authHeader = req.headers.authorization;
+                    let user = { id: 'guest', username: 'Guest', role: 0 };
+                    if (authHeader && authHeader.startsWith('Bearer ')) {
+                        const verified = await verifyToken(authHeader.split(' ')[1]);
+                        if (verified) user = verified;
+                    }
+                    return {
+                        client,
+                        user,
+                        guildId: req.headers['x-guild-id'] || req.headers['X-Guild-Id'] || req.headers['guild-id'] || null,
+                    };
+                })();
+        },
+        router: appRouter,
+        onError: ({ path, error }) => {
+            console.error(`❌ tRPC error on ${path}:`, error);
+        },
+    }));
 
     // --- JWKS ENDPOINT (for key rotation) ---
     app.get('/.well-known/jwks.json', async (req, res) => {
