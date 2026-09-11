@@ -53,7 +53,6 @@ export const useBot = {
   getSettings: () => trpc.bot.getSettings.useQuery(),
   cleanCache: () => trpc.bot.cleanCache.useMutation(),
   updateSessionRestore: () => trpc.bot.updateSessionRestore.useMutation(),
-  setRole: () => trpc.bot.setRole.useMutation(),
   getAuditLog: () => trpc.bot.getAuditLog.useQuery(undefined, { refetchInterval: 30000 }),
 };
 

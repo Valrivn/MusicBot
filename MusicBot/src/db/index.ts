@@ -3,7 +3,9 @@ import Database from 'better-sqlite3';
 import * as schema from './schema';
 import { eq, desc, and, asc, sql } from 'drizzle-orm';
 
-const dbPath = './voxaria.db';
+import path from 'path';
+
+const dbPath = path.resolve(process.env.DATABASE_PATH || path.join(__dirname, '..', '..', 'voxaria.db'));
 let dbInstance: ReturnType<typeof drizzle> | null = null;
 
 export function getDb() {

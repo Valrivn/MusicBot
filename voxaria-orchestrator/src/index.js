@@ -1,10 +1,8 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import { createApiServer } from './api/server.js';
 import modelRouter from './models/ModelRouter.js';
 import tokenLimiter from './models/TokenLimiter.js';
 import { PARALLEL_WORKER_CONFIG } from './config/models.js';
-
-dotenv.config();
 
 const PORT = process.env.PORT || 3001;
 

@@ -33,17 +33,9 @@ const { apiLimiter, truncLimiter, authLimiter, createRateLimiter } = require('..
 const ROLES_FILE = path.join(__dirname, '..', '..', 'roles.json');
 const OWNER_ID = process.env.DISCORD_OWNER_ID || '895441968241459271';
 
+/** Role is derived from identity only: 3 = owner, 1 = any authenticated user. */
 function getUserRole(discordId) {
-    if (discordId === OWNER_ID) return 3;
-    try {
-        if (fs.existsSync(ROLES_FILE)) {
-            const roles = JSON.parse(fs.readFileSync(ROLES_FILE, 'utf-8'));
-            return roles[discordId] !== undefined ? roles[discordId] : 0;
-        }
-    } catch (e) {
-        console.error('❌ Failed to read roles.json:', e.message);
-    }
-    return 0;
+    return discordId === OWNER_ID ? 3 : 1;
 }
 
 /**
@@ -68,6 +60,7 @@ async function startServer(client) {
     await initPermissionService(client);
     
     const app = express();
+    app.set('trust proxy', 1);
     app.set('sessionStore', new Map());
 
     const extraOrigins = (process.env.CORS_ORIGINS || '')
@@ -140,7 +133,7 @@ async function startServer(client) {
                 defaultSrc: ["'self'"],
                 scriptSrc: ["'self'", "'unsafe-inline'"],
                 styleSrc: ["'self'", "'unsafe-inline'"],
-                connectSrc: ["'self'", "https://unhitched-shrink-dorsal.ngrok-free.dev", "wss://unhitched-shrink-dorsal.ngrok-free.dev"],
+                connectSrc: ["'self'", "https://unhitched-shrink-dorsal.ngrok-free.dev", "wss://unhitched-shrink-dorsal.ngrok-free.dev", "https://*.ngrok-free.dev", "wss://*.ngrok-free.dev", "https://*.ngrok.io", "wss://*.ngrok.io"],
                 imgSrc: ["'self'", "data:", "https:"],
                 fontSrc: ["'self'", "data:"]
             }
@@ -638,6 +631,11 @@ async function startServer(client) {
     });
 
     // --- MODULAR ROUTERS ---
+    app.use((req, res, next) => {
+        req.client = client;
+        next();
+    });
+    app.use('/', require('./routes/health'));
     app.use('/', require('./routes/music')(client, requirePermission));
     app.use('/', require('./routes/karaoke')(client, requirePermission));
     app.use('/', require('./routes/presets')(client, requirePermission));

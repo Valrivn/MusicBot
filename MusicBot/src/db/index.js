@@ -3,7 +3,9 @@ const Database = require('better-sqlite3');
 const schema = require('./schema');
 const { eq, desc, and, asc, sql } = require('drizzle-orm');
 
-const dbPath = process.env.DATABASE_PATH || './voxaria.db';
+const path = require('path');
+
+const dbPath = path.resolve(process.env.DATABASE_PATH || path.join(__dirname, '..', '..', 'voxaria.db'));
 let dbInstance = null;
 
 function getDb() {

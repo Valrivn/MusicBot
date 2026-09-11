@@ -1,12 +1,16 @@
 const axios = require('axios');
 
 const ORCHESTRATOR_URL = process.env.ORCHESTRATOR_URL || 'http://localhost:3001';
+const ORCHESTRATOR_API_KEY = process.env.ORCHESTRATOR_API_KEY || '';
 
 class OrchestratorClient {
   constructor() {
     this.client = axios.create({
       baseURL: ORCHESTRATOR_URL,
-      timeout: 10000
+      timeout: 10000,
+      headers: ORCHESTRATOR_API_KEY
+        ? { Authorization: `Bearer ${ORCHESTRATOR_API_KEY}` }
+        : {}
     });
   }
 

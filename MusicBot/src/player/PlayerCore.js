@@ -70,7 +70,11 @@ class PlayerCore {
         this.sessionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 
         // Persistence management
-        this.statePersistence = new StatePersistence(this);
+        this.statePersistence = new StatePersistence(this, {
+            stateManager: PlayerStateManager,
+            languageManager: LanguageManager,
+            cacheDir: CACHE_DIR,
+        });
 
         // Event-sourced queue persistence
         this.eventStore = QueueEventStore;
@@ -413,6 +417,7 @@ pause(reason = 'manual') {
 stop() {
         this.audioEngine.stop();
         this._emitEvent('stop', {});
+        this.scheduleStatePersist('stop', 0);
     }
 
 skip() {
@@ -425,6 +430,7 @@ skip() {
                 toTrackId: toTrack?.id || toTrack?.url
             });
         }
+        this.scheduleStatePersist('skip', 200);
         return result;
     }
 
@@ -437,6 +443,7 @@ previous() {
                 requestedBy: this.currentTrack?.requesterId || null
             });
         }
+        this.scheduleStatePersist('previous', 200);
         return result;
     }
 
@@ -709,7 +716,7 @@ cleanup(isShutdown = false) {
             if (this.statePersistence) this.statePersistence.cleanup();
             
             // Stop event store snapshot timer
-            if (this.guild?.id) {
+            if (this.guild?.id && this.eventStore?.stopSnapshotTimer) {
                 this.eventStore.stopSnapshotTimer(this.guild.id);
             }
 
@@ -727,10 +734,12 @@ cleanup(isShutdown = false) {
                     this.currentDownloadedFile = null;
                 }
 
-                for (const filepath of this.downloadedFiles) {
+for (const filepath of (this.downloadedFiles || [])) {
                     this.deleteDownloadedFile(filepath);
                 }
-                this.downloadedFiles.clear();
+                if (this.downloadedFiles) {
+                    this.downloadedFiles.clear();
+                }
             }
 
             // Clean up voice connection
@@ -760,8 +769,10 @@ cleanup(isShutdown = false) {
                 this.resource = null;
             }
 
-            // Clear preloaded streams
-            this.preloadedStreams.clear();
+// Clear preloaded streams
+            if (this.preloadedStreams) {
+                this.preloadedStreams.clear();
+            }
             this.preloadingQueue = [];
 
             // Clear player data
@@ -785,8 +796,10 @@ cleanup(isShutdown = false) {
             this.voiceChannel = null;
             this.textChannel = null;
 
-            // Reset pause state
-            this.pauseReasons.clear();
+// Reset pause state
+            if (this.pauseReasons) {
+                this.pauseReasons.clear();
+            }
             this.paused = false;
         } catch (error) {
             console.error('❌ Error during cleanup:', error);

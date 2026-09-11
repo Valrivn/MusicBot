@@ -81,9 +81,18 @@ class TrackManager {
             if (this.player.audioEngine.isPlaying || this.currentTrack) {
                 this.queue.push(richTrack);
                 this.player.broadcastStateUpdate();
+                await this.player._emitEvent('add', {
+                    track: this.player._serializeTrack(richTrack),
+                    position: this.queue.length - 1
+                });
             } else {
                 this.currentTrack = richTrack;
                 this.player.broadcastStateUpdate();
+                await this.player._emitEvent('play', {
+                    track: this.player._serializeTrack(richTrack),
+                    guildId: this.player.guild.id,
+                    requestedBy: richTrack.requestedBy?.id || null
+                });
                 await this.player.play(null, 0);
             }
 
@@ -718,12 +727,29 @@ class TrackManager {
             if (this.player.audioEngine.isPlaying || this.currentTrack) {
                 this.queue.push(...allTracks);
                 this.player.broadcastStateUpdate();
+                for (const t of allTracks) {
+                    await this.player._emitEvent('add', {
+                        track: this.player._serializeTrack(t),
+                        position: this.queue.indexOf(t)
+                    });
+                }
             } else {
                 this.currentTrack = allTracks[0];
                 if (allTracks.length > 1) {
                     this.queue.push(...allTracks.slice(1));
                 }
                 this.player.broadcastStateUpdate();
+                await this.player._emitEvent('play', {
+                    track: this.player._serializeTrack(allTracks[0]),
+                    guildId: this.player.guild.id,
+                    requestedBy: requestedBy?.id || null
+                });
+                for (const t of allTracks.slice(1)) {
+                    await this.player._emitEvent('add', {
+                        track: this.player._serializeTrack(t),
+                        position: this.queue.indexOf(t)
+                    });
+                }
                 await this.player.play(null, 0);
             }
 

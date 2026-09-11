@@ -4,6 +4,7 @@ const { verifyAccessToken } = require('../auth/jwt');
 let wss = null;
 const guildRooms = new Map();
 const connectionTracker = new Map();
+const OWNER_ID = process.env.DISCORD_OWNER_ID || '895441968241459271';
 
 function getClientIp(req) {
     return req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 
@@ -48,9 +49,17 @@ function setupWebSocket(server) {
             return;
         }
 
-        const url = new URL(req.url, `http://${req.headers.host}`);
+        const host = req.headers['x-forwarded-host'] || req.headers.host || 'localhost';
+        const url = new URL(req.url, `http://${host}`);
         const guildId = url.searchParams.get('guildId');
-        const token = url.searchParams.get('token');
+        let token = url.searchParams.get('token');
+
+        if (!token && req.headers['authorization']) {
+            const authHeader = req.headers['authorization'];
+            if (authHeader.toLowerCase().startsWith('bearer ')) {
+                token = authHeader.slice(7).trim();
+            }
+        }
 
         if (!guildId) {
             ws.close(4000, 'Missing guildId parameter');
@@ -65,8 +74,9 @@ function setupWebSocket(server) {
         try {
             const payload = await verifyAccessToken(token);
             ws.userId = payload.sub;
+            ws.isOwner = (payload.sub === OWNER_ID);
             ws.guildId = guildId;
-            console.log(`[WS] Authenticated user ${payload.sub} for karaoke:${guildId} (IP: ${clientIp})`);
+            console.log(`[WS] Authenticated user ${payload.sub} (isOwner: ${ws.isOwner}) for karaoke:${guildId} (IP: ${clientIp})`);
         } catch (err) {
             ws.close(4002, 'Invalid token');
             return;
