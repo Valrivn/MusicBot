@@ -47,7 +47,9 @@ router.get('/health/ready', async (req, res) => {
 
         // Check memory (not OOM)
         const memUsage = process.memoryUsage();
-        const memUsagePercent = (memUsage.heapUsed / memUsage.heapLimit) * 100;
+        const v8 = require('v8');
+        const heapLimit = v8.getHeapStatistics().heap_size_limit;
+        const memUsagePercent = (memUsage.heapUsed / heapLimit) * 100;
         checks.memory = memUsagePercent < 90;
 
         const allHealthy = Object.values(checks).every(v => v === true);
@@ -116,15 +118,17 @@ router.get('/health', async (req, res) => {
 
         // Memory check
         const memUsage = process.memoryUsage();
+        const v8 = require('v8');
+        const heapLimit = v8.getHeapStatistics().heap_size_limit;
         checks.memory.usage = {
             rss: Math.round(memUsage.rss / 1024 / 1024),
             heapUsed: Math.round(memUsage.heapUsed / 1024 / 1024),
             heapTotal: Math.round(memUsage.heapTotal / 1024 / 1024),
-            heapLimit: Math.round(memUsage.heapLimit / 1024 / 1024),
+            heapLimit: Math.round(heapLimit / 1024 / 1024),
             external: Math.round(memUsage.external / 1024 / 1024)
         };
         
-        const heapUsagePercent = (memUsage.heapUsed / memUsage.heapLimit) * 100;
+        const heapUsagePercent = (memUsage.heapUsed / heapLimit) * 100;
         checks.memory.status = heapUsagePercent < 90 ? 'ok' : 'warning';
 
         // Overall status

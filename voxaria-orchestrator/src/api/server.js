@@ -77,11 +77,15 @@ export function createApiServer() {
   const clients = new Set();
 
   wss.on('connection', (ws, req) => {
+    // Support both Authorization header and query param token (for browser WebSocket API)
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const queryToken = url.searchParams.get('token');
+    
     const authHeader = req.headers['authorization'];
-    let providedKey = null;
-    if (authHeader && authHeader.startsWith('Bearer ')) {
+    let providedKey = queryToken;
+    if (!providedKey && authHeader && authHeader.startsWith('Bearer ')) {
       providedKey = authHeader.slice(7).trim();
-    } else if (req.headers['x-api-key']) {
+    } else if (!providedKey && req.headers['x-api-key']) {
       providedKey = req.headers['x-api-key'];
     }
 
@@ -134,11 +138,16 @@ export function createApiServer() {
   });
 
   app.post('/api/route', requireApiKey, async (req, res) => {
+    const request = req.body;
+    const startTime = Date.now();
     try {
-      const request = req.body;
       const result = await modelRouter.routeRequest(request);
+      // Record success for model health tracking
+      modelRouter.recordResult(result.requestId, result.modelId, true, Date.now() - startTime);
       res.json(result);
     } catch (error) {
+      // Record failure for model health tracking
+      modelRouter.recordResult(request.model || 'unknown', request.model || 'unknown', false, Date.now() - startTime);
       res.status(400).json({ error: error.message });
     }
   });
@@ -156,6 +165,18 @@ export function createApiServer() {
     const result = parallelCoordinator.getTaskResult(req.params.taskId);
     if (!result) {
       res.status(404).json({ error: 'Task not found' });
+    } else {
+      res.json(result);
+    }
+  });
+
+  // New endpoint: return completed task result (distinct from in-flight task)
+  app.get('/api/tasks/:taskId/result', requireApiKey, (req, res) => {
+    const result = parallelCoordinator.getTaskResult(req.params.taskId);
+    if (!result) {
+      res.status(404).json({ error: 'Task not found' });
+    } else if (result.status !== 'completed') {
+      res.status(202).json({ status: result.status, message: 'Task still running' });
     } else {
       res.json(result);
     }

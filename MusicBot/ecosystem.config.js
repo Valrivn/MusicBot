@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   apps: [
     {
@@ -32,6 +34,27 @@ module.exports = {
       restart_delay: 10000,
       max_restarts: 5,
       min_uptime: '30s'
+    },
+    {
+      name: 'voxaria-orchestrator',
+      cwd: path.join(__dirname, '..', 'voxaria-orchestrator'),
+      script: 'src/index.js',
+      instances: 1,
+      exec_mode: 'fork',
+      env: {
+        NODE_ENV: 'development',
+        PORT: 3001,
+        ORCHESTRATOR_API_KEY: process.env.ORCHESTRATOR_API_KEY
+      },
+      error_file: './logs/orchestrator-error.log',
+      out_file: './logs/orchestrator-out.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      max_memory_restart: '300M',
+      restart_delay: 5000,
+      max_restarts: 10,
+      min_uptime: '10s',
+      kill_timeout: 5000,
+      listen_timeout: 8000
     }
   ]
 };

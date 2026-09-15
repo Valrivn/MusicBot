@@ -5,8 +5,101 @@ const { eq, desc, and, asc, sql } = require('drizzle-orm');
 
 const path = require('path');
 
-const dbPath = path.resolve(process.env.DATABASE_PATH || path.join(__dirname, '..', '..', 'voxaria.db'));
+/**
+ * Resolve the SQLite database path immune to the process CWD.
+ *  - Absolute DATABASE_PATH (docker volumes, Railway) is used as-is.
+ *  - Relative DATABASE_PATH is pinned to the MusicBot root (src/db/..),
+ *    never to the directory the process happened to be started from.
+ *  - No DATABASE_PATH falls back to <MusicBot root>/voxaria.db.
+ */
+function resolveDbPath() {
+    if (process.env.DATABASE_PATH) {
+        return path.isAbsolute(process.env.DATABASE_PATH)
+            ? process.env.DATABASE_PATH
+            : path.join(__dirname, '..', process.env.DATABASE_PATH);
+    }
+    return path.join(__dirname, '..', 'voxaria.db');
+}
+
+const dbPath = resolveDbPath();
 let dbInstance = null;
+
+/**
+ * Bootstrap DDL — mirrors src/db/schema.js (drizzle) as plain SQL so a fresh
+ * deploy gets all tables without a manual migration step. Re-runs are no-ops
+ * thanks to IF NOT EXISTS.
+ */
+const BOOTSTRAP_DDL = `
+CREATE TABLE IF NOT EXISTS playlists (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    owner_id TEXT NOT NULL,
+    is_public INTEGER DEFAULT 1 NOT NULL,
+    description TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')) NOT NULL,
+    updated_at TEXT DEFAULT (datetime('now')) NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS playlists_owner_name_idx ON playlists (owner_id, name);
+
+CREATE TABLE IF NOT EXISTS playlist_tracks (
+    id TEXT PRIMARY KEY NOT NULL,
+    playlist_id TEXT NOT NULL,
+    track_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    url TEXT,
+    duration INTEGER DEFAULT 0,
+    thumbnail TEXT,
+    cover TEXT,
+    platform TEXT DEFAULT 'youtube',
+    position INTEGER NOT NULL,
+    added_by TEXT,
+    added_at TEXT DEFAULT (datetime('now')) NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS playlist_tracks_playlist_position_idx ON playlist_tracks (playlist_id, position);
+CREATE UNIQUE INDEX IF NOT EXISTS playlist_tracks_playlist_track_idx ON playlist_tracks (playlist_id, track_id);
+
+CREATE TABLE IF NOT EXISTS queue_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    payload TEXT NOT NULL,
+    timestamp TEXT DEFAULT (datetime('now')) NOT NULL,
+    sequence INTEGER NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS queue_events_guild_sequence_idx ON queue_events (guild_id, sequence);
+
+CREATE TABLE IF NOT EXISTS queue_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id TEXT NOT NULL,
+    state TEXT NOT NULL,
+    timestamp TEXT DEFAULT (datetime('now')) NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS queue_snapshots_guild_timestamp_idx ON queue_snapshots (guild_id, timestamp);
+
+CREATE TABLE IF NOT EXISTS karaoke_jobs (
+    id TEXT PRIMARY KEY NOT NULL,
+    song_id TEXT NOT NULL,
+    status TEXT DEFAULT 'pending' NOT NULL,
+    progress REAL DEFAULT 0,
+    result_path TEXT,
+    error_message TEXT,
+    created_at TEXT DEFAULT (datetime('now')) NOT NULL,
+    completed_at TEXT
+);
+CREATE UNIQUE INDEX IF NOT EXISTS karaoke_jobs_status_idx ON karaoke_jobs (status);
+
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY NOT NULL,
+    discord_id TEXT NOT NULL UNIQUE,
+    username TEXT NOT NULL,
+    global_name TEXT,
+    avatar TEXT,
+    role INTEGER DEFAULT 0 NOT NULL,
+    created_at TEXT DEFAULT (datetime('now')) NOT NULL,
+    updated_at TEXT DEFAULT (datetime('now')) NOT NULL
+);
+`;
 
 function getDb() {
     if (!dbInstance) {
@@ -16,6 +109,9 @@ function getDb() {
         sqlite.pragma('synchronous = NORMAL');
         sqlite.pragma('cache_size = 10000');
         sqlite.pragma('temp_store = MEMORY');
+
+        // Create schema on first open — idempotent on subsequent opens.
+        sqlite.exec(BOOTSTRAP_DDL);
 
         dbInstance = drizzle(sqlite, { schema });
     }

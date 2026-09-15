@@ -5,6 +5,7 @@ p, role:owner, playlist, delete
 p, role:owner, queue, write
 p, role:owner, queue, read
 p, role:owner, settings, write
+p, role:owner, settings, read
 p, role:owner, karaoke, write
 
 p, role:admin, playlist, create
@@ -31,6 +32,7 @@ p, role:user, queue, write
 p, role:user, queue, read
 p, role:user, karaoke, write
 p, role:user, karaoke, read
+p, role:user, settings, read
 
 g, role:owner, role:admin
 g, role:admin, role:dj

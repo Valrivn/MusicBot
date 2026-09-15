@@ -68,52 +68,70 @@ async function startServer(client) {
         .map(s => s.trim())
         .filter(Boolean);
 
+    /**
+     * Dynamic origin allowlist — shared by the CORS middleware and the CSRF
+     * defense-in-depth check so the two can never drift apart:
+     *   - https://voxaria.lovable.app              (production frontend)
+     *   - *.lovable.app                            (Lovable preview/project subdomains)
+     *   - *.ngrok-free.dev                         (ngrok public tunnels)
+     *   - http://localhost:* and http://127.0.0.1:* (local dev, any port)
+     *   - extra origins from the CORS_ORIGINS env var
+     */
+    function originMatches(origin) {
+        if (!origin) return false;
+        try {
+            const url = new URL(origin);
+            const { hostname, protocol } = url;
+            if (origin === 'https://voxaria.lovable.app') return true;
+            if (extraOrigins.includes(origin)) return true;
+            // Wildcards match subdomains only (strict `*.` semantics).
+            if (hostname.endsWith('.lovable.app')) return true;
+            if (hostname.endsWith('.ngrok-free.dev')) return true;
+            if ((hostname === 'localhost' || hostname === '127.0.0.1') && protocol === 'http:') return true;
+        } catch {
+            // Malformed origin — reject.
+        }
+        return false;
+    }
+
     const corsOptions = {
-        origin: [
-            'https://voxaria.lovable.app',
-            'http://localhost:3000',
-            'http://localhost:5173',
-            'http://localhost:8080',
-            ...extraOrigins
-        ],
+        origin(origin, callback) {
+            // Non-browser clients (curl, Discord) send no Origin header — allow through.
+            if (!origin || originMatches(origin)) {
+                callback(null, true); // cors reflects the request Origin when present
+            } else {
+                callback(null, false);
+            }
+        },
         credentials: true,
+        maxAge: 86400, // 24h preflight cache
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: [
-            'Content-Type',
-            'Authorization',
-            'ngrok-skip-browser-warning',
+            'guild-id',
+            'x-user-username',
             'x-guild-id',
-            'X-Guild-Id',
             'x-user-id',
-            'X-User-Id',
-            'x-api-key',
-            'X-API-KEY',
-            'apikey',
-            'X-Client-Info',
-            'Accept',
-            'Origin'
+            'authorization',
+            'content-type',
+            'ngrok-skip-browser-warning',
+            // Legacy headers kept for backward compatibility with existing clients:
+            'x-client-info',
+            'accept',
+            'origin'
         ]
     };
 
-    // --- CSRF defense-in-depth: explicit origin allowlist ---
-    const ALLOWED_ORIGINS = [
-        'https://voxaria.lovable.app',
-        'http://localhost:3000',
-        'http://localhost:5173',
-        'http://localhost:8080',
-        ...extraOrigins
-    ];
-
+    // --- CSRF defense-in-depth: explicit origin allowlist (mirrors CORS above) ---
     function isAllowedOrigin(req) {
         const origin = req.headers.origin;
         const referer = req.headers.referer;
         // If no browser origin/referer header at all, allow (non-browser clients like curl).
         if (!origin && !referer) return true;
-        if (origin && ALLOWED_ORIGINS.includes(origin)) return true;
+        if (origin && originMatches(origin)) return true;
         if (referer) {
             try {
                 const refOrigin = new URL(referer).origin;
-                if (ALLOWED_ORIGINS.includes(refOrigin)) return true;
+                if (originMatches(refOrigin)) return true;
             } catch { /* invalid referer URL — reject */ }
         }
         return false;
@@ -166,6 +184,9 @@ async function startServer(client) {
     });
 
     // --- tRPC ENDPOINT ---
+    // Explicit preflight handlers (belt-and-braces alongside app.use(cors(...))).
+    app.options('/api/trpc', cors(corsOptions));
+    app.options('/api/trpc/{*splat}', cors(corsOptions));
     app.use('/api/trpc', truncLimiter, createExpressMiddleware({
         createContext: ({ req }) => {
             // `client` comes from the startServer(client) closure

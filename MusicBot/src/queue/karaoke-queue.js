@@ -7,9 +7,11 @@ let redisConnection = null;
 function initKaraokeQueue() {
     if (karaokeQueue) return { karaokeQueue, redisConnection };
     
-    redisConnection = new Redis({
-        host: process.env.REDIS_HOST || 'localhost',
-        port: process.env.REDIS_PORT || 6379,
+    // Prefer an injected REDIS_URL (Railway provides one) and fall back to
+    // explicit host/port vars. Defaults target a local Redis on 127.0.0.1:6379.
+    const redisUrl = process.env.REDIS_URL || `redis://${process.env.REDIS_HOST || '127.0.0.1'}:${process.env.REDIS_PORT || 6379}`;
+
+    redisConnection = new Redis(redisUrl, {
         password: process.env.REDIS_PASSWORD || undefined,
         maxRetriesPerRequest: null,
         retryStrategy: (times) => Math.min(times * 200, 2000),

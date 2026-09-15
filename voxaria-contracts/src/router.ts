@@ -872,6 +872,173 @@ export const appRouter = t.router({
         return { success: true, message: `Settings updated: sessionRestoreEnabled=${input.enabled}` };
       }),
   }),
+
+  ai: t.router({
+    models: t.router({
+      getAll: publicProcedure
+        .output(z.array(z.object({
+          id: z.string(),
+          provider: z.string(),
+          name: z.string().optional(),
+          capabilities: z.array(z.string()).optional(),
+          maxTokens: z.number().optional(),
+          speed: z.string().optional(),
+          health: z.object({
+            healthy: z.boolean(),
+            lastCheck: z.number().optional(),
+            errorCount: z.number().optional(),
+            successCount: z.number().optional(),
+          }).optional(),
+        })))
+        .query(async () => {
+          try {
+            const axios = require('axios');
+            const orchestratorUrl = process.env.ORCHESTRATOR_URL || 'http://localhost:3001';
+            const apiKey = process.env.ORCHESTRATOR_API_KEY;
+            const response = await axios.get(`${orchestratorUrl}/api/models`, {
+              headers: { Authorization: `Bearer ${apiKey}` },
+              timeout: 5000,
+            });
+            return response.data;
+          } catch (e) {
+            return [];
+          }
+        }),
+
+      route: protectedProcedure
+        .input(z.object({
+          prompt: z.string(),
+          capability: z.string().optional(),
+          priority: z.enum(['speed', 'quality', 'balanced']).optional(),
+          maxTokens: z.number().optional(),
+        }))
+        .output(z.object({
+          requestId: z.string(),
+          modelId: z.string(),
+          provider: z.string(),
+          baseUrl: z.string(),
+          maxTokens: z.number(),
+          tokenLimit: z.number(),
+          metadata: z.object({
+            startTime: z.number(),
+            model: z.string().optional(),
+            capabilities: z.array(z.string()).optional(),
+          }).optional(),
+        }))
+        .mutation(async ({ input }) => {
+          try {
+            const axios = require('axios');
+            const orchestratorUrl = process.env.ORCHESTRATOR_URL || 'http://localhost:3001';
+            const apiKey = process.env.ORCHESTRATOR_API_KEY;
+            const response = await axios.post(`${orchestratorUrl}/api/route`, input, {
+              headers: { Authorization: `Bearer ${apiKey}` },
+              timeout: 10000,
+            });
+            return response.data;
+          } catch (e: any) {
+            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
+          }
+        }),
+    }),
+
+    tasks: t.router({
+      dispatch: protectedProcedure
+        .input(z.object({
+          subtasks: z.array(z.object({
+            capability: z.string().optional(),
+            prompt: z.string(),
+            priority: z.enum(['speed', 'quality', 'balanced']).optional(),
+            maxTokens: z.number().optional(),
+          })),
+          coordinationStrategy: z.enum(['gather', 'race', 'pipeline']).optional(),
+        }))
+        .output(z.object({
+          taskId: z.string(),
+          status: z.string(),
+          subtasks: z.array(z.object({
+            subtaskId: z.string(),
+            workerId: z.string().optional(),
+            status: z.string(),
+          })),
+          awarenessPrompt: z.string().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          try {
+            const axios = require('axios');
+            const orchestratorUrl = process.env.ORCHESTRATOR_URL || 'http://localhost:3001';
+            const apiKey = process.env.ORCHESTRATOR_API_KEY;
+            const response = await axios.post(`${orchestratorUrl}/api/dispatch`, input, {
+              headers: { Authorization: `Bearer ${apiKey}` },
+              timeout: 10000,
+            });
+            return response.data;
+          } catch (e: any) {
+            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: e.message });
+          }
+        }),
+
+      getStatus: protectedProcedure
+        .input(z.object({ taskId: z.string() }))
+        .output(z.object({
+          taskId: z.string(),
+          status: z.string(),
+          subtasks: z.array(z.object({
+            subtaskId: z.string(),
+            workerId: z.string().optional(),
+            status: z.string(),
+            result: z.any().optional(),
+            startTime: z.number().optional(),
+            endTime: z.number().optional(),
+          })).optional(),
+          coordinationStrategy: z.string().optional(),
+          createdAt: z.number().optional(),
+          completedAt: z.number().optional(),
+        }))
+        .query(async ({ input }) => {
+          try {
+            const axios = require('axios');
+            const orchestratorUrl = process.env.ORCHESTRATOR_URL || 'http://localhost:3001';
+            const apiKey = process.env.ORCHESTRATOR_API_KEY;
+            const response = await axios.get(`${orchestratorUrl}/api/tasks/${input.taskId}`, {
+              headers: { Authorization: `Bearer ${apiKey}` },
+              timeout: 5000,
+            });
+            return response.data;
+          } catch (e: any) {
+            throw new TRPCError({ code: 'NOT_FOUND', message: 'Task not found' });
+          }
+        }),
+
+      getResult: protectedProcedure
+        .input(z.object({ taskId: z.string() }))
+        .output(z.object({
+          taskId: z.string(),
+          strategy: z.string().optional(),
+          results: z.array(z.object({
+            subtaskId: z.string(),
+            result: z.any().optional(),
+            duration: z.number().optional(),
+            error: z.string().optional(),
+          })),
+          totalDuration: z.number().optional(),
+          error: z.string().optional(),
+        }))
+        .query(async ({ input }) => {
+          try {
+            const axios = require('axios');
+            const orchestratorUrl = process.env.ORCHESTRATOR_URL || 'http://localhost:3001';
+            const apiKey = process.env.ORCHESTRATOR_API_KEY;
+            const response = await axios.get(`${orchestratorUrl}/api/tasks/${input.taskId}/result`, {
+              headers: { Authorization: `Bearer ${apiKey}` },
+              timeout: 5000,
+            });
+            return response.data;
+          } catch (e: any) {
+            throw new TRPCError({ code: 'NOT_FOUND', message: 'Task result not found' });
+          }
+        }),
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

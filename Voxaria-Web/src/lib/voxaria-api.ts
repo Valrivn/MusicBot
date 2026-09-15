@@ -133,7 +133,27 @@ export type ApiAuditTrack = {
 type PlaybackAction = "previous" | "play_pause" | "next" | "stop";
 
 // 🌐 Fallback link points to your active permanent Ngrok domain
-import { getAccessToken, getAuthHeaders, fetchWithAuth } from './auth';
+import { getAccessToken, setAccessToken, getAuthHeaders, fetchWithAuth } from './auth';
+
+export let accessToken: string | null = getAccessToken();
+
+export function getOrUpdateAccessToken(): string | null {
+  if (accessToken) return accessToken;
+  const token = getAccessToken();
+  if (token) {
+    accessToken = token;
+    return token;
+  }
+  if (typeof localStorage !== 'undefined') {
+    const stored = localStorage.getItem('accessToken') || localStorage.getItem('access_token') || localStorage.getItem('token') || localStorage.getItem('sessionToken');
+    if (stored) {
+      accessToken = stored;
+      setAccessToken(stored);
+      return stored;
+    }
+  }
+  return null;
+}
 
 export const BASE_URL =
   import.meta.env.VITE_VOXARIA_API_BASE_URL?.trim() ||
@@ -146,11 +166,17 @@ type ApiAuthContext = {
   guildId?: string;
   userId?: string;
   sessionToken?: string;
+  accessToken?: string;
 };
 
 let apiAuthContext: ApiAuthContext = {};
 
 export const setApiAuthContext = (context: ApiAuthContext) => {
+  const token = context.sessionToken || context.accessToken;
+  if (token) {
+    accessToken = token;
+    setAccessToken(token);
+  }
   apiAuthContext = {
     guildId: context.guildId?.trim() || undefined,
     userId: context.userId?.trim() || undefined,

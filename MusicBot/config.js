@@ -1,5 +1,8 @@
-// Load environment variables
-require('dotenv').config();
+// Load environment variables — pinned to this module's directory so the .env
+// is resolved from the source tree, never from the process CWD. This keeps
+// startup immune to the working directory the bot is launched from.
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 module.exports = {
     // Discord Bot Settings

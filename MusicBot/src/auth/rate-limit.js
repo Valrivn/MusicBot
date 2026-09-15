@@ -12,9 +12,10 @@ const config = {
 function getRedis() {
     if (redis) return redis;
     try {
-        redis = new Redis({
-            host: process.env.REDIS_HOST || 'localhost',
-            port: parseInt(process.env.REDIS_PORT || '6379', 10),
+        // Prefer an injected REDIS_URL (Railway provides one) and fall back to
+        // explicit host/port vars. Defaults target a local Redis on 127.0.0.1:6379.
+        const redisUrl = process.env.REDIS_URL || `redis://${process.env.REDIS_HOST || '127.0.0.1'}:${process.env.REDIS_PORT || 6379}`;
+        redis = new Redis(redisUrl, {
             password: process.env.REDIS_PASSWORD || undefined,
             maxRetriesPerRequest: 1,
             enableOfflineQueue: false,

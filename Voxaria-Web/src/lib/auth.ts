@@ -21,7 +21,7 @@ export type RefreshResponse = {
   expires_in: number;
 };
 
-let accessToken: string | null = null;
+export let accessToken: string | null = null;
 let accessTokenExpiry: number = 0;
 let currentUser: AuthUser | null = null;
 let refreshPromise: Promise<RefreshResponse> | null = null;
@@ -42,10 +42,32 @@ export function subscribeToAuth(listener: (user: AuthUser | null) => void) {
 }
 
 export function getAccessToken(): string | null {
-  if (accessToken && Date.now() < accessTokenExpiry) {
+  if (accessToken && (accessTokenExpiry === 0 || Date.now() < accessTokenExpiry)) {
     return accessToken;
   }
-  return null;
+  if (typeof localStorage !== 'undefined') {
+    const stored = localStorage.getItem('accessToken') || localStorage.getItem('access_token') || localStorage.getItem('token') || localStorage.getItem('sessionToken');
+    if (stored) {
+      accessToken = stored;
+      return stored;
+    }
+  }
+  return accessToken;
+}
+
+export function setAccessToken(token: string | null, expiresIn: number = 3600) {
+  accessToken = token;
+  if (token) {
+    accessTokenExpiry = Date.now() + expiresIn * 1000;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('accessToken', token);
+    }
+  } else {
+    accessTokenExpiry = 0;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('accessToken');
+    }
+  }
 }
 
 export function getCurrentUser(): AuthUser | null {

@@ -1,0 +1,108 @@
+{
+  "report": "Voxaria Music Bot Backend MVP Readiness Audit",
+  "auditor": "opencode/big-pickle",
+  "date": "2026-09-08",
+  "method": "Static source review + live endpoint probing (ports 3001/3002), SQLite inspection (WAL tables/indexes/row counts via ./voxaria.db, ./database/auth.db), PM2 process/state inspection, Python/Redis toolchain checks, and a direct BullMQ queue.add probe.",
+  "services_running": {
+    "voxaria-api": { "pid": 21560, "port": 3002, "pm2_status": "online" },
+    "voxaria-karaoke": { "pid": 11052, "pm2_status": "online", "note": "online but wedged in BullMQ error loop" },
+    "voxaria-orchestrator": { "pid": 21420, "port": 3001, "pm2_status": "online" },
+    "redis": { "pid": 5320, "version": "3.0.504", "note": "ancient MSOpenTech Windows build; BullMQ v5 requires >= 5.0.0" }
+  },
+  "status_legend": { "WORKING": "verified operational", "BROKEN": "verified failing or non-functional", "MISSING": "absent / not wired", "UNTESTED": "code present but not live-verified" },
+  "areas": [
+    {
+      "area": "1. Database Layer",
+      "features": [
+        { "feature": "SQLite core (better-sqlite3, WAL, pragmas)", "status": "WORKING", "evidence": "voxaria.db + database/auth.db both in WAL mode; src/db/index.js sets journal_mode=WAL, synchronous=NORMAL, cache_size=10000, temp_store=MEMORY; all CRUD paths hit live DB during runtime.", "blocker": "none" },
+        { "feature": "Schema + indexes", "status": "WORKING", "evidence": "Tables: karaoke_jobs(0 rows), playlist_tracks(28), playlists(24), queue_events(13), queue_snapshots(2), users(0), sqlite_sequence. Indexes: playlists_owner_name_idx, playlist_tracks_playlist_position_idx, playlist_tracks_playlist_track_idx, queue_events_guild_sequence_idx, queue_snapshots_guild_timestamp_idx, karaoke_jobs_status_idx, users_discord_id_unique.", "blocker": "none" },
+        { "feature": "Migrations (audit expects WAL migrations folder)", "status": "MISSING", "evidence": "No migrations directory anywhere (glob MusicBot/**/migrations/** empty). drizzle.config.ts exists but `db:migrate` fails -> schema drift on fresh deploy.", "blocker": "Schema cannot be provisioned reproducibly; fresh deploys rely on better-sqlite3 run() bootstrap instead." },
+        { "feature": "Runtime JSON store regeneration (playerState.json)", "status": "BROKEN", "evidence": "database/playerState.json = {\"players\":{}}; StatePersistence constructed without deps (new StatePersistence(this), PlayerCore.js:73) so stateManager/languageManager/embedManager are undefined and persistState() is a silent no-op; config.sessionRestore.enabled=false means restore path never runs in prod.", "blocker": "Session restore + queue persistence after restart cannot work." },
+        { "feature": "Queue event store (queue_events / queue_snapshots)", "status": "BROKEN", "evidence": "initializeEventStore() is only called from restoreFromState() (PlayerCore.js:679), never on fresh player creation -> fresh players write no events/snapshots; 13 events + 2 snapshots exist only as leftovers from earlier sessions. cleanup() also dereferences this.eventStore without null guard (crash risk for fresh players).", "blocker": "Restart recovery is unreliable for API-driven playback sessions." },
+        { "feature": "users table persistence", "status": "UNTESTED", "evidence": "users table has 0 rows; auth role lookup bypasses DB entirely (reads roles.json file / env OWNER_ID).", "blocker": "No user record persistence; role refresh depends on external files." }
+      ]
+    },
+    {
+      "area": "2. Auth System",
+      "features": [
+        { "feature": "JWT issue/verify (RS256, jose)", "status": "WORKING", "evidence": "keys/private.pem + public.pem auto-generated and present; GET /.well-known/jwks.json -> 200 with RSA JWK kid=voxaria-1; expires 15m access / 7d refresh; issuer voxaria-bot audience voxaria-web.", "blocker": "none" },
+        { "feature": "Refresh token rotation (transaction-safe)", "status": "UNTESTED", "evidence": "rotateRefreshToken/revokeRefreshToken/revokeAllUserRefreshTokens in src/auth/jwt.js; refresh_tokens table (9 rows) persisted in WAL auth.db; POST /api/auth/refresh with no token -> 401 (guard works). Rotation under concurrent load not exercised.", "blocker": "No concurrency/load test performed." },
+        { "feature": "Discord OAuth (POST /auth/discord + GET flow + callback)", "status": "WORKING", "evidence": "Endpoints live (server.js:411-622); refresh_tokens holds 9 rows proving real successful logins; httpOnly refresh_token cookie + dev-mode body exposure flag present.", "blocker": "Relies on DISCORD_CLIENT_SECRET in .env (set; runtime OK)." },
+        { "feature": "Role hierarchy GUEST=0/USER=1/STAFF=2/OWNER=3", "status": "BROKEN", "evidence": "getUserRole() (server.js:36) walks roles.json which does NOT exist -> every non-owner user resolves to 0 (guest); only DISCORD_OWNER_ID -> 3. casbin policy.csv + model define owner/admin/dj/vip/user + g() hierarchy but are unreachable for web auth subjects.", "blocker": "roles.json missing; staff/user/vip tiers effectively dead for web login." },
+        { "feature": "Casbin permission engine", "status": "MISSING", "evidence": "casbin-model.conf (r=sub,obj,act; matcher g(r.sub,p.sub) && r.obj==p.obj && r.act==p.act) + policy.csv present and initPermissionService() called, but with no roles.json every subject defaults to role:user -> all requirePermission('settings'/'playlist'/'karaoke'/'queue') checks collapse to user-level authorizations only.", "blocker": "No role source of truth." },
+        { "feature": "tRPC router + createContext", "status": "BROKEN", "evidence": "voxaria-contracts/src/router.ts: 50 procedures across playlist/queue/player/music/karaoke/presets/bot/auth/discord/system ALL throw TRPCError INTERNAL_SERVER_ERROR 'Backend implementation required'. Live: GET /api/trpc/playlist.getAll -> 500 with that exact message; POST -> 405 (query vs mutation resolved).", "blocker": "Entire tRPC surface is a stub; any web client using tRPC gets 500s." },
+        { "feature": "resolveUser Bearer/session soft-binding", "status": "UNTESTED", "evidence": "sessionStore Map + verifyAccessToken path in middleware.js; UA/IP mismatch only warns. Not exercised end-to-end with a valid JWT over HTTP.", "blocker": "none observed" }
+      ]
+    },
+    {
+      "area": "3. MusicBot Core Logic",
+      "features": [
+        { "feature": "Player engine (@discordjs/voice PlayerCore/AudioEngineCore)", "status": "WORKING", "evidence": "Bot live in 2 Discord servers (shard 0 online, 6 slash commands deployed); GET /health/ready -> 200 {redis:ready, discord:connected}; PM2 voxaria-api online.", "blocker": "none" },
+        { "feature": "Queue + TrackResolver (YouTube/SoundCloud/DirectLink + yt-dlp)", "status": "UNTESTED", "evidence": "YouTube.js 'Ultimatum Matrix' scoring resolver, SoundCloud.js, DirectLink.js, resilience/external-calls.js present; cookies.txt + ffmpeg.exe present; yt-dlp available. No live search/stream exercised during audit (requires valid auth over /music/*).", "blocker": "No runtime resolution test this session." },
+        { "feature": "Playlist persistence", "status": "WORKING", "evidence": "playlists(24 rows) + playlist_tracks(28 rows) with position/track composite index; presets.js + music.js endpoints mounted and serving.", "blocker": "none" },
+        { "feature": "State persistence + session restore", "status": "BROKEN", "evidence": "StatePersistence deps undefined (no-op JSON writes); playerState.json empty; session restore disabled in .env; PlayerCore.downloadedFiles getter returns audioEngine.downloadedFiles which never exists (undefined) -> StatePersistence.serializeState guards with ||[] but PlayerCore.cleanup() iterates it unguarded (crash path).", "blocker": "Restart loses queue/playback state; latent crash on cleanup." },
+        { "feature": "Lavalink", "status": "MISSING", "evidence": "Lavalink.jar + application.yml at C:\\Bot root, but grep of src/**/*.js finds zero lavalink references; playback is 100% @discordjs/voice. Jars are dead weight.", "blocker": "none (feature unused; could be removed or documented as optional)" },
+        { "feature": "Voice state management (join/leave/reconnect)", "status": "WORKING", "evidence": "VoiceConnection.js joinVoiceChannel + recovery; /discord/join + /discord/leave routes live (server.js:647-682); bot connected in guilds.", "blocker": "none" },
+        { "feature": "REST API surface (/music/*, /queue/*, /presets/*, /system/*)", "status": "WORKING", "evidence": "All routes mounted (server.js:641-644 music, karaoke, presets, system); /health/ready, /health/live respond; system.js serves readiness with redis+discord checks. NOTE: routes/health.js is dead code (never mounted).", "blocker": "Permission tiers collapsed (see auth) restrict admin operations to owner only." }
+      ]
+    },
+    {
+      "area": "4. Karaoke Worker",
+      "features": [
+        { "feature": "BullMQ queue + worker (karaoke-queue.js / karaoke-worker.js)", "status": "BROKEN", "evidence": "Direct probe: queue.add() threw 'Redis version needs to be greater or equal than 5.0.0 Current: 3.0.504'. Worker process (11052) online but wedged in the same error loop; karaoke_jobs table at 0 rows (nothing has ever been queued+processed).", "blocker": "Local Redis is 3.0.504 (MSOpenTech build); must upgrade to Redis >= 5.0 (e.g., Memurai >= 5.x or a Linux/WSL Redis 7.x) before BullMQ works." },
+        { "feature": "Python stem pipeline (demucs / pitch quantization)", "status": "WORKING", "evidence": "demucs 4.0.1, torch 2.7.1+cu126, torchaudio 2.7.1+cu126, numpy 2.4.0, librosa 0.11.0 installed; scripts/karaoke_worker.py + pitch_quantizer.py present; ffmpeg.exe at MusicBot\\ffmpeg.exe; audio_cache/stems exists.", "blocker": "None for the Python side itself; blocked upstream by queue." },
+        { "feature": "Karaoke REST endpoints (/karaoke/prepare, /karaoke/status/:jobId, pitch-data)", "status": "UNTESTED", "evidence": "karaoke.js routes mounted (prepare + status + lyrics + pitch-data); demucsBreaker/getCachedKaraoke/runDemucsWithFallback wired; but jobs cannot be enqueued until Redis is fixed.", "blocker": "Queue layer fails first." },
+        { "feature": "WebSocket progress broadcast (/ws/karaoke)", "status": "UNTESTED", "evidence": "WebSocketServer on /ws/karaoke + broadcastToGuild('karaoke:progress') implemented in utils/websocket.js.", "blocker": "Cannot emit meaningful progress while queue is down." },
+        { "feature": "Worker log hygiene", "status": "BROKEN", "evidence": "logs/worker-error-1.log is 7.5 GB (7,524,210,399 bytes), actively growing, single repeated line 'Worker error: Redis version needs to be greater or equal than 5.0.0 Current: 3.0.504'; no pm2-logrotate configured in ecosystem.config.js.", "blocker": "Disk exhaustion risk on host; must stop loop + configure rotation." }
+      ]
+    },
+    {
+      "area": "5. Orchestrator",
+      "features": [
+        { "feature": "Service + /api/health", "status": "WORKING", "evidence": "GET /api/health -> 200 {\"status\":\"healthy\",\"models\":10,\"workers\":5}; PM2 online (voxaria-orchestrator).", "blocker": "none" },
+        { "feature": "Model registry (10 models, 2 providers)", "status": "WORKING", "evidence": "GET /api/models (unprotected) -> 200 with 10 models (opencode: 6 free models; antigravity: gemini-3-flash, gemini-3.1-pro, claude-sonnet, claude-opus); ModelRouter health checks every 30s.", "blocker": "none" },
+        { "feature": "Shared-secret auth (requireApiKey)", "status": "BROKEN", "evidence": "POST /api/route without key -> 401 (verified). Orchestrator has NO .env (generates random episodic dev key each boot: '[WARNING] ORCHESTRATOR_API_KEY environment variable is not set'); MusicBot's OrchestratorClient (src/orchestrator.js) sends NO auth header on any call. End-to-end integration impossible in current state.", "blocker": "Need ORCHESTRATOR_API_KEY set in voxaria-orchestrator/.env AND sent as Bearer/x-api-key by OrchestratorClient." },
+        { "feature": "/api/route, /api/dispatch, /api/tasks/*, /api/token-*", "status": "BROKEN", "evidence": "All behind requireApiKey (server.js:136-217); 401 verified for /api/route with no key. /ai slash command would surface 'Orchestrator Unavailable' (Promise.all fails on first 401).", "blocker": "Same as shared-secret auth." },
+        { "feature": "ParallelCoordinator (worker pool)", "status": "UNTESTED", "evidence": "In-memory simulated workers (poolSize 5 from PARALLEL_WORKER_CONFIG), tasks Map with gather strategy; no real model calls/subprocesses. Not exercised because /api/dispatch is key-gated.", "blocker": "It is a mock pool, not real parallelism; gate on auth before judging." },
+        { "feature": "SkillExecutor wiring", "status": "MISSING", "evidence": "SkillExecutor.js implements installSkill (npx skills add, SAFE_SOURCE_REGEX) + execute for 4 skills, but NO route mounts it - GET /api/skills only returns registry; no /api/skills/install|execute.", "blocker": "No API surface to invoke skills." }
+      ]
+    },
+    {
+      "area": "6. PM2 / Ecosystem",
+      "features": [
+        { "feature": "PM2 process supervision", "status": "WORKING", "evidence": "pm2 list shows voxaria-api (21560), voxaria-karaoke (11052), voxaria-orchestrator (21420) all online, 0 restarts, fork mode.", "blocker": "none" },
+        { "feature": "ecosystem.config.js coverage", "status": "PARTIAL", "evidence": "Defines voxaria-api + voxaria-karaoke only; voxaria-orchestrator was registered ad-hoc (not in ecosystem file, no env/cwd declaration).", "blocker": "Orchestrator missing from reproducible PM2 config." },
+        { "feature": "Log rotation", "status": "MISSING", "evidence": "No pm2-logrotate; worker-error-1.log already 7.5 GB and growing.", "blocker": "Disk fill." },
+        { "feature": "Production env template", "status": "BROKEN", "evidence": "MusicBot/.env.production still contains placeholders (your_discord_bot_token_here, etc.); docker-compose sets NODE_ENV=development.", "blocker": "Cannot ship production config as-is." }
+      ]
+    },
+    {
+      "area": "7. Environment / Secrets",
+      "features": [
+        { "feature": "Local .env completeness (project canonical names)", "status": "WORKING", "evidence": "node scripts/validate-env.js PASSED with warnings: all 11 required vars + 6 of 7 recommended set; Discord API connected as Voxaria (1500351775998345267 / Voxaria#6518); cookies.txt valid; ffmpeg present; Redis ping OK.", "blocker": "Only SUPPORT_SERVER unset (cosmetic)." },
+        { "feature": "JWT keypair", "status": "WORKING", "evidence": "keys/private.pem + public.pem present and well-formed; JWKS served.", "blocker": "none" },
+        { "feature": "ORCHESTRATOR_API_KEY plumbing", "status": "MISSING", "evidence": "Not in MusicBot/.env, not in voxaria-orchestrator/.env (file absent), not sent by OrchestratorClient.", "blocker": "Orchestrator serves random key per boot; MusicBot cannot authenticate." },
+        { "feature": "Redis version compatibility", "status": "BROKEN", "evidence": "Server reports 3.0.504 (BullMQ error text; ioredis PING works so health checks pass). BullMQ v5 hard-requires >= 5.0.0 -> karaoke queue + worker dead, 7.5GB error log.", "blocker": "Upgrade Redis (Memurai 5+/7 or WSL Redis 7)." },
+        { "feature": "Discord credentials", "status": "WORKING", "evidence": "Bot token valid (Discord API 200, app name Voxaria), client id set, bot in 2 servers, 6 global slash commands deployed.", "blocker": "DISCORD_COMMANDS_ENABLED=false in .env yet commands were deployed+loaded (flag inconsistent with observed behavior - minor config drift)." }
+      ]
+    }
+  ],
+  "critical_issues": [
+    { "severity": "CRITICAL", "issue": "Redis 3.0.504 too old for BullMQ v5; karaoke queue cannot accept jobs and worker spin-loops writing a 7.5GB error log (disk-fill risk).", "fix": "Upgrade Redis to >= 5.0 (Memurai 5.x/7.x or WSL Redis), truncate/rotate logs, enable pm2-logrotate." },
+    { "severity": "CRITICAL", "issue": "tRPC contracts router is 100% stubbed (all 50 procedures throw 'Backend implementation required'); any tRPC-based web client is dead on arrival.", "fix": "Implement procedures against existing REST services or remove tRPC surface." },
+    { "severity": "CRITICAL", "issue": "Orchestrator shared-secret auth cannot work end-to-end: no .env on orchestrator (ephemeral key), no key sent by MusicBot client, /ai command therefore always fails.", "fix": "Create voxaria-orchestrator/.env with ORCHESTRATOR_API_KEY; add Authorization header to OrchestratorClient; keep key in MusicBot/.env." },
+    { "severity": "HIGH", "issue": "State persistence is a silent no-op (StatePersistence constructed without dependencies) and event store only initializes on restore path; restarts lose queue/playback state.", "fix": "Construct StatePersistence with {stateManager, languageManager, embedManager}; initializeEventStore on player creation; null-guard eventStore in cleanup(); fix downloadFile getter." },
+    { "severity": "HIGH", "issue": "Role system has no source of truth: roles.json missing -> every web user is guest(0), owner is 3; staff/user/vip tiers unreachable; casbin collapsed.", "fix": "Create roles.json (or migrate users table) and wire getUserRole + permission-service to it." },
+    { "severity": "MEDIUM", "issue": "Production deployment artifacts not current: .env.production placeholders, NODE_ENV=development in docker-compose, no migrations, orchestrator not in ecosystem.config.js, health.js dead code, helmet hoisted to repo root.", "fix": "Fill prod env, add drizzle migrations, add orchestrator PM2 app, mount or delete health.js, vendor helmet into MusicBot deps." }
+  ],
+  "evidence_artifacts": [
+    "C:\\Bot\\MusicBot\\voxaria.db (WAL; playlists 24, playlist_tracks 28, queue_events 13, queue_snapshots 2, users 0, karaoke_jobs 0)",
+    "C:\\Bot\\MusicBot\\database\\auth.db (WAL; refresh_tokens 9 rows)",
+    "C:\\Bot\\MusicBot\\database\\playerState.json -> {\"players\":{}}",
+    "C:\\Bot\\MusicBot\\logs\\worker-error-1.log -> 7,524,210,399 bytes, single repeating BullMQ Redis version error",
+    "Live: GET :3002/health/ready 200; GET :3002/.well-known/jwks.json 200; POST :3002/api/auth/refresh (no token) 401; GET :3002/api/trpc/playlist.getAll 500 'Backend implementation required'; POST :3001/api/route (no key) 401; GET :3001/api/health 200; GET :3001/api/models (no key) 200",
+    "Probe: karaokeQueue.add() -> 'Redis version needs to be greater or equal than 5.0.0 Current: 3.0.504'",
+    "pm2 list: voxaria-api/voxaria-karaoke/voxaria-orchestrator online",
+    "python: demucs 4.0.1, torch 2.7.1+cu126; ffmpeg + cookies.txt present; validate-env.js exit 0 with warnings"
+  ]
+}

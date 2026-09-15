@@ -274,7 +274,7 @@ module.exports = (client, requirePermission) => {
         res.json({ status: 'processing', jobId });
     });
 
-    router.get('/music/karaoke/pitch-data', requirePermission('karaoke', 'read'), (req, res) => {
+    const pitchDataHandler = (req, res) => {
         const player = client.players.first();
         if (!player) return res.json([]);
 
@@ -314,7 +314,14 @@ module.exports = (client, requirePermission) => {
 
         const frames = getFormattedPitchMap(outputDir);
         return res.json(frames);
-    });
+    };
+
+    // Canonical pitch-data endpoint plus backward-compatible aliases so both
+    // the web dashboard (/music/pitch-map) and older clients (/karaoke/pitch-data)
+    // resolve to the same handler.
+    router.get('/music/karaoke/pitch-data', requirePermission('karaoke', 'read'), pitchDataHandler);
+    router.get('/karaoke/pitch-data', requirePermission('karaoke', 'read'), pitchDataHandler);
+    router.get('/music/pitch-map', requirePermission('karaoke', 'read'), pitchDataHandler);
 
     router.use('/karaoke/stems', optionalAuth(), (req, res, next) => {
         next();

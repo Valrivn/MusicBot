@@ -12,6 +12,8 @@ export class ParallelCoordinator extends EventEmitter {
     this.maxWorkers = this.config.maxWorkers;
     this.activeWorkers = 0;
     this.taskQueue = [];
+    this.taskTimeouts = new Map(); // taskId -> timeout handle
+    this.taskTTL = this.config.taskTTL || 10 * 60 * 1000; // default 10 minutes
     this._initializeWorkerPool();
   }
 
@@ -76,6 +78,9 @@ export class ParallelCoordinator extends EventEmitter {
 
     this.tasks.set(taskId, task);
     this.emit('task:created', { taskId, subtaskCount: subtasks.length });
+
+    // Set task TTL timeout
+    this._setTaskTimeout(taskId);
 
     const dispatchResults = await this._dispatchSubtasks(task);
 
@@ -222,6 +227,42 @@ export class ParallelCoordinator extends EventEmitter {
         duration: task.completedAt - task.createdAt,
         subtaskCount: task.subtasks.length
       });
+
+      // Clear task timeout on successful completion
+      this._clearTaskTimeout(taskId);
+    }
+  }
+
+  _setTaskTimeout(taskId) {
+    const timeout = setTimeout(() => {
+      const task = this.tasks.get(taskId);
+      if (task && task.status !== 'completed') {
+        task.status = 'failed';
+        task.completedAt = Date.now();
+        task.error = 'Task timed out (TTL exceeded)';
+        this.results.set(taskId, {
+          taskId,
+          strategy: task.coordinationStrategy,
+          results: task.subtasks.map(st => ({
+            subtaskId: st.id,
+            result: st.result,
+            error: st.status !== 'completed' ? 'Subtask timed out' : undefined,
+            duration: st.endTime ? st.endTime - st.startTime : Date.now() - (st.startTime || Date.now())
+          })),
+          totalDuration: task.completedAt - task.createdAt,
+          error: 'Task timed out (TTL exceeded)'
+        });
+        this.emit('task:failed', { taskId, error: 'TTL exceeded' });
+      }
+    }, this.taskTTL);
+    this.taskTimeouts.set(taskId, timeout);
+  }
+
+  _clearTaskTimeout(taskId) {
+    const timeout = this.taskTimeouts.get(taskId);
+    if (timeout) {
+      clearTimeout(timeout);
+      this.taskTimeouts.delete(taskId);
     }
   }
 
