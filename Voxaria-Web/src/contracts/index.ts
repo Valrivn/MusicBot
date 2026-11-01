@@ -1,6 +1,12 @@
 export * from './schemas';
-export * from './router';
 export * from './errors';
+export type {
+  AppRouter,
+  AuthUser,
+  TrpcContext,
+  VerifyTokenFn,
+  CreateContextOptions,
+} from './router';
 
 export {
   VoxariaErrorCode,
@@ -9,3 +15,4 @@ export {
   createApiError,
 } from './errors';
 export type { ApiErrorResponse } from './errors';
+
