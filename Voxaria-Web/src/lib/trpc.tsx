@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
-import type { AppRouter } from '@voxaria/contracts';
+import type { AppRouter } from '@/contracts';
 import { BASE_URL } from './api/auth-client';
 import { getAccessToken } from './auth';
 

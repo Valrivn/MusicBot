@@ -1,5 +1,5 @@
 import { getAccessToken, setAccessToken, fetchWithAuth } from '../auth';
-import { VoxariaErrorCode } from '@voxaria/contracts';
+import { VoxariaErrorCode } from '@/contracts';
 
 export { VoxariaErrorCode };
 

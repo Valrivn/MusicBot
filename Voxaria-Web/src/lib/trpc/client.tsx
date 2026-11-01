@@ -1,5 +1,5 @@
 import { createTRPCReact, httpBatchLink } from '@trpc/react-query';
-import type { AppRouter } from '@voxaria/contracts';
+import type { AppRouter } from '@/contracts';
 import { BASE_URL } from '../voxaria-api';
 
 export const trpc = createTRPCReact<AppRouter>();
