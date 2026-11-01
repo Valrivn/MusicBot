@@ -129,6 +129,70 @@ export const KaraokePrepareResponseSchema = z.object({
 
 export const KaraokeStatusResponseSchema = KaraokePrepareResponseSchema;
 
+export const KaraokeRecordSchema = z.object({
+  id: z.union([z.number(), z.string()]).optional(),
+  guildId: z.string(),
+  trackId: z.string(),
+  trackTitle: z.string().optional(),
+  trackArtist: z.string().nullable().optional(),
+  userId: z.string().optional(),
+  username: z.string().optional(),
+  avatarUrl: z.string().nullable().optional(),
+  score: z.number(),
+  accuracy: z.number().optional(),
+  accuracyPercent: z.number().optional(),
+  maxCombo: z.number(),
+  grade: z.string(),
+  sungAt: z.union([z.number(), z.string()]).optional(),
+  rank: z.number().optional(),
+});
+
+export const KaraokeGetRecordsInputSchema = z.object({
+  guildId: z.string(),
+  trackId: z.string(),
+});
+
+export const KaraokeGetRecordsResponseSchema = z.object({
+  highscore: KaraokeRecordSchema.nullable(),
+  leaderboard: z.array(KaraokeRecordSchema),
+});
+
+export const KaraokeSubmitRecordInputSchema = z.object({
+  guildId: z.string(),
+  trackId: z.string(),
+  score: z.number(),
+  accuracy: z.number(),
+  maxCombo: z.number(),
+  grade: z.string(),
+});
+
+export const KaraokeSubmitRecordResponseSchema = z.object({
+  success: z.boolean(),
+  record: KaraokeRecordSchema,
+  isNewRecord: z.boolean(),
+});
+
+export const DuetPartitionLineInputSchema = z.object({
+  text: z.string(),
+  timeSeconds: z.number(),
+  part: z.string().optional(),
+});
+
+export const DuetPartitionInputSchema = z.object({
+  lines: z.array(DuetPartitionLineInputSchema),
+});
+
+export const DuetPartitionLineOutputSchema = z.object({
+  text: z.string(),
+  timeSeconds: z.number(),
+  part: z.string(),
+  singerLabel: z.string().optional(),
+});
+
+export const DuetPartitionResponseSchema = z.object({
+  lines: z.array(DuetPartitionLineOutputSchema),
+});
+
 export const SearchResultSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -287,3 +351,12 @@ export type SystemSettingsInput = z.infer<typeof SystemSettingsInputSchema>;
 export type AuthDiscordInput = z.infer<typeof AuthDiscordInputSchema>;
 export type DiscordJoinInput = z.infer<typeof DiscordJoinInputSchema>;
 export type ApiResponse = z.infer<typeof ApiResponseSchema>;
+export type KaraokeRecord = z.infer<typeof KaraokeRecordSchema>;
+export type KaraokeGetRecordsInput = z.infer<typeof KaraokeGetRecordsInputSchema>;
+export type KaraokeGetRecordsResponse = z.infer<typeof KaraokeGetRecordsResponseSchema>;
+export type KaraokeSubmitRecordInput = z.infer<typeof KaraokeSubmitRecordInputSchema>;
+export type KaraokeSubmitRecordResponse = z.infer<typeof KaraokeSubmitRecordResponseSchema>;
+export type DuetPartitionLineInput = z.infer<typeof DuetPartitionLineInputSchema>;
+export type DuetPartitionInput = z.infer<typeof DuetPartitionInputSchema>;
+export type DuetPartitionLineOutput = z.infer<typeof DuetPartitionLineOutputSchema>;
+export type DuetPartitionResponse = z.infer<typeof DuetPartitionResponseSchema>;

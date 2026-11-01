@@ -119,10 +119,14 @@ export async function fetchWithAuth<T>(
   path: string,
   init?: RequestInit
 ): Promise<T> {
-  const makeRequest = async (token: string): Promise<Response> => {
+  const makeRequest = async (token?: string | null): Promise<Response> => {
     const headers = new Headers(init?.headers);
-    headers.set('Authorization', `Bearer ${token}`);
-    headers.set('Content-Type', 'application/json');
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    if (!headers.has('Content-Type') && !(init?.body instanceof FormData)) {
+      headers.set('Content-Type', 'application/json');
+    }
     headers.set('ngrok-skip-browser-warning', 'true');
 
     return fetch(`${BASE_URL}${path}`, {
@@ -135,15 +139,20 @@ export async function fetchWithAuth<T>(
   let token = getAccessToken();
   
   if (!token) {
-    const refreshed = await refreshAccessToken();
-    token = refreshed.access_token;
-    accessToken = token;
-    accessTokenExpiry = Date.now() + refreshed.expires_in * 1000;
+    try {
+      const refreshed = await refreshAccessToken();
+      token = refreshed.access_token;
+      accessToken = token;
+      accessTokenExpiry = Date.now() + refreshed.expires_in * 1000;
+    } catch {
+      // Unauthenticated visitor / guest mode: proceed without Bearer token
+      token = null;
+    }
   }
 
   let response = await makeRequest(token);
 
-  if (response.status === 401) {
+  if (response.status === 401 && token) {
     const errorData = await response.json().catch(() => ({}));
     
     if (errorData.code === 'TOKEN_EXPIRED' || errorData.error?.includes('expired')) {

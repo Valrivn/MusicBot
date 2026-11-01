@@ -49,6 +49,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
+import { ServerBattleModal } from "@/components/karaoke/ServerBattleModal";
+import {
+  calculateOctaveInvariantCentsDistance,
+  evaluatePitchScoreTick,
+  getComboMultiplier,
+  toChroma,
+  type PitchTier,
+} from "@/lib/pitch-scoring";
 import { AuditLogViewer } from "@/components/AuditLogViewer";
 import {
   ApiClientError,
@@ -290,7 +298,40 @@ const detectPitchFromAutocorrelation = (samples: ArrayLike<number>, sampleRate: 
   const refinedLag = bestLag + shift;
 
   if (!Number.isFinite(refinedLag) || refinedLag <= 0) return 0;
-  return sampleRate / refinedLag;
+  const hz = sampleRate / refinedLag;
+  // Adaptive low-pitch support: 50 Hz (A1 / C2 bass) up to 1500 Hz (soprano G6)
+  if (hz < 50 || hz > 1500) return 0;
+  return hz;
+};
+
+export type DuetPart = "A" | "B" | "BOTH";
+
+export const detectLinePart = (text: string, rawPart?: string): DuetPart => {
+  if (rawPart === "A" || rawPart === "B" || rawPart === "BOTH") return rawPart;
+  const clean = text.trim();
+  if (/^(\[PART\s*A\]|\[SINGER\s*1\]|\[A\]|SINGER\s*1:|PART\s*A:|A:|\(A\)|\(SINGER\s*1\))/i.test(clean)) {
+    return "A";
+  }
+  if (/^(\[PART\s*B\]|\[SINGER\s*2\]|\[B\]|SINGER\s*2:|PART\s*B:|B:|\(B\)|\(SINGER\s*2\))/i.test(clean)) {
+    return "B";
+  }
+  if (/^(\[BOTH\]|\[ALL\]|\[DUET\]|BOTH:|ALL:|DUET:|\(BOTH\)|\(ALL\))/i.test(clean)) {
+    return "BOTH";
+  }
+  return "BOTH";
+};
+
+export const cleanLineText = (text: string): string => {
+  return text
+    .replace(/^(\[PART\s*[AB]\]|\[SINGER\s*[12]\]|\[[AB]\]|SINGER\s*[12]:|PART\s*[AB]:|[AB]:|\([AB]\)|\(SINGER\s*[12]\)|\[BOTH\]|\[ALL\]|\[DUET\]|BOTH:|ALL:|DUET:|\(BOTH\)|\(ALL\))\s*/i, "")
+    .trim();
+};
+
+export const calculateGrade = (score: number, accuracy: number): "S+" | "S" | "A" | "B" => {
+  if (accuracy >= 95 || score >= 90000) return "S+";
+  if (accuracy >= 85 || score >= 70000) return "S";
+  if (accuracy >= 70 || score >= 45000) return "A";
+  return "B";
 };
 
 const Index = () => {
@@ -315,6 +356,13 @@ const Index = () => {
   const [karaokeScore, setKaraokeScore] = useState(0);
   const [karaokeCombo, setKaraokeCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
+  const [duetRole, setDuetRole] = useState<"ALL" | "A" | "B">("ALL");
+  const [karaokeAccuracy, setKaraokeAccuracy] = useState(100);
+  const [lastHitTier, setLastHitTier] = useState<PitchTier | null>(null);
+  const prevUserMidiRef = useRef<number | null>(null);
+  const prevTargetMidiRef = useRef<number | null>(null);
+  const totalScoreTicksRef = useRef(0);
+  const hitScoreTicksRef = useRef(0);
   const [scoreSummaryOpen, setScoreSummaryOpen] = useState(false);
   const [detectedPitchHz, setDetectedPitchHz] = useState<number | null>(null);
   const [userPitchMidi, setUserPitchMidi] = useState<number | null>(null);
@@ -371,13 +419,67 @@ const Index = () => {
   const [sessionUsers, setSessionUsers] = useState<SessionUser[]>([]);
   const [currentUser, setCurrentUser] = useState<SessionUser | null>(null);
 
-  const queue = useQuery({ queryKey: ["queue"], queryFn: voxariaApi.getQueue, refetchInterval: 10000 });
-  const history = useQuery({ queryKey: ["history"], queryFn: async () => voxariaApi.getHistory().catch(() => mockData.history), refetchInterval: 14000 });
+  const settings = useQuery({ queryKey: ["settings"], queryFn: async () => voxariaApi.getSettings().catch(() => mockData.settings) });
+
+  const activeGuildId = useMemo(() => {
+    const settingsData = (settings.data as {
+      guildId?: string;
+      loggedInUser?: { discordId?: string; sessionToken?: string };
+      sessionToken?: string;
+    } | undefined) ?? {};
+
+    const fromSettings = settingsData.guildId?.trim();
+    if (fromSettings) return fromSettings;
+    const fromEnv = import.meta.env.VITE_VOXARIA_GUILD_ID?.trim();
+    if (fromEnv) return fromEnv;
+    return "owner";
+  }, [settings.data]);
+
+  const activeUserDiscordId = useMemo(
+    () => {
+      const settingsData = (settings.data as {
+        loggedInUser?: { discordId?: string; sessionToken?: string };
+        sessionToken?: string;
+      } | undefined) ?? {};
+
+      return (
+        currentUser?.discordId?.trim() ||
+        settingsData.loggedInUser?.discordId?.trim() ||
+        currentUser?.id?.trim() ||
+        "owner"
+      );
+    },
+    [currentUser?.discordId, currentUser?.id, settings.data],
+  );
+
+  const activeSessionToken = useMemo(() => {
+    const settingsData = (settings.data as {
+      loggedInUser?: { discordId?: string; sessionToken?: string };
+      sessionToken?: string;
+    } | undefined) ?? {};
+
+    return (
+      currentUser?.sessionToken?.trim() ||
+      settingsData.sessionToken?.trim() ||
+      settingsData.loggedInUser?.sessionToken?.trim() ||
+      undefined
+    );
+  }, [currentUser?.sessionToken, settings.data]);
+
+  useEffect(() => {
+    setApiAuthContext({
+      guildId: activeGuildId,
+      userId: activeUserDiscordId,
+      sessionToken: activeSessionToken,
+    });
+  }, [activeGuildId, activeSessionToken, activeUserDiscordId]);
+
+  const queue = useQuery({ queryKey: ["queue", activeGuildId], queryFn: voxariaApi.getQueue, refetchInterval: 10000 });
+  const history = useQuery({ queryKey: ["history", activeGuildId], queryFn: async () => voxariaApi.getHistory().catch(() => mockData.history), refetchInterval: 14000 });
   const status = useQuery({ queryKey: ["status"], queryFn: async () => voxariaApi.getStatus().catch(() => mockData.status), refetchInterval: 10000 });
   const cache = useQuery({ queryKey: ["cache"], queryFn: async () => voxariaApi.getCache().catch(() => mockData.cache), refetchInterval: 15000 });
-  const settings = useQuery({ queryKey: ["settings"], queryFn: async () => voxariaApi.getSettings().catch(() => mockData.settings) });
   const player = useQuery<PlayerData | null>({
-    queryKey: ["player"],
+    queryKey: ["player", activeGuildId],
     queryFn: async () => {
       const startedAt = Date.now();
       try {
@@ -419,56 +521,6 @@ const Index = () => {
     refetchInterval: 2000,
   });
   const presets = useQuery({ queryKey: ["presets"], queryFn: voxariaApi.getPresets, refetchInterval: 30000 });
-  const activeGuildId = useMemo(() => {
-    const settingsData = (settings.data as {
-      guildId?: string;
-      loggedInUser?: { discordId?: string; sessionToken?: string };
-      sessionToken?: string;
-    } | undefined) ?? {};
-
-    const fromSettings = settingsData.guildId?.trim();
-    if (fromSettings) return fromSettings;
-    const fromEnv = import.meta.env.VITE_VOXARIA_GUILD_ID?.trim();
-    if (fromEnv) return fromEnv;
-    return "owner";
-  }, [settings.data]);
-  const activeUserDiscordId = useMemo(
-    () => {
-      const settingsData = (settings.data as {
-        loggedInUser?: { discordId?: string; sessionToken?: string };
-        sessionToken?: string;
-      } | undefined) ?? {};
-
-      return (
-        currentUser?.discordId?.trim() ||
-        settingsData.loggedInUser?.discordId?.trim() ||
-        currentUser?.id?.trim() ||
-        "owner"
-      );
-    },
-    [currentUser?.discordId, currentUser?.id, settings.data],
-  );
-  const activeSessionToken = useMemo(() => {
-    const settingsData = (settings.data as {
-      loggedInUser?: { discordId?: string; sessionToken?: string };
-      sessionToken?: string;
-    } | undefined) ?? {};
-
-    return (
-      currentUser?.sessionToken?.trim() ||
-      settingsData.sessionToken?.trim() ||
-      settingsData.loggedInUser?.sessionToken?.trim() ||
-      undefined
-    );
-  }, [currentUser?.sessionToken, settings.data]);
-
-  useEffect(() => {
-    setApiAuthContext({
-      guildId: activeGuildId,
-      userId: activeUserDiscordId,
-      sessionToken: activeSessionToken,
-    });
-  }, [activeGuildId, activeSessionToken, activeUserDiscordId]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -681,7 +733,19 @@ const Index = () => {
 
   const currentTrackKey = `${currentTrack.title}::${currentTrack.artist}`;
   const normalizedLyrics = useMemo(
-    () => (lyricsData?.hasSynced ? lyricsData.lines : []),
+    () =>
+      lyricsData?.hasSynced
+        ? lyricsData.lines.map((line) => {
+            const rawPart = (line as { part?: string }).part;
+            const part = detectLinePart(line.text, rawPart);
+            const cleanText = cleanLineText(line.text) || line.text;
+            return {
+              ...line,
+              part,
+              cleanText,
+            };
+          })
+        : [],
     [lyricsData?.hasSynced, lyricsData?.lines],
   );
   const presetsData = presets.data ?? [];
@@ -896,7 +960,7 @@ const Index = () => {
 
   const displayVolume = useMemo(() => Math.min(200, Math.max(0, Math.round(uiVolume))), [uiVolume]);
   const boostActive = displayVolume > 100;
-  const streakMultiplier = Math.max(1, Math.floor(karaokeCombo / 4) + 1);
+  const streakMultiplier = getComboMultiplier(karaokeCombo);
   const targetNoteDisplay =
     targetNoteMidiRef.current === null
       ? "--"
@@ -1239,7 +1303,7 @@ const Index = () => {
       const source = audioContext.createMediaStreamSource(stream);
       const highPass = audioContext.createBiquadFilter();
       highPass.type = "highpass";
-      highPass.frequency.value = 80;
+      highPass.frequency.value = 50; // Adaptive low-pitch support: allow deep bass/low voices (C2 = 65.4 Hz) through
 
       const lowPass = audioContext.createBiquadFilter();
       lowPass.type = "lowpass";
@@ -1264,6 +1328,12 @@ const Index = () => {
       setKaraokeScore(0);
       setKaraokeCombo(0);
       setMaxCombo(0);
+      setKaraokeAccuracy(100);
+      setLastHitTier(null);
+      totalScoreTicksRef.current = 0;
+      hitScoreTicksRef.current = 0;
+      prevUserMidiRef.current = null;
+      prevTargetMidiRef.current = null;
       setMicVolumePercent(0);
       setIsSingingActive(false);
       karaokeScoreRef.current = 0;
@@ -1592,15 +1662,8 @@ const Index = () => {
 
             // Octave-blind chroma matching math
             const transposedTarget = activeTarget + vocalKeyOffsetRef.current;
-            const userNoteClass = ((Math.round(midi) % 12) + 12) % 12;
-            const targetNoteClass = ((Math.round(transposedTarget) % 12) + 12) % 12;
-            
-            let pitchDistance = Math.abs(userNoteClass - targetNoteClass);
-            if (pitchDistance > 6) {
-              pitchDistance = 12 - pitchDistance;
-            }
-
-            if (pitchDistance <= 1.5) {
+            const centsDist = calculateOctaveInvariantCentsDistance(midi, transposedTarget);
+            if (centsDist <= 85) {
               matchingTimeMsRef.current += 16.6;
             }
           }
@@ -1631,11 +1694,6 @@ const Index = () => {
   useEffect(() => {
     if (!karaokeEnabled) return;
 
-    const toSemitone = (pitchHz: number) => {
-      const midi = Math.round(12 * Math.log2(pitchHz / 440) + 69);
-      return ((midi % 12) + 12) % 12;
-    };
-
     karaokeIntervalRef.current = window.setInterval(() => {
       const sungHz = latestPitchHzRef.current;
       const userMidi = userPitchMidiRef.current;
@@ -1646,23 +1704,40 @@ const Index = () => {
         return;
       }
 
+      // Check Duet role vs active line part
+      const activeLineObj = normalizedLyrics[activeLineRef.current];
+      const linePart = activeLineObj?.part ?? "BOTH";
+      if (duetRole === "A" && linePart === "B") {
+        return; // Singer 1 rests during Part B
+      }
+      if (duetRole === "B" && linePart === "A") {
+        return; // Singer 2 rests during Part A
+      }
+
       // Humming fallback scoring if pitchBlocks is empty
       if (!pitchBlocks.length) {
         if (isSingingActive) {
           const nextCombo = karaokeComboRef.current + 1;
-          const gain = 100 + nextCombo * 8;
+          const comboMult = getComboMultiplier(nextCombo);
+          const gain = Math.round(100 * comboMult);
           const nextScore = karaokeScoreRef.current + gain;
 
           karaokeComboRef.current = nextCombo;
           karaokeScoreRef.current = nextScore;
           karaokeMaxComboRef.current = Math.max(karaokeMaxComboRef.current, nextCombo);
 
+          totalScoreTicksRef.current += 1;
+          hitScoreTicksRef.current += 1;
+          setKaraokeAccuracy(Math.round((hitScoreTicksRef.current / totalScoreTicksRef.current) * 100));
+
           setKaraokeCombo(nextCombo);
           setKaraokeScore(nextScore);
           setMaxCombo(karaokeMaxComboRef.current);
+          setLastHitTier("PERFECT");
         } else if (karaokeComboRef.current !== 0) {
           karaokeComboRef.current = 0;
           setKaraokeCombo(0);
+          setLastHitTier("MISS");
         }
         return;
       }
@@ -1670,41 +1745,59 @@ const Index = () => {
       // Standard pitch matching scoring using pitchBlocks target note
       const activeTargetMidi = targetNoteMidiRef.current;
       if (activeTargetMidi === null) {
-        if (karaokeComboRef.current !== 0) {
-          karaokeComboRef.current = 0;
-          setKaraokeCombo(0);
-        }
         return;
       }
 
-      const onNote = matchingTimeMsRef.current >= 10;
-      matchingTimeMsRef.current = 0;
+      const transposedTarget = activeTargetMidi + vocalKeyOffsetRef.current;
+      const recentPitches = pitchCacheRef.current.map((hz) => 69 + 12 * Math.log2(hz / 440));
 
-      if (onNote) {
+      const evaluation = evaluatePitchScoreTick({
+        userMidi,
+        targetMidi: transposedTarget,
+        prevUserMidi: prevUserMidiRef.current,
+        prevTargetMidi: prevTargetMidiRef.current,
+        isSingingActive,
+        recentPitchesMidi: recentPitches,
+        currentCombo: karaokeComboRef.current,
+        basePoints: 120,
+      });
+
+      prevUserMidiRef.current = userMidi;
+      prevTargetMidiRef.current = transposedTarget;
+
+      totalScoreTicksRef.current += 1;
+      if (evaluation.isHit) {
+        hitScoreTicksRef.current += (evaluation.tier === "PERFECT" ? 1 : evaluation.tier === "GREAT" ? 0.75 : 0.5);
+      }
+      const acc = totalScoreTicksRef.current > 0
+        ? Math.round((hitScoreTicksRef.current / totalScoreTicksRef.current) * 100)
+        : 100;
+      setKaraokeAccuracy(acc);
+
+      if (evaluation.isHit) {
         const nextCombo = karaokeComboRef.current + 1;
-        // Boosted scoring: Interval is 120ms, so 100 points/second ≈ 12 points per interval tick
-        const extraPointsPerTick = Math.round(100 * (KARAOKE_SCORE_TICK_MS / 1000));
-        const gain = 100 + nextCombo * 8 + extraPointsPerTick;
-        const nextScore = karaokeScoreRef.current + gain;
- 
+        const nextScore = karaokeScoreRef.current + evaluation.pointsEarned;
+
         karaokeComboRef.current = nextCombo;
         karaokeScoreRef.current = nextScore;
         karaokeMaxComboRef.current = Math.max(karaokeMaxComboRef.current, nextCombo);
- 
+
         setKaraokeCombo(nextCombo);
         setKaraokeScore(nextScore);
         setMaxCombo(karaokeMaxComboRef.current);
-      } else if (karaokeComboRef.current !== 0) {
+        setLastHitTier(evaluation.tier);
+      } else {
         karaokeComboRef.current = 0;
         setKaraokeCombo(0);
+        setLastHitTier("MISS");
       }
     }, KARAOKE_SCORE_TICK_MS);
- 
+
     return () => {
       if (karaokeIntervalRef.current) window.clearInterval(karaokeIntervalRef.current);
       karaokeIntervalRef.current = null;
     };
-  }, [karaokeEnabled, pitchBlocks, isSingingActive, karaokeScore]);
+  }, [karaokeEnabled, pitchBlocks, isSingingActive, karaokeScore, duetRole, normalizedLyrics]);
 
   useEffect(() => {
     if (!karaokeEnabled || !player.data?.durationSec) return;
@@ -2082,14 +2175,8 @@ const Index = () => {
 
         if (isActive && sungHz && sungHz > 0) {
           const sungMidi = 69 + 12 * Math.log2(sungHz / 440);
-          const userNoteClass = ((Math.round(sungMidi) % 12) + 12) % 12;
-          const targetNoteClass = ((Math.round(transposedNote) % 12) + 12) % 12;
-          
-          let pitchDistance = Math.abs(userNoteClass - targetNoteClass);
-          if (pitchDistance > 6) {
-            pitchDistance = 12 - pitchDistance;
-          }
-          isHit = pitchDistance <= 1.5;
+          const centsDist = calculateOctaveInvariantCentsDistance(sungMidi, transposedNote);
+          isHit = centsDist <= 85;
         }
 
         // Force a hot pink (#ec4899) fill style for hits or standard neon blue (#38bdf8) for miss/idle
@@ -2127,14 +2214,18 @@ const Index = () => {
       console.log(`📊 [CANVAS RENDER] Frame ${frameCountRef.current}: Rendering ${renderedNotesCount} note blocks inside screen window.`);
     }
 
-    // 5. User Vocal Pitch Tracking Arrow with Easing
+    // 5. User Vocal Pitch Tracking Arrow with Octave-Folding for Visual Stage Alignment
     const activeMidi = userPitchMidiRef.current;
     const hasAudioVocal = activeMidi !== null && micVolumePercent > 5;
     const isVocalActive = pitchBlocks.length > 0 ? activeMidi !== null : hasAudioVocal;
 
     let targetMidiY = centerY;
     if (isVocalActive && activeMidi !== null) {
-      targetMidiY = mapMidiToY(activeMidi);
+      // Octave fold user note so deep voices (C2-C3) visually align on the song's note lanes
+      const refTarget = activeTargetMidi !== null ? (activeTargetMidi + vocalKeyOffsetRef.current) : (minMidi + maxMidi) / 2;
+      const octaveShift = Math.round((refTarget - activeMidi) / 12) * 12;
+      const visualMidi = activeMidi + octaveShift;
+      targetMidiY = mapMidiToY(visualMidi);
     } else {
       targetMidiY = centerY;
     }
@@ -2164,13 +2255,8 @@ const Index = () => {
       let isMatch = false;
       if (pitchBlocks.length > 0 && activeTargetMidi !== null && activeMidi !== null) {
         const transposedTarget = activeTargetMidi + vocalKeyOffsetRef.current;
-        const userNoteClass = ((Math.round(activeMidi) % 12) + 12) % 12;
-        const targetNoteClass = ((Math.round(transposedTarget) % 12) + 12) % 12;
-        let pitchDistance = Math.abs(userNoteClass - targetNoteClass);
-        if (pitchDistance > 6) {
-          pitchDistance = 12 - pitchDistance;
-        }
-        isMatch = pitchDistance <= 1.5; 
+        const centsDist = calculateOctaveInvariantCentsDistance(activeMidi, transposedTarget);
+        isMatch = centsDist <= 85; 
       }
       const arrowColor = isMatch ? "#22c55e" : "#38bdf8"; 
 
@@ -2528,55 +2614,165 @@ const Index = () => {
             </section>
           ) : (
             <section className="flex-1 p-4">
-              <div className="grid h-full gap-4 xl:grid-cols-[1.8fr_380px]">
-                <article className="flex h-[680px] flex-col rounded-md border border-primary/35 bg-panel-soft/75 p-4 shadow-soft neon-edge">
-                  <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                    <div>
-                      <h2 className="text-xl font-bold text-primary">Karaoke Arena</h2>
-                      <p className="text-sm text-muted-foreground">Precision pitch tracking and live contest mode.</p>
+              <div className="h-full">
+                <article className="flex h-[720px] flex-col rounded-xl border border-primary/35 bg-panel-soft/85 p-4 shadow-2xl neon-edge backdrop-blur-xl">
+                  {/* Floating Uncluttered Top Bar / Minimal HUD */}
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-3">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div>
+                        <h2 className="text-lg font-black text-white flex items-center gap-2">
+                          <Music className="h-5 w-5 text-primary animate-pulse" />
+                          <span>{currentTrack.title || "Karaoke Arena"}</span>
+                        </h2>
+                        <p className="text-xs text-muted-foreground truncate max-w-[200px]">
+                          {currentTrack.artist || "Live Stage"}
+                        </p>
+                      </div>
+
+                      {/* Duet Role Selection Pills */}
+                      <div className="flex items-center gap-1 rounded-full border border-border/80 bg-slate-950/80 p-1 backdrop-blur-md shadow-inner">
+                        <button
+                          type="button"
+                          onClick={() => setDuetRole("ALL")}
+                          className={`px-2.5 py-1 text-xs font-semibold rounded-full transition-all ${
+                            duetRole === "ALL"
+                              ? "bg-primary text-primary-foreground shadow-[0_0_10px_hsl(var(--primary)/0.4)]"
+                              : "text-muted-foreground hover:text-white"
+                          }`}
+                        >
+                          Solo / All
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDuetRole("A")}
+                          className={`px-2.5 py-1 text-xs font-semibold rounded-full transition-all flex items-center gap-1.5 ${
+                            duetRole === "A"
+                              ? "bg-sky-500 text-white shadow-[0_0_12px_rgba(56,189,248,0.6)]"
+                              : "text-sky-400/80 hover:text-sky-300"
+                          }`}
+                        >
+                          <span className="h-2 w-2 rounded-full bg-sky-400" />
+                          Singer 1 (Part A - Blue)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDuetRole("B")}
+                          className={`px-2.5 py-1 text-xs font-semibold rounded-full transition-all flex items-center gap-1.5 ${
+                            duetRole === "B"
+                              ? "bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.6)]"
+                              : "text-purple-400/80 hover:text-purple-300"
+                          }`}
+                        >
+                          <span className="h-2 w-2 rounded-full bg-purple-400" />
+                          Singer 2 (Part B - Purple)
+                        </button>
+                      </div>
                     </div>
-                    <Badge className="bg-accent text-accent-foreground">Target: {targetNoteDisplay}</Badge>
+
+                    {/* Minimal Floating Stats HUD: Score, Streak, Hit Tier, Accuracy */}
+                    <div className="flex items-center gap-2">
+                      {lastHitTier && (
+                        <div
+                          className={`px-2.5 py-1 text-xs font-black rounded-full border transition-all animate-in zoom-in-75 duration-150 ${
+                            lastHitTier === "PERFECT"
+                              ? "border-emerald-400 bg-emerald-500/20 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.5)]"
+                              : lastHitTier === "GREAT"
+                              ? "border-sky-400 bg-sky-500/20 text-sky-300 shadow-[0_0_12px_rgba(56,189,248,0.5)]"
+                              : lastHitTier === "GOOD"
+                              ? "border-amber-400 bg-amber-500/20 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.5)]"
+                              : "border-rose-500 bg-rose-500/20 text-rose-400"
+                          }`}
+                        >
+                          {lastHitTier}!
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-slate-900/90 px-3 py-1 text-xs font-bold text-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.25)]">
+                        <Flame className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                        <span>{karaokeCombo}</span>
+                        <span className="text-[10px] text-amber-300/70">x{streakMultiplier.toFixed(1)}</span>
+                      </div>
+
+                      <div className="rounded-full border border-primary/50 bg-slate-900/90 px-3.5 py-1 text-sm font-mono font-black text-primary shadow-[0_0_14px_hsl(var(--primary)/0.3)]">
+                        {karaokeScore.toLocaleString()}
+                      </div>
+
+                      <div className="rounded-full border border-border/80 bg-slate-900/90 px-2.5 py-1 text-xs font-semibold text-emerald-400">
+                        {karaokeAccuracy}% Acc
+                      </div>
+
+                      <Button
+                        size="sm"
+                        variant={karaokeEnabled ? "secondary" : "outline"}
+                        className="h-8 border-primary/50 text-xs text-primary hover:bg-accent/40 rounded-full"
+                        onClick={() => (karaokeEnabled ? stopKaraoke() : void startKaraoke())}
+                      >
+                        {karaokeEnabled ? <MicOff className="h-3.5 w-3.5 mr-1" /> : <Mic className="h-3.5 w-3.5 mr-1" />}
+                        {karaokeEnabled ? "Stop" : "Sing"}
+                      </Button>
+                    </div>
                   </div>
 
                   {/* Vertical Split Panel: 70% Lyrics, 30% Pitch Visualizer Canvas */}
-                  <div className="flex flex-1 flex-col gap-3 min-h-0 mb-4">
-                    {/* Top 70% Synced Lyrics Scroll Panel */}
-                    <div className="h-[68%] relative rounded-md border border-border/70 bg-panel/75 flex flex-col overflow-hidden">
-                      <div className="absolute right-3 top-3 z-10 flex items-center gap-2">
-                        <button 
-                          onClick={handleHotReload}
-                          className="px-3 py-1.5 bg-emerald-500/20 border border-emerald-500/40 hover:bg-emerald-500/40 text-emerald-400 text-xs font-semibold rounded transition flex items-center gap-1.5"
-                        >
-                          🔄 Reload Arena Stream
-                        </button>
-                        <button 
-                          onClick={handleRefreshLyrics}
-                          className="px-3 py-1.5 bg-blue-500/20 border border-blue-500/40 hover:bg-blue-500/40 text-blue-400 text-xs font-semibold rounded transition flex items-center gap-1.5"
-                        >
-                          🎵 Refresh Lyrics
-                        </button>
-                        <div className="rounded-md border border-border/70 bg-panel-soft/80 px-2 py-1 text-xs text-primary">
-                          Live Lyrics
-                        </div>
-                      </div>
-                      <div ref={lyricsContainerRef} className="h-full overflow-y-auto px-4 py-6">
-                        <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 py-2">
+                  <div className="flex flex-1 flex-col gap-3 min-h-0">
+                    {/* Top 70% Synced Lyrics Scroll Panel (Clean, Distraction-Free) */}
+                    <div className="h-[70%] relative rounded-xl border border-border/70 bg-slate-950/70 flex flex-col overflow-hidden backdrop-blur-md">
+                      <div ref={lyricsContainerRef} className="h-full overflow-y-auto px-4 py-8">
+                        <div className="mx-auto flex w-full max-w-4xl flex-col gap-5 py-4">
                           {lyricsData?.hasSynced && normalizedLyrics.length ? (
-                            normalizedLyrics.map((line, idx) => (
-                              <button
-                                key={`${line.text}-${idx}`}
-                                data-lyric-index={idx}
-                                data-lyric-time={line.timeSeconds}
-                                onClick={() => handleLyricSync(idx, line.timeSeconds)}
-                                className={`block w-full rounded-md px-6 py-3 text-center leading-relaxed whitespace-normal break-words transition-all duration-300 ease-in-out hover:bg-accent/10 ${
-                                  idx === activeLine
-                                    ? "text-primary text-3xl font-extrabold scale-[1.05] drop-shadow-[0_0_12px_hsl(var(--primary)/0.65)]"
-                                    : "text-muted-foreground/50 text-xl font-medium scale-[0.98]"
-                                }`}
-                              >
-                                {line.text}
-                              </button>
-                            ))
+                            normalizedLyrics.map((line, idx) => {
+                              const isActive = idx === activeLine;
+                              const part = line.part ?? "BOTH";
+
+                              let indicatorBadge = null;
+                              if (part === "A") {
+                                indicatorBadge = (
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border border-sky-400/40 bg-sky-500/10 text-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.25)]">
+                                    Singer 1 (Part A)
+                                  </span>
+                                );
+                              } else if (part === "B") {
+                                indicatorBadge = (
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border border-purple-400/40 bg-purple-500/10 text-purple-400 shadow-[0_0_8px_rgba(192,132,252,0.25)]">
+                                    Singer 2 (Part B)
+                                  </span>
+                                );
+                              } else if (part === "BOTH") {
+                                indicatorBadge = (
+                                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border border-amber-400/40 bg-amber-500/10 text-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.25)]">
+                                    Duet (Both)
+                                  </span>
+                                );
+                              }
+
+                              let activeColor = "text-primary drop-shadow-[0_0_12px_hsl(var(--primary)/0.65)]";
+                              if (part === "A") {
+                                activeColor = "text-sky-400 drop-shadow-[0_0_16px_rgba(56,189,248,0.8)]";
+                              } else if (part === "B") {
+                                activeColor = "text-purple-400 drop-shadow-[0_0_16px_rgba(192,132,252,0.8)]";
+                              } else if (part === "BOTH") {
+                                activeColor = "text-amber-400 drop-shadow-[0_0_16px_rgba(251,191,36,0.8)]";
+                              }
+
+                              return (
+                                <button
+                                  key={`${line.text}-${idx}`}
+                                  data-lyric-index={idx}
+                                  data-lyric-time={line.timeSeconds}
+                                  onClick={() => handleLyricSync(idx, line.timeSeconds)}
+                                  className={`block w-full rounded-xl px-6 py-3 text-center leading-relaxed whitespace-normal break-words transition-all duration-300 ease-in-out hover:bg-accent/10 ${
+                                    isActive
+                                      ? `${activeColor} text-3xl font-black scale-[1.04]`
+                                      : "text-muted-foreground/45 text-xl font-medium scale-[0.98]"
+                                  }`}
+                                >
+                                  <div className="flex flex-col items-center gap-1.5">
+                                    {indicatorBadge}
+                                    <span>{line.cleanText || line.text}</span>
+                                  </div>
+                                </button>
+                              );
+                            })
                           ) : lyricsData?.plain?.trim() ? (
                             <p className="whitespace-pre-line rounded-md bg-panel/70 px-6 py-4 text-center text-xl leading-relaxed text-foreground/80">
                               {lyricsData.plain}
@@ -2591,83 +2787,14 @@ const Index = () => {
                     </div>
 
                     {/* Bottom 30% Pitch Tracker Canvas */}
-                    <div className="h-[32%] relative rounded-md border border-border/70 bg-panel overflow-hidden">
+                    <div className="h-[30%] relative rounded-xl border border-border/70 bg-panel overflow-hidden shadow-inner">
                       <canvas
                         ref={pitchCanvasRef}
                         className="w-full h-full block"
                       />
                     </div>
                   </div>
-
-                  <div className="grid gap-2 rounded-md border border-border/70 bg-panel/80 p-3 md:grid-cols-[1fr_1fr]">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Button
-                        variant={karaokeEnabled ? "secondary" : "outline"}
-                        className="border-primary/55 text-primary hover:bg-accent/40"
-                        onClick={() => (karaokeEnabled ? stopKaraoke() : void startKaraoke())}
-                        disabled={isGeneratingKaraoke}
-                      >
-                        {isGeneratingKaraoke ? <Loader2 className="h-4 w-4 animate-spin" /> : karaokeEnabled ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                        {isGeneratingKaraoke ? "Initializing..." : karaokeEnabled ? "Microphone On" : "Join & Start Singing"}
-                      </Button>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Circle className={`h-3 w-3 ${isSingingActive ? "fill-success text-success" : "fill-danger text-danger"}`} />
-                        {isSingingActive ? "Singing detected" : "Waiting for voice"}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 rounded-md border border-border/70 bg-panel-soft/70 p-2">
-                      <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>Vocal Volume Input</span>
-                        <span>{Math.round(micVolumePercent)}%</span>
-                      </div>
-                      <Progress value={micVolumePercent} className="h-2" />
-                    </div>
-
-                    <div className="flex items-center justify-between rounded-md border border-border/70 bg-panel-soft/70 px-3 py-2">
-                      <div className="flex items-center gap-2 text-sm font-semibold text-primary">
-                        <Flame className="h-4 w-4" /> Streak multiplier
-                      </div>
-                      <span className="text-lg font-bold text-primary">x{streakMultiplier}</span>
-                    </div>
-
-                    <div className="flex items-center justify-between rounded-md border border-border/70 bg-panel-soft/70 px-3 py-2">
-                      <span className="text-sm text-muted-foreground">Live Score</span>
-                      <span className="font-mono text-2xl font-bold text-primary">{karaokeScore.toLocaleString()}</span>
-                    </div>
-                  </div>
                 </article>
-
-                <aside className="flex min-h-[560px] flex-col rounded-md border border-border/70 bg-panel-soft/70 p-3 shadow-soft">
-                  <h3 className="mb-3 text-base font-semibold text-primary">Contest Leaderboard</h3>
-                  <div className="space-y-2 overflow-y-auto pr-1">
-                    {contestants.map((contestant) => (
-                      <article
-                        key={contestant.id}
-                        className={`rounded-md border p-3 transition-all duration-300 ease-in-out ${
-                          contestant.isCurrentUser
-                            ? "border-success/70 bg-accent/30 shadow-[0_0_16px_hsl(var(--success)/0.25)]"
-                            : "border-border/70 bg-panel/80"
-                        }`}
-                      >
-                        <div className="mb-2 flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Badge variant="outline" className="border-primary/45 text-primary">#{contestant.rank}</Badge>
-                            <p className="text-sm font-semibold text-foreground">{contestant.username}</p>
-                          </div>
-                          <span className="font-mono text-base font-bold text-primary">{contestant.score.toLocaleString()}</span>
-                        </div>
-                        <div className="flex items-center justify-between text-xs text-muted-foreground">
-                          <span>Streak: x{contestant.streak}</span>
-                          <span className="inline-flex items-center gap-1">
-                            <Circle className={`h-3 w-3 ${contestant.active ? "fill-success text-success" : "fill-muted text-muted-foreground"}`} />
-                            {contestant.active ? "Singing" : "Idle"}
-                          </span>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </aside>
               </div>
             </section>
           )}
@@ -2981,27 +3108,33 @@ const Index = () => {
         </main>
       </div>
 
-      <Dialog open={scoreSummaryOpen} onOpenChange={setScoreSummaryOpen}>
-        <DialogContent className="max-w-sm border-primary/35 bg-panel text-foreground">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-primary"><Trophy className="h-5 w-5" /> Score Summary</DialogTitle>
-            <DialogDescription>Party of 1 run complete.</DialogDescription>
-          </DialogHeader>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="rounded-md border border-border/70 bg-panel-soft/70 p-3">
-              <p className="text-xs text-muted-foreground">Final Score</p>
-              <p className="text-lg font-semibold text-primary">{karaokeScore.toLocaleString()}</p>
-            </div>
-            <div className="rounded-md border border-border/70 bg-panel-soft/70 p-3">
-              <p className="text-xs text-muted-foreground">Best Combo</p>
-              <p className="text-lg font-semibold text-primary">x{maxCombo}</p>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button className="neon-glow" onClick={() => setScoreSummaryOpen(false)}>Close</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ServerBattleModal
+        open={scoreSummaryOpen}
+        onOpenChange={setScoreSummaryOpen}
+        guildId={activeGuildId}
+        trackId={currentTrack.id || currentTrackKey}
+        trackTitle={currentTrack.title ? `${currentTrack.title} — ${currentTrack.artist}` : undefined}
+        user={{
+          id: activeUserDiscordId,
+          username: currentUser?.name || currentUser?.discordId || "Vocalist",
+          avatar: currentUser?.avatar || player.data?.requesterAvatar || undefined,
+        }}
+        score={karaokeScore}
+        accuracy={karaokeAccuracy}
+        maxCombo={maxCombo}
+        grade={calculateGrade(karaokeScore, karaokeAccuracy)}
+        onSingAgain={() => {
+          setScoreSummaryOpen(false);
+          playbackMutation.mutate({ guildId: activeGuildId, action: "seek", positionSec: 0 });
+          setTimeout(() => {
+            void startKaraoke();
+          }, 300);
+        }}
+        onNextTrack={() => {
+          setScoreSummaryOpen(false);
+          playbackMutation.mutate({ guildId: activeGuildId, action: "skip" });
+        }}
+      />
 
       <footer className="fixed bottom-0 left-0 right-0 z-30 border-t border-border/70 bg-panel/90 px-4 py-3 backdrop-blur-xl">
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-[1.2fr_1.6fr_1fr]">

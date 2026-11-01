@@ -14,6 +14,13 @@ import {
   PitchMapSchema,
   KaraokePrepareResponseSchema,
   KaraokeStatusResponseSchema,
+  KaraokeRecordSchema,
+  KaraokeGetRecordsInputSchema,
+  KaraokeGetRecordsResponseSchema,
+  KaraokeSubmitRecordInputSchema,
+  KaraokeSubmitRecordResponseSchema,
+  DuetPartitionInputSchema,
+  DuetPartitionResponseSchema,
   SearchResultsResponseSchema,
   AuditLogEntrySchema,
   PlaybackActionSchema,
@@ -616,6 +623,111 @@ export const appRouter = t.router({
       .output(z.array(PitchMapSchema.shape.frames))
       .query(async () => {
         return [];
+      }),
+
+    getRecords: publicProcedure
+      .input(KaraokeGetRecordsInputSchema)
+      .output(KaraokeGetRecordsResponseSchema)
+      .query(async ({ input }) => {
+        try {
+          const recordsServicePath = getBotPath('src', 'services', 'karaoke-records.js');
+          if (fs.existsSync(recordsServicePath)) {
+            const { getServerHighscore, getServerLeaderboard } = require(recordsServicePath);
+            const highscore = await getServerHighscore(input.guildId, input.trackId);
+            const leaderboard = await getServerLeaderboard(input.guildId, input.trackId, 10);
+            return {
+              highscore: highscore || null,
+              leaderboard: Array.isArray(leaderboard) ? leaderboard : [],
+            };
+          }
+        } catch (_) {}
+        return {
+          highscore: null,
+          leaderboard: [],
+        };
+      }),
+
+    submitRecord: publicProcedure
+      .input(KaraokeSubmitRecordInputSchema)
+      .output(KaraokeSubmitRecordResponseSchema)
+      .mutation(async ({ input, ctx }) => {
+        try {
+          const recordsServicePath = getBotPath('src', 'services', 'karaoke-records.js');
+          if (fs.existsSync(recordsServicePath)) {
+            const { submitScore } = require(recordsServicePath);
+            const res = await submitScore(input.guildId, input.trackId, {
+              score: input.score,
+              accuracyPercent: input.accuracy,
+              maxCombo: input.maxCombo,
+              grade: input.grade,
+              userId: ctx?.user?.id || 'guest',
+              username: ctx?.user?.username || 'Anonymous',
+            });
+            const current = res.currentRecord || {};
+            return {
+              success: true,
+              record: {
+                ...current,
+                guildId: current.guildId || input.guildId,
+                trackId: current.trackId || input.trackId,
+                score: typeof current.score === 'number' ? current.score : input.score,
+                accuracy: typeof current.accuracy === 'number' ? current.accuracy : (current.accuracyPercent ?? input.accuracy),
+                accuracyPercent: current.accuracyPercent ?? input.accuracy,
+                maxCombo: typeof current.maxCombo === 'number' ? current.maxCombo : input.maxCombo,
+                grade: current.grade || input.grade,
+                sungAt: current.sungAt || Date.now(),
+              },
+              isNewRecord: Boolean(res.isNewRecord),
+            };
+          }
+        } catch (_) {}
+
+        return {
+          success: true,
+          record: {
+            guildId: input.guildId,
+            trackId: input.trackId,
+            score: input.score,
+            accuracy: input.accuracy,
+            accuracyPercent: input.accuracy,
+            maxCombo: input.maxCombo,
+            grade: input.grade,
+            userId: ctx?.user?.id || 'guest',
+            username: ctx?.user?.username || 'Anonymous',
+            sungAt: Date.now(),
+          },
+          isNewRecord: true,
+        };
+      }),
+
+    duetPartition: publicProcedure
+      .input(DuetPartitionInputSchema)
+      .output(DuetPartitionResponseSchema)
+      .mutation(async ({ input }) => {
+        try {
+          const duetServicePath = getBotPath('src', 'services', 'duet-partitioner.js');
+          if (fs.existsSync(duetServicePath)) {
+            const { partitionLyrics } = require(duetServicePath);
+            const partitioned = partitionLyrics(input.lines);
+            return {
+              lines: partitioned.map((l: any) => ({
+                text: l.text,
+                timeSeconds: l.timeSeconds,
+                part: l.part || 'A',
+                singerLabel: l.singerLabel,
+              })),
+            };
+          }
+        } catch (_) {}
+
+        return {
+          lines: input.lines.map((line, idx) => ({
+            text: line.text,
+            timeSeconds: line.timeSeconds,
+            part: line.part || (idx % 2 === 0 ? 'A' : 'B'),
+            singerLabel: line.part === 'BOTH' ? 'Both (Gold)' : (idx % 2 === 0 ? 'Singer 1 (Blue)' : 'Singer 2 (Purple)'),
+          })),
+        };
       }),
   }),
 
